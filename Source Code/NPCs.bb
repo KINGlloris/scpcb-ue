@@ -366,7 +366,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			SetAnimTime n\obj, 283
 			;[End Block]
-		Case NPCtype860
+		Case NPCtypeForestMonster
 			;[Block]
 			n\NVName = "Unidentified"
 			
@@ -3278,7 +3278,7 @@ Function UpdateNPCs()
 				
 				ResetEntity n\Collider
 				;[End Block]
-			Case NPCtype860
+			Case NPCtypeForestMonster
 				;[Block]
 				If PlayerRoom\RoomTemplate\Name = "room860" Then
 					Local fr.Forest=PlayerRoom\fr;Object.Forest(e\room\Objects[1])
@@ -5215,8 +5215,8 @@ Function UpdateMTFUnit(n.NPCs)
                 realType = "513-1"
 			Case NPCtype035Tentacle
                 realType = "035tentacle"
-			Case NPCtype860
-                realType = "860"
+			Case NPCtypeForestMonster
+                realType = "ForestMonster"
 			Case NPCtype939
                 realType = "939"
 			Case NPCtype066

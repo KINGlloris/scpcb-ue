@@ -3573,7 +3573,7 @@ Function QuickLoadEvents()
 				e\EventStr = "load2"
 			ElseIf e\EventStr = "load2"
 				QuickLoadPercent = 100
-				If e\room\NPC[0]=Null Then e\room\NPC[0]=CreateNPC(NPCtype860, 0,0,0)
+				If e\room\NPC[0]=Null Then e\room\NPC[0]=CreateNPC(NPCtypeForestMonster, 0,0,0)
 				e\EventStr = "loaddone"
 			EndIf
 			;[End Block]
