@@ -29,8 +29,6 @@ Function GiveAchievement(achvname%, showMessage%=True)
 		If AchvMSGenabled And showMessage Then
 			Local loc2% = GetINISectionLocation("Data\achievementstrings.ini", "s"+achvname)
 			Local AchievementName$ = GetINIString2("Data\achievementstrings.ini", loc2, "string1")
-			;Msg = "Achievement Unlocked - "+AchievementName
-			;MsgTimer=70*7
 			CreateAchievementMsg(achvname,AchievementName)
 		EndIf
 	EndIf
@@ -63,21 +61,6 @@ Function DrawAchvIMG(x%, y%, achvno%)
 	Local row%
 	Local scale# = GraphicHeight/768.0
 	Local SeparationConst2 = 76 * scale
-;	If achvno >= 0 And achvno < 4 Then 
-;		row = achvno
-;	ElseIf achvno >= 3 And achvno <= 6 Then
-;		row = achvno-3
-;	ElseIf achvno >= 7 And achvno <= 10 Then
-;		row = achvno-7
-;	ElseIf achvno >= 11 And achvno <= 14 Then
-;		row = achvno-11
-;	ElseIf achvno >= 15 And achvno <= 18 Then
-;		row = achvno-15
-;	ElseIf achvno >= 19 And achvno <= 22 Then
-;		row = achvno-19
-;	ElseIf achvno >= 24 And achvno <= 26 Then
-;		row = achvno-24
-;	EndIf
 	row = achvno Mod 4
 	Color 0,0,0
 	Rect((x+((row)*SeparationConst2)), y, 64*scale, 64*scale, True)
@@ -165,5 +148,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#26
+;~F#24
 ;~C#Blitz3D

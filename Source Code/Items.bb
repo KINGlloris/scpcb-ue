@@ -114,7 +114,7 @@ End Function
 Function InitItemTemplates()
 	Local it.ItemTemplates,it2.ItemTemplates
 	
-	it = CreateItemTemplate("Some SCP-420-J", "420", "GFX\items\420.x", "GFX\items\INV420.jpg", "", 0.0005)
+	it = CreateItemTemplate("Some SCP-420-J", "scp420j", "GFX\items\scp420J.x", "GFX\items\INVscp420J.png", "", 0.0005)
 	it\sound = 2
 	
 	CreateItemTemplate("Level 1 Key Card", "key1",  "GFX\items\keycard.x", "GFX\items\INVkey1.jpg", "", 0.0004,"GFX\items\keycard1.jpg")
@@ -213,7 +213,7 @@ Function InitItemTemplates()
 	
 	it = CreateItemTemplate("Empty Cup", "emptycup", "GFX\items\cup.x", "GFX\items\INVcup.jpg", "", 0.04) : it\sound = 2	
 	
-	it = CreateItemTemplate("SCP-500-01", "scp500", "GFX\items\pill.b3d", "GFX\items\INVpill.jpg", "", 0.0001) : it\sound = 2
+	it = CreateItemTemplate("SCP-500-01", "scp500pill", "GFX\items\pill.b3d", "GFX\items\INVscp500pill.png", "", 0.0001) : it\sound = 2
 	EntityColor it\obj,255,0,0
 	
 	it = CreateItemTemplate("First Aid Kit", "firstaid", "GFX\items\firstaid.x", "GFX\items\INVfirstaid.jpg", "", 0.05)
@@ -242,11 +242,11 @@ Function InitItemTemplates()
 	CreateItemTemplate("Radio Transceiver", "veryfineradio", "GFX\items\radio.x", "GFX\items\INVradio.jpg", "GFX\items\radioHUD.png", 1.0)
 	CreateItemTemplate("Radio Transceiver", "18vradio", "GFX\items\radio.x", "GFX\items\INVradio.jpg", "GFX\items\radioHUD.png", 1.02)
 	
-	it = CreateItemTemplate("Cigarette", "cigarette", "GFX\items\420.x", "GFX\items\INV420.jpg", "", 0.0004) : it\sound = 2
+	it = CreateItemTemplate("Cigarette", "cigarette", "GFX\items\scp420J.x", "GFX\items\scp420J.png", "", 0.0004) : it\sound = 2
 	
-	it = CreateItemTemplate("Joint", "420s", "GFX\items\420.x", "GFX\items\INV420.jpg", "", 0.0004) : it\sound = 2
+	it = CreateItemTemplate("Joint", "scp420s", "GFX\items\scp420J.x", "GFX\items\INVscp420J.png", "", 0.0004) : it\sound = 2
 	
-	it = CreateItemTemplate("Smelly Joint", "420s", "GFX\items\420.x", "GFX\items\INV420.jpg", "", 0.0004) : it\sound = 2
+	it = CreateItemTemplate("Smelly Joint", "scp420s", "GFX\items\scp420J.x", "GFX\items\INVscp420J.png", "", 0.0004) : it\sound = 2
 	
 	it = CreateItemTemplate("Severed Hand", "hand", "GFX\items\severedhand.b3d", "GFX\items\INVhand.jpg", "", 0.04) : it\sound = 2
 	it = CreateItemTemplate("Black Severed Hand", "hand2", "GFX\items\severedhand.b3d", "GFX\items\INVhand2.jpg", "", 0.04, "GFX\items\shand2.png") : it\sound = 2
@@ -294,7 +294,7 @@ Function InitItemTemplates()
 	it = CreateItemTemplate("Wallet","wallet", "GFX\items\wallet.b3d", "GFX\items\INVwallet.jpg", "", 0.0005,"","",1) : it\sound = 2
 	
 	it = CreateItemTemplate("SCP-427","scp427","GFX\items\427.b3d","GFX\items\INVscp427.jpg", "", 0.001) : it\sound = 3
-	it = CreateItemTemplate("Upgraded pill", "scp500death", "GFX\items\pill.b3d", "GFX\items\INVpill.jpg", "", 0.0001) : it\sound = 2
+	it = CreateItemTemplate("Upgraded pill", "scp500pilldeath", "GFX\items\pill.b3d", "GFX\items\INVscp500pill.png", "", 0.0001) : it\sound = 2
 	EntityColor it\obj,255,0,0
 	it = CreateItemTemplate("Pill", "pill", "GFX\items\pill.b3d", "GFX\items\INVpillwhite.jpg", "", 0.0001) : it\sound = 2
 	EntityColor it\obj,255,255,255

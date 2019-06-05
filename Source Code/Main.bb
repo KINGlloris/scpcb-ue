@@ -717,8 +717,8 @@ Function UpdateConsole()
 							CreateConsoleMsg("******************************")
 							CreateConsoleMsg("Prints player, camera, and room information.")
 							CreateConsoleMsg("******************************")
-						Case "weed","scp-420-j","420"
-							CreateConsoleMsg("HELP - 420")
+						Case "weed","scp-420-j","420j"
+							CreateConsoleMsg("HELP - 420j")
 							CreateConsoleMsg("******************************")
 							CreateConsoleMsg("Generates dank memes.")
 							CreateConsoleMsg("******************************")
@@ -990,17 +990,17 @@ Function UpdateConsole()
 						CreateConsoleMsg("WHOA SLOW DOWN")
 					EndIf
 					;[End Block]
-				Case "scp-420-j","420","weed"
+				Case "scp-420-j","420j","weed"
 					;[Block]
 					For i = 1 To 20
 						If Rand(2)=1 Then
-							it.Items = CreateItem("Some SCP-420-J","420", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
+							it.Items = CreateItem("Some SCP-420-J","scp420j", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
 						Else
-							it.Items = CreateItem("Joint","420s", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
+							it.Items = CreateItem("Joint","scp420s", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
 						EndIf
 						EntityType (it\collider, HIT_ITEM)
 					Next
-					PlaySound_Strict LoadTempSound("SFX\Music\420J.ogg")
+					PlaySound_Strict LoadTempSound("SFX\Music\Using420J.ogg")
 					;[End Block]
 				Case "godmode", "god"
 					;[Block]
@@ -5163,7 +5163,7 @@ Function DrawGUI()
 							For z% = 0 To OtherSize - 1
 								If OtherOpen\SecondInv[z]<>Null
 									Local name$=OtherOpen\SecondInv[z]\itemtemplate\tempname
-									If name$<>"25ct" And name$<>"coin" And name$<>"key" And name$<>"scp860" And name$<>"scp714" Then
+									If name$<>"25ct" And name$<>"coin" And name$<>"key" And name$<>"scp860" And name$<>"scp500pill" Then
 										isEmpty=False
 										Exit
 									EndIf
@@ -5409,7 +5409,7 @@ Function DrawGUI()
 									Local added.Items = Null
 									Local b$ = SelectedItem\itemtemplate\tempname
 									Local b2$ = SelectedItem\itemtemplate\name
-									If (b<>"misc" And b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp714") Or (b2="Playing Card" Or b2="Mastercard") Then
+									If (b<>"misc" And b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill") Or (b2="Playing Card" Or b2="Mastercard") Then
 										For c% = 0 To Inventory(MouseSlot)\invSlots-1
 											If (Inventory(MouseSlot)\SecondInv[c] = Null)
 												If SelectedItem <> Null Then
@@ -5457,7 +5457,7 @@ Function DrawGUI()
 												If SelectedItem <> Null Then
 													Inventory(MouseSlot)\SecondInv[c] = SelectedItem
 													Inventory(MouseSlot)\state = 1.0
-													If b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860"
+													If b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill"
 														SetAnimTime Inventory(MouseSlot)\model,3.0
 													EndIf
 													Inventory(MouseSlot)\invimg = Inventory(MouseSlot)\itemtemplate\invimg
@@ -5714,7 +5714,7 @@ Function DrawGUI()
 					EndIf	
 					SelectedItem = Null
 					;[End Block]
-				Case "scp500"
+				Case "scp500pill"
 					;[Block]
 					If CanUseItem(False, False, True)
 						GiveAchievement(Achv500)
@@ -6437,7 +6437,7 @@ Function DrawGUI()
 						MsgTimer = 70 * 5
 					EndIf
 					;[End Block]
-				Case "420"
+				Case "scp420j"
 					;[Block]
 					If CanUseItem(False,False,True)
 						If Wearing714=1 Then
@@ -6447,13 +6447,13 @@ Function DrawGUI()
 							Injuries = Max(Injuries-0.5, 0)
 							BlurTimer = 500
 							GiveAchievement(Achv420)
-							PlaySound_Strict LoadTempSound("SFX\Music\420J.ogg")
+							PlaySound_Strict LoadTempSound("SFX\Music\Using420J.ogg")
 						EndIf
 						MsgTimer = 70 * 5
 						RemoveItem(SelectedItem)
 					EndIf
 					;[End Block]
-				Case "420s"
+				Case "scp420s"
 					;[Block]
 					If CanUseItem(False,False,True)
 						If Wearing714=1 Then
@@ -6990,7 +6990,7 @@ Function DrawGUI()
 						SelectedItem = Null
 					EndIf	
 					;[End Block]
-				Case "scp500death"
+				Case "scp500pilldeath"
 					;[Block]
 					If CanUseItem(False, False, True)
 						Msg = "You swallowed the pill."
@@ -9826,9 +9826,9 @@ Function Use914(item.Items, setting$, x#, y#, z#)
 				Case "1:1"
 					it2 = CreateItem("Cigarette", "cigarette", x + 1.5, y + 0.5, z + 1.0)
 				Case "fine"
-					it2 = CreateItem("Joint", "420s", x + 1.5, y + 0.5, z + 1.0)
+					it2 = CreateItem("Joint", "scp420s", x + 1.5, y + 0.5, z + 1.0)
 				Case "very fine"
-					it2 = CreateItem("Smelly Joint", "420s", x + 1.5, y + 0.5, z + 1.0)
+					it2 = CreateItem("Smelly Joint", "scp420s", x + 1.5, y + 0.5, z + 1.0)
 			End Select
 			
 			RemoveItem(item)
@@ -9934,11 +9934,11 @@ Function Use914(item.Items, setting$, x#, y#, z#)
 					If (Not no427Spawn) Then
 						it2 = CreateItem("SCP-427", "scp427", x, y, z)
 					Else
-						it2 = CreateItem("Upgraded pill", "scp500death", x, y, z)
+						it2 = CreateItem("Upgraded pill", "scp500pilldeath", x, y, z)
 					EndIf
 					RemoveItem(item)
 				Case "very fine"
-					it2 = CreateItem("Upgraded pill", "scp500death", x, y, z)
+					it2 = CreateItem("Upgraded pill", "scp500pilldeath", x, y, z)
 					RemoveItem(item)
 			End Select
 			
@@ -11391,7 +11391,7 @@ Function IsItemGoodFor1162(itt.ItemTemplates)
 	Select itt\tempname
 		Case "key1", "key2", "key3"
 			Return True
-		Case "misc", "420", "cigarette"
+		Case "misc", "scp420j", "cigarette"
 			Return True
 		Case "vest", "finevest","gasmask"
 			Return True
