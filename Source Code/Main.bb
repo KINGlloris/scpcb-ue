@@ -1311,7 +1311,7 @@ Function UpdateConsole()
 					ResetEntity Camera
 					CreateConsoleMsg("Teleported to coordinates (X|Y|Z): "+EntityX(Collider)+"|"+EntityY(Collider)+"|"+EntityZ(Collider))
 					;[End Block]
-				Case "notarget"
+				Case "notarget", "nt"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
@@ -9917,7 +9917,7 @@ Function Use914(item.Items, setting$, x#, y#, z#)
 						Case "rough", "coarse", "1:1", "fine"
 							it2 = CreateItem("Electronical components", "misc", x, y, z)	
 						Case "very fine"
-							n.NPCs = CreateNPC(NPCtype008,x,y,z)
+							n.NPCs = CreateNPC(NPCtype0081,x,y,z)
 							n\State = 2
 					End Select
 			End Select

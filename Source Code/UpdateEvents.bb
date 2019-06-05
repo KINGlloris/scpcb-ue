@@ -5483,14 +5483,14 @@ Function UpdateEvents()
 										ShouldPlay = 0
 										
 										If e\room\NPC[0]=Null Then
-											If e\room\NPC[0]=Null Then e\room\NPC[0] = CreateNPC(NPCtypeTentacle, 0,0,0)
+											If e\room\NPC[0]=Null Then e\room\NPC[0] = CreateNPC(NPCtype035Tentacle, 0,0,0)
 										EndIf
 										
 										PositionEntity e\room\NPC[0]\Collider, EntityX(e\room\Objects[4],True), 0, EntityZ(e\room\Objects[4],True)
 										
 										If e\room\NPC[0]\State > 0 Then 
 											If e\room\NPC[1]=Null Then
-												If e\room\NPC[1]=Null Then e\room\NPC[1] = CreateNPC(NPCtypeTentacle, 0,0,0)
+												If e\room\NPC[1]=Null Then e\room\NPC[1] = CreateNPC(NPCtype035Tentacle, 0,0,0)
 											EndIf
 										EndIf
 										
@@ -8502,7 +8502,7 @@ Function UpdateEvents()
 					ShowEntity e\room\Objects[0]
 					;Setup
 					If e\EventState = 0
-						e\room\NPC[0] = CreateNPC(NPCtype008,EntityX(e\room\Objects[3],True),0.5,EntityZ(e\room\Objects[3],True))
+						e\room\NPC[0] = CreateNPC(NPCtype0081,EntityX(e\room\Objects[3],True),0.5,EntityZ(e\room\Objects[3],True))
 						RotateEntity e\room\NPC[0]\Collider,0,e\room\angle-90,0
 						e\EventState = 1
 					EndIf
@@ -8591,7 +8591,7 @@ Function UpdateEvents()
 						EndIf
 						If e\room\NPC[1]=Null
 							If EntityDistance(e\room\NPC[0]\Collider,Collider)<2.5
-								e\room\NPC[1]=CreateNPC(NPCtypeTentacle,EntityX(e\room\NPC[0]\Collider),0.0,EntityZ(e\room\NPC[0]\Collider))
+								e\room\NPC[1]=CreateNPC(NPCtype035Tentacle,EntityX(e\room\NPC[0]\Collider),0.0,EntityZ(e\room\NPC[0]\Collider))
 								RotateEntity e\room\NPC[1]\Collider,0,e\room\angle,0
 								MoveEntity e\room\NPC[1]\Collider,0,0,0.6
 							EndIf

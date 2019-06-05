@@ -2,9 +2,9 @@
 Global Curr173.NPCs, Curr106.NPCs, Curr096.NPCs, Curr5131.NPCs
 Const NPCtype173% = 1, NPCtype106% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
 Const NPCtype372% = 6, NPCtypeApache% = 7, NPCtypeMTF% = 8, NPCtype096 = 9
-Const NPCtype049% = 10, NPCtypeZombie% = 11, NPCtype5131% = 12, NPCtypeTentacle% = 13
+Const NPCtype049% = 10, NPCtypeZombie% = 11, NPCtype5131% = 12, NPCtype035Tentacle% = 13
 Const NPCtype860% = 14, NPCtype939% = 15, NPCtype066% = 16, NPCtypePdPlane% = 17
-Const NPCtype966% = 18, NPCtype1048a = 19, NPCtype1499% = 20, NPCtype008% = 21, NPCtypeClerk% = 22
+Const NPCtype966% = 18, NPCtype1048a = 19, NPCtype1499% = 20, NPCtype0081% = 21, NPCtypeClerk% = 22
 ;[End Block]
 
 Type NPCs
@@ -220,6 +220,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			;[End Block]
 		Case NPCtype372
 			;[Block]
+			n\NVName = "SCP-372"
 			n\Collider = CreatePivot()
 			EntityRadius n\Collider, 0.2
 			n\obj = LoadAnimMesh_Strict("GFX\npcs\372.b3d")
@@ -280,7 +281,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			;[End Block]
 		Case NPCtypeZombie
 			;[Block]
-			n\NVName = "Human"
+			n\NVName = "SCP-049-2"
 			n\Collider = CreatePivot()
 			EntityRadius n\Collider, 0.2
 			EntityType n\Collider, HIT_PLAYER
@@ -312,7 +313,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			;[End Block]
 		Case NPCtypeApache
 			;[Block]
-			n\NVName = "Human"
+			n\NVName = "Apache Helicopter"
 			n\GravityMult = 0.0
 			n\MaxGravity = 0.0
 			n\Collider = CreatePivot()
@@ -352,7 +353,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			temp# = 0.6
 			ScaleEntity n\obj, temp, temp, temp
 			;[End Block]
-		Case NPCtypeTentacle
+		Case NPCtype035Tentacle
 			;[Block]
 			n\NVName = "Unidentified"
 			
@@ -366,7 +367,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			Next
 			
 			If n\obj = 0 Then 
-				n\obj = LoadAnimMesh_Strict("GFX\NPCs\035tentacle.b3d")
+				n\obj = LoadAnimMesh_Strict("GFX\npcs\035tentacle.b3d")
 				ScaleEntity n\obj, 0.065,0.065,0.065
 			EndIf
 			
@@ -405,11 +406,6 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			;[End Block]
 		Case NPCtype939
 			;[Block]
-			;i = 53
-			;For n2.NPCs = Each NPCs
-			;	If (n\NPCtype = n2\NPCtype) And (n<>n2) Then i=i+36
-			;Next
-			;n\NVName = "SCP-939-"+i
 			Local amount939% = 0
 			For n2.NPCs = Each NPCs
 				If (n\NPCtype = n2\NPCtype) And (n<>n2)
@@ -433,34 +429,6 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			If n\obj = 0 Then 
 				n\obj = LoadAnimMesh_Strict("GFX\NPCs\scp-939.b3d")
-				
-				;If BumpEnabled Then
-				;	bump1 = LoadTexture_Strict("GFX\npcs\scp-939_licker_normal.png")
-				;	;TextureBlend bump1, FE_BUMP ;USE DOT3
-				;	
-				;	For i = 2 To CountSurfaces(n\obj)
-				;		sf = GetSurface(n\obj,i)
-				;		b = GetSurfaceBrush( sf )
-				;		If b<>0 Then
-				;			t1 = GetBrushTexture(b,0)
-				;			If t1<>0 Then
-				;				Select Lower(StripPath(TextureName(t1)))
-				;					Case "scp-939-licker_diffusetest01.png"
-				;						
-				;						;BrushTexture b, bump1, 0, 0
-				;						BrushTexture b, t1, 0, 1
-				;						PaintSurface sf,b
-				;						
-				;                  ;If StripPath(TextureName(t1)) <> "" Then FreeTexture t1
-				;                  ;FreeBrush b   
-				;				End Select
-				;				FreeTexture t1
-				;			EndIf
-				;			FreeBrush b
-				;		EndIf
-				;	Next
-				;	FreeTexture bump1
-				;EndIf
 				
 				temp# = GetINIFloat("DATA\NPCs.ini", "SCP-939", "scale")/2.5
 				ScaleEntity n\obj, temp, temp, temp		
@@ -564,9 +532,9 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			EntityAutoFade n\obj,HideDistance*2.5,HideDistance*2.95
 			;[End Block]
-		Case NPCtype008
+		Case NPCtype0081
 			;[Block]
-			n\NVName = "Human"
+			n\NVName = "SCP-008-1"
 			n\Collider = CreatePivot()
 			EntityRadius n\Collider, 0.2
 			EntityType n\Collider, HIT_PLAYER
@@ -3193,7 +3161,7 @@ Function UpdateNPCs()
 				PositionEntity(n\obj, EntityX(n\Collider), EntityY(n\Collider), EntityZ(n\Collider))
 				RotateEntity n\obj, EntityPitch(n\Collider), EntityYaw(n\Collider), EntityRoll(n\Collider), True
 				;[End Block]
-			Case NPCtypeTentacle
+			Case NPCtype035Tentacle
 				;[Block]
 				dist = EntityDistance(n\Collider,Collider)
 				
@@ -4799,7 +4767,7 @@ Function UpdateNPCs()
 				EndIf
 				
 				;[End Block]
-			Case NPCtype008
+			Case NPCtype0081
 				;[Block]
 				;n\State: Main State
 				;n\State2: A timer used for the player detection
@@ -5252,7 +5220,7 @@ Function UpdateMTFUnit(n.NPCs)
                 realType = "zombie"
 			Case NPCtype5131
                 realType = "513-1"
-			Case NPCtypeTentacle
+			Case NPCtype035Tentacle
                 realType = "tentacle"
 			Case NPCtype860
                 realType = "860"
@@ -5670,7 +5638,7 @@ Function UpdateMTFUnit(n.NPCs)
 								Exit
 							EndIf
 						EndIf
-					ElseIf n2\NPCtype = NPCtype008 And n2\IsDead = False
+					ElseIf n2\NPCtype = NPCtype0081 And n2\IsDead = False
 						If OtherNPCSeesMeNPC(n2,n) Then
 							If EntityVisible(n\Collider,n2\Collider)
 								n\State = 9
@@ -7060,7 +7028,7 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 	
 	Select c_input$ 
 		Case "008", "008zombie"
-			n.NPCs = CreateNPC(NPCtype008, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
+			n.NPCs = CreateNPC(NPCtype0081, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
 			n\State = 1
 			consoleMSG = "SCP-008 infected human spawned."
 			
@@ -7136,7 +7104,7 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 			consoleMSG = "Apache spawned."
 			
 		Case "tentacle"
-			n.NPCs = CreateNPC(NPCtypeTentacle, EntityX(Collider), EntityY(Collider), EntityZ(Collider))
+			n.NPCs = CreateNPC(NPCtype035Tentacle, EntityX(Collider), EntityY(Collider), EntityZ(Collider))
 			consoleMSG = "SCP-035 tentacle spawned."
 			
 		Case "clerk"
@@ -7442,5 +7410,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#197#12A9#1343#13D2#1586#1691#1852#18AE
+;~B#197#1289#1323#13B2#1566#1671#1832#188E
 ;~C#Blitz3D
