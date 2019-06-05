@@ -2622,17 +2622,9 @@ Function InitEvents()
 	CreateEvent("room966","room966", 0)
 	
 	CreateEvent("room1123", "room1123", 0, 0)
-	;CreateEvent("room2test1074","room2test1074",0)
-	;CreateEvent("room038","room038",0,0)
-	;CreateEvent("room009","room009",0,0)
-	;CreateEvent("medibay", "medibay", 0)
-	;CreateEvent("room409", "room409", 0)
-	;CreateEvent("room178", "room178", 0)
-	;CreateEvent("room020", "room020", 0)
 	CreateEvent("room2tesla", "room2tesla_lcz", 0, 0.9)
 	CreateEvent("room2tesla", "room2tesla_hcz", 0, 0.9)
 	
-	;New Events in SCP:CB Version 1.3 - ENDSHN
 	CreateEvent("room4tunnels","room4tunnels",0)
 	CreateEvent("room_gw","room2gw",0,1.0)
 	CreateEvent("dimension1499","dimension1499",0)
@@ -11909,6 +11901,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#53D#23B1
-;~B#11CF#1447#1BE5
+;~F#53D#23A9
+;~B#11C7#143F#1BDD
 ;~C#Blitz3D

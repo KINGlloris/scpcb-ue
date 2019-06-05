@@ -242,7 +242,7 @@ Function InitItemTemplates()
 	CreateItemTemplate("Radio Transceiver", "veryfineradio", "GFX\items\radio.x", "GFX\items\INVradio.jpg", "GFX\items\radioHUD.png", 1.0)
 	CreateItemTemplate("Radio Transceiver", "18vradio", "GFX\items\radio.x", "GFX\items\INVradio.jpg", "GFX\items\radioHUD.png", 1.02)
 	
-	it = CreateItemTemplate("Cigarette", "cigarette", "GFX\items\scp420J.x", "GFX\items\scp420J.png", "", 0.0004) : it\sound = 2
+	it = CreateItemTemplate("Cigarette", "cigarette", "GFX\items\scp420J.x", "GFX\items\INVscp420J.png", "", 0.0004) : it\sound = 2
 	
 	it = CreateItemTemplate("Joint", "scp420s", "GFX\items\scp420J.x", "GFX\items\INVscp420J.png", "", 0.0004) : it\sound = 2
 	
