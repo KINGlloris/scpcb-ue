@@ -1255,14 +1255,23 @@ Function UpdateLauncher()
 				Text(40+ 260 + 15, 262 - 55 + 140, "Current Resolution: "+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32"))
 			EndIf
 		Else
-			Text(40+ 260 + 15, 262 - 55 + 140, "Current Resolution: "+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
+	        Text(40+ 260 + 15, 262 - 55 + 140, "Current Resolution: "+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
 			If GfxModeWidths(SelectedGFXMode)<G_viewport_width Then
-				Text(40+ 260 + 65, 262 - 55 + 160, "(upscaled to")
-				Text(40+ 260 + 65, 262 - 55 + 180, G_viewport_width + "x" + G_viewport_height + ",32)")
+				Text(40+ 260 + 65, 262 - 55 + 200, "(upscaled to "+G_viewport_width + "x" + G_viewport_height + ",32)")
 			ElseIf GfxModeWidths(SelectedGFXMode)>G_viewport_width Then
-				Text(40+ 260 + 65, 262 - 55 + 160, "(downscaled to")
-				Text(40+ 260 + 65, 262 - 55 + 180, G_viewport_width + "x" + G_viewport_height + ",32)")
+				Text(40+ 260 + 65, 262 - 55 + 200, "(downscaled to "+G_viewport_width + "x" + G_viewport_height + ",32)")
 			EndIf
+		EndIf
+		
+		If DrawButton(LauncherWidth - 275, LauncherHeight - 50 - 55, 150, 30, "REPORT A BUG!", False, False, False) Then
+		    ExecFile("https://www.moddb.com/mods/scp-containment-breach-ultimate-edition/news/bug-reports1")
+			
+			End
+		EndIf
+		
+		If DrawButton(LauncherWidth - 275, LauncherHeight - 50, 150, 30, "SEE CHANGELOG", False, False, False) Then
+		    ExecFile("Changelog_of_UE.txt")
+			
 		EndIf
 		
 		If DrawButton(LauncherWidth - 30 - 90, LauncherHeight - 50 - 55, 100, 30, "LAUNCH", False, False, False) Then
@@ -2620,6 +2629,4 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#33#499#4AB#4B5#4E8#5C3#5D6#5F3#5FA#615#629#64A#662#693#6C4#6EA#710#72D#73E#756
-;~F#764#787#79F#7A8#7D9#7ED#821#867#8A9
 ;~C#Blitz3D

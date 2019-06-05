@@ -1,31 +1,39 @@
 ==============================================================
-----------------------------PATCH-----------------------------
+-------------------------JUST UPDATE.-------------------------
 ==============================================================
-v5.3.1
+v5.4
 
 - Added new setting for Custom difficulty.
 - Added "observation room" sings for SCP-895 and SCP-860's containment chambers.
 - Added new bump texture.
 - Added SCP-066's containment chamber.
+- Added new SCP-1033-RU's sounds.
+- Added new horror sounds for SCP-173.
+- Added combined batteries with SCP-447.
 
 - Changed SCP-035's containment chamber ambience -> Changed room3storage ambience.
-- Changed S-Nav location in room2testroom2.
+- Changed S-Nav and Level 1 KeyCard location in room2testroom2.
 - Changed brightness of gas mask blurring effect.
 - Changed SCP-372 and SCP-035's containment chamber.
 - Changed mechanics of obtaining the SCP-207's achievement.
-
+- Changed checkpoint rooms.
+- Changed hallway with elevator of the SCP-008's containment chamber.
+- Changed SCP-106's walk animation.
 
 - Small changes for SCP-049's horror theme.
 - Small changes for thaumiel difficulty.
 
 - Removed rotation of the SCP-173's head.
+- Removed frame for save messages.
+
+- Now keycards will be improved two times by SCP-447.
 
 Bug Fixes:
 
 - Fixed disappering of the big door in EZ endroom.
 - Fixed event doors and sounds in SCP-096's containment chamber.
 - Fixed bug with disappearing of the SCP-173 in SCP-008's containment chamber.
-- Fixed disappearing of the corrosed monitor texture in Dr.L's office.
+- Fixed disappearing of the corrosive monitor texture in Dr.L's office.
 - Fixed monitor screen and glass textures in SCP-008's containment chamber.
 - Fixed tentacle's death in event with SCP-035.
 - Fixed disappearing of the room2nuke on the map. (I hope, - Jabka).
@@ -37,12 +45,19 @@ Bug Fixes:
 - Fixed radio system. (I hope, -Jabka).
 - Fixed some drinks.
 - Fixed SCP-447's achievement.
+- Fixed wrong SCP-008's containment chamber image in room2sl monitors.
+- Fixed monitor in SCP-008's containment chamber.
+- Fixed generation of the lockroom in EZ.
 
 - Again fixed Level 6 Keycard text...
 
 - Small fixes for SCP-447's achievement description.
 - Small fixes for Gate B.
 - Small fixes for Map Creator.
+- Small fixes for SCP-294's drinks.
+- Small fixes for MTF Eta-10's model.
+- Small fixes for map generation.
+- Small fixes in the changelog.
 
 ==============================================================
 --------------------------HUGE UPDATE-------------------------
@@ -249,7 +264,7 @@ v5.2.2
 - Now Level 1 Keycard and Level 2 Keycard switched places in rooms.
 - Now you can't continue saving from old versions. (because it have a lot of bugs).
 
-- Removed construction tunnels for optimizing game.
+- Removed room3ct for optimizing game.
 
 Bug Fixes:
 
@@ -398,7 +413,7 @@ Bug Fixes:
 - Fixed bug with wrong SCP-096 rotation in room2servers event.
 
 - Hopefully fixed saves in SCP-457's containment chamber (because his fire was changed.)
-- Hopefully fixed fog after leaving from SCP-457's containment chamber or construction tunnels.
+- Hopefully fixed fog after leaving from SCP-457's containment chamber or room3ct
 
 - Small fixes for thaumiel difficulty.
 - Small fixes for credits.
@@ -478,7 +493,7 @@ End.
 
 - Converted some models from .b3d to .rmesh format.
 
-- Optimized construction tunnels and SCP-457's containment chamber.
+- Optimized room3ct and SCP-457's containment chamber.
 
 Bug Fixes:
 
@@ -493,7 +508,7 @@ Bug Fixes:
 - Fixed medibay in light containment zone. (event's disappearing).
 - Fixed radio sound in room4info's event.
 - Fixed SCP-372's event.
-- Fixed construction tunnels event. (with SCP-106 and using SCP-1499).
+- Fixed room3ct's event. (with SCP-106 and using SCP-1499).
 - Fixed wrong class-D texture in intro. (D between 2 guards).
 - Fixed again SCP-457 label and documents.
 - Fixed missing files like "TargetTerminated.ogg" for MTF2.
@@ -505,7 +520,7 @@ Bug Fixes:
 - Fixed SCP-457's step sounds.
 - Fixed bug with impossible to combine wallet and cloned SCP-500 (pill).
 - Fixed small misstep with new model of SCP-860 and picture in his document, also his icon.
-- Fixed bug with using NVG in SCP-457's containment chamber and construction tunnels.
+- Fixed bug with using NVG in SCP-457's containment chamber and room3ct.
 - Fixed slidebars in 3D menu.
 - Fixed a small bug with disappearance of the infected syringe after using SCP-914.
 - Fixed text layout in using command debughud.
@@ -688,7 +703,7 @@ Bug Fixes:
 - Small fixes for saves.
 - Fixed white blood overlay.
 - Fixed appearing of SCP-020 after loading without night vision goggles.
-- Fixed elevator doors in Construction Tunnels (third elevator).
+- Fixed elevator doors in room3ct (third elevator).
 
 ==============================================================
 ---------------------------RE-BUILD.--------------------------
@@ -706,7 +721,7 @@ v4.8
 - Re-Added corrosed ballistic vest.
 
 - Removed unnecessary loading screens.
-- Removed event with ventilation.
+- Removed room2vent.
 
 - Renamed newroom005 to room005.
 - Renamed SCP-198's achievement.
@@ -749,7 +764,7 @@ End.
 
 - Re-Added command "halloween".
 - Re-Added command "allachievements".
-- Re-Added "construction tunnels".
+- Re-Added room3ct.
 
 - Changed SCP-008-1 model.
 - Changed SCP-513-1 model.
@@ -822,7 +837,7 @@ v4.6(S)
 
 - Changed arrangement of items in small gun storage, offices of doctors and storage with SCP-970.
 - Changed knife's icon.
-- Changed appearance of blood in event with ventilation.
+- Changed appearance of the blood in room2vent's event.
 - Changed brightness of the SCP-1079 loading screen.
 - Changed FN P90's icon.
 - Changed pick up sound for SCP-198.
@@ -857,7 +872,7 @@ v4.5
 - Changed M9 Baretta's icon
 - Changed kill sound in servers with SCP-096 (again).
 - Changed SCP-096's texutre.
-- Changed event with ventilation.
+- Changed room2vent's event.
 - Changed corrosed P90's texture.
 - Changed mod inscription in main menu.
 
@@ -1017,7 +1032,7 @@ End.
 
 - Removed folder with future additions.
 - Removed blood under dead guard in not working disinfection gateway.
-- Removed "construction tunnels".
+- Removed room3ct.
 
 - Some descriptions of the SCP become shorter.
 
@@ -1079,16 +1094,13 @@ v4.0
 (Nine Tailed Fox Mod).
 
 - Added language change settings (not yet used).
-- Added new chatters in radio.
+- Added new chatters for the radio.
 
 End.
 
 (Box Of Horrors Mod).
 
-- Added SCP-020.
-
-- Re-Added SCP-020's containment chamber.
-- Re-Added SCP-020's achievement.
+- Re-Added SCP-020.
 
 End.
 
@@ -1103,20 +1115,20 @@ End.
 - Added vomiting.
 - Added nausea sound if drink a lot of water from SCP-109.
 - Added file with map seeds without bugs.
-- Added MTF - victim.
-- Added blood under dead guard in not working disinfection gateway.
+- Added SCP-106's MTF Unit victim.
+- Added blood under dead guard in not working disinfection gateway (room2gw_b).
 
 - Re-Added and changed the mechanics of regeneration when drinking water from SCP-109.
 
 - Changed text when using weapons. 
-- Changed tentacle damage sound.
-- Changed animation of SCP-049-2 (old model) death and Infected human.
+- Changed SCP-035 tentacle's damage sound.
+- Changed animation of SCP-049-2 (old model) death and infected human (other model).
 
 - Again changed SCP-106's victims spawn.
 
 - Now command "heal" removes blur.
-- Now new storage became darker.
-- Now loading screen text of SCP-173-J is shorter.
+- Now room2posters became darker.
+- Now loading screen's text of SCP-173-J is shorter.
 - Now sound of death from SCP-096 became longer.
 - Now MTF can kill SCP-035's tentacle.
 - Now game menu is a little larger.
@@ -1126,7 +1138,7 @@ End.
 Bug Fixes:
 
 - Fixed bug with overlap of the FPS indicator on the indicator Frame Limit in the settings.
-- Fixed bug with departure of the 3D map creator.
+- Fixed Map Creator 3D.
 - Fixed bug where no new images were displayed on the camera near SCP-895.
 - Fixed bug with red inscription in SCP-020's containment chamber.
 
@@ -1141,30 +1153,30 @@ v3.9
 - Added voice of SCP-106.
 - Added SCP-109 and SCP-198's containment chamber.
 
-- Re-Added SCP-457 document 1/2,2/2.
+- Re-Added SCP-457's document (page 1/2, 2/2).
 
 End.
 
-- Added new infected human (only if selected agressive NPCs).
+- Added new infected human in room3ct(only if selected agressive NPCs).
 - Added developers of included mods in credits.
 - Added mod helpers in credits.
 - Added infected human breath.
 - Added pink blood after eating SCP-1079.
 - Added the phrase of the player when trying to drink the SCP-447.
-- Added blood under dead ClassD in "construction tunnels".
+- Added blood under dead human in room3ct.
 
-- Now SCP-109, SCP-198, SCP-173-J, SCP-1079 achievements in different color.
+- Now SCP-109, SCP-198, SCP-173-J, SCP-1079 achievements in other color.
 - Now SCP-1079's blood sound became quieter.
-- Now a lot of documents can be found in the archive room.
+- Now a lot of documents can be found in the archive room (room1archive).
 
 - Removed SCP-500's containment chamber.
-- Removed regeneration when drinking water from SCP-109.
+- Removed regeneration after drinking water from SCP-109.
 - Removed blood overlay when SCP-173 kills the player in a gas mask and hazmat suit.
-
-- Slightly changed the text when the effect of SCP-1048-A on the player.
 
 - Changed sound of switching off tesla gate of the second MTF group.
 - Changed SCP-427's death text.
+
+- Small changes for the text when the effect of SCP-1048-A on the player.
 
 Bug Fixes:
 
@@ -1172,7 +1184,7 @@ Bug Fixes:
 - Fixed bug where one could not die from crystallization.
 
 ==============================================================
--------------------YES,IT'S NEW UPDATE. :D--------------------
+-------------------YES, IT'S NEW UPDATE:D.--------------------
 ==============================================================
 v3.8
 
@@ -1182,21 +1194,16 @@ v3.8
 
 End.
 
-- Added dead MTF in small gun storage.
+- Added dead MTF Unit in room2gs.
 - Added information about the crystallization in command "status".
 - Added new spawn options of SCP-049-2 (old model).
 - Added blood overlay when SCP-173 kills the player in a gas mask and hazmat suit.
 
-- Changed texture of the dead ClassD in "Maintenance tunnel 2".
-- Changed SCP-049-2 (old model) and infected human scale.
+- Changed texture of the dead human in room3ct.
 - Changed text of MTF loading screen.
 - Changed the name "Human" to "Apache Helicopter" in super night vision goggles.
 
-- Removed stamina when using SCP-198.
-
-Bug Fixes:
-
-- Nope.
+- Again changed SCP-049-2 (old model) and infected human's (other model) scale.
 
 ==============================================================
 ------------------------SMALL CHANGES.------------------------
@@ -1209,15 +1216,15 @@ v3.7
 
 End.
 
-- Added security camera in SCP-860,SCP-500,SCP-1499 containment chamber.
+- Added security camera in SCP-860, SCP-500 and SCP-1499 containment chamber.
 - Added the inscription "teleported to" during teleportation.
 - Added radio sounds for the first and second MTF groups.
-- Added command "cheats" (godmode,notarget,noclip).
+- Added command "cheats" (godmode + notarget + noclip).
 
-- Changed scale of SCP-049-2 ( old model) and infected human.
-- Changed sound of a disabled button in the SCP-038 conteinmen chamber.
+- Changed scale of SCP-049-2 ( old model) and infected human (other model).
+- Changed sound of a broken button in the SCP-038 conteinmen chamber.
 - Changed security camera's texture.
-- Changed running animation of the second MTF unit ("See No Evil").
+- Changed running animation of the second MTF.
 - Changed text of SCP-650 loading screen.
 
 - Renamed "S-Navigator"'s loading screen to "S-Nav 300 Navigator".
@@ -1245,12 +1252,12 @@ End.
 
 - Added security camera in SCP-106's containment chamber.
 - Added new monitor in security room.
-- Added quotes when a player says something and when he drinks something.
+- Added quotes when a player says something.
 - Added folder with future rooms, NPCs and items.
 
-- Changed location of the security camera in SCP-409 containment chamber.
-- Changed tolerance from level 3 to 4 in the repository.
-- Changed animation of the second MTF unit ("See No Evil").
+- Changed location of the security camera in SCP-409's containment chamber.
+- Changed tolerance from level 3 to 4 to the SCP-409's containment chamber.
+- Changed animations of the second MTF.
 
 - Now the command "heal" heals from all.
 
@@ -1258,7 +1265,7 @@ Bug Fixes:
 
 - Fixed "SCP-049-2 terminated" sound with two MTF groups.
 - Fixed P90 and crowbar textures.
-- Fixed SCP-409's monitor.
+- Fixed monitor with SCP-409.
 - Fixed light in the storage with SCP-173.
 - Fixed a lot of drinks.
 
@@ -1281,13 +1288,13 @@ End.
 
 (SCP - Unlockables Mod)
 
-- Added new storage.
+- Added new storage (room2posters).
 
 End.
 
 - Added security camera in SCP-409's containment chamber.
-- Added new monitor in security room.
-- Added missing lever in small gun storage.
+- Added new monitor in security room (room2sl).
+- Added missing lever in room2gs.
 - Added 4 new pictures on the monitor at SCP-895 and in night vision goggles.
 
 - Re-Added 2 pictures on the monitor at SCP-895.
@@ -1298,16 +1305,12 @@ End.
 - Configured spawn of SCP-650 document.
 - Configured SCP-447 spawn.
 
-Bug Fixes:
-
-- Nope.
-
 ==============================================================
 --------------------------SO, UPATE.--------------------------
 ==============================================================
 v3.4
 
-- Added short command "notarget".
+- Added short name for command "notarget".
 - Added a description of the command "notarget".
 
 - Now SCP-005 can open door to SCP-860-1.
@@ -1316,7 +1319,7 @@ v3.4
 - Removed SCP-682.
 - Removed unnecessary files.
 - Removed command enable650 and disable650.
-- Removed Site of Story mod in credits.
+- Removed Story of Site mod in credits.
 
 - A few changes in "help" command.
 
@@ -1326,7 +1329,7 @@ Bug Fixes:
 - Fixed loading with opened SCP-427.
 
 ==============================================================
--------------------------HUGE UPDATE.-------------------------
+------------------------JUST UPDATE ;).-----------------------
 ==============================================================
 v3.3
 
@@ -1338,10 +1341,8 @@ v3.3
 - Added candys.
 - Added document of SCP-330.
 - Added left and right severed hands.
-- Added strange bottle,eye drops 1,2,first aid kit 1,2 with SCP-447.
-- Added SCP-447's cup.
+- Added strange bottle, mint eye drops 1/2 and mint first aid kit 1/2.
 - Added loading screens of SCP-427 and SCP-447.
-- Added very fine candys.
 
 - Changed office of Dr.Harp.
 
@@ -1353,20 +1354,13 @@ End.
 
 End.
 
+- Added SCP-447's drink.
 - Added gratitude to the mods in credits.
-- Added my name and nickname in credits.
+- Added my name and nickname in credits (-Jabka).
 - Added SCP-427's achievement.
-- Added command disable and enable SCP-173-J and SCP-650.
+- Added commands "disable173j\enable173j" and "disable650\enable650".
 
-- Changed logo after the ending and in credits.
-- Changed logo in update launcher.
-
-- Removed SCP-020's containment chamber and SCP-020.
-- Removed SCP-020's achievement.
-
-Bug Fixes:
-
-- Nope.
+- Removed SCP-020.
 
 ==============================================================
 --------------------------BUG FIXES.--------------------------
@@ -1386,19 +1380,19 @@ v3.1
 
 (Story Of Site Mod).
 
-- Added SCP-682.
+- Added SCP-682 (like NPC).
 
 End.
 
 (Project Resurrection).
 
-- Added cup with SCP-409.
+- Added SCP-409's drink.
 
 End.
 
 - Added a third zombie in SCP-049 containment chamber.
 
-- Changed dispensing sound of SCP-009 and SCP-999.
+- Changed dispensing sound of SCP-009 and SCP-999' drinks.
 
 Bug Fixes:
 
@@ -1414,7 +1408,7 @@ v3.0
 
 Bug Fixes:
 
-- Fixed command "allachievement 0".
+- Fixed command "allachievement".
 - Fixed mod inscription in game.
 
 ==============================================================
@@ -1422,8 +1416,8 @@ Bug Fixes:
 ==============================================================
 v2.9
 
-- Added mod inscription in the launcher and game.
-- Added a new message when using SCP-005 on a closed door.
+- Added mod inscription in the launcher and credits.
+- Added a new message when using SCP-005 on a blocked door.
 
 Bug Fixes:
 
@@ -1436,19 +1430,15 @@ v2.8
 
 (Box Of Horrors Mod).
 
-- Re-Added SCP-038's containment chamber and SCP-038.
-- Re-Added SCP-038's achievement.
+- Re-Added SCP-038.
 
 End.
 
 - Added function of SCP-109.
 - Added SCP-109's achievement.
-- Added an inscription on which the version of the game is written.
+- Added an inscription on which the version of the original game is written.
 
 - Removed SCP-178's containment chamber.
-
-- Changed the stamina with SCP-109.
-- Changed the inscription with the version in the menu.
 
 - Now plays more MTF announcements.
 
@@ -1457,7 +1447,7 @@ End.
 Bug Fixes:
 
 - Fixed SCP-1079 sounds.
-- Fixed a bug with the inscription after the use of SCP-1079.
+- Fixed a bug with the red message after the use of SCP-1079.
 
 ==============================================================
 -----------------------IMPORTANT UPDATE.----------------------
@@ -1577,7 +1567,7 @@ v2.3
 
 (Nine Tailed Fox Mod).
 
-- Added blood overlay in event with ventilation.
+- Added blood overlay in room2vent's event.
 
 End.
 
@@ -1585,7 +1575,7 @@ End.
 
 Bug Fixes:
 
-- Fixed error in "construction tunnels".
+- Fixed error in room3ct.
 
 --------------------------------------------------------------
 - DON'T DIE FROM SCP-409, BECAUSE IT WILL CREATE A BUG AND THE GAME WILL BE IMPOSSIBLE TO CONTINUE!!! (-Jabka)
@@ -1710,10 +1700,10 @@ End.
 
 Bug fixes:
 
-- Fixed event with ventilation.
+- Fixed room2vent's event.
 - Fixed map generation.
 - Fixed loading screens.
-- Fixed sounds in "construction tunnels".
+- Fixed sounds in room3ct.
 
 --------------------------------------------------------------
 - DON'T DIE FROM SCP-409, BECAUSE IT WILL CREATE A BUG AND THE GAME WILL BE IMPOSSIBLE TO CONTINUE!!! (-Jabka)
@@ -1747,9 +1737,9 @@ End.
 - Added USP.
 - Added M9 Barret.
 - Added crowbar.
-- Added event with ventilation.
-- Added "construction tunnels".
-- Added small gun storage.
+- Added room with ventilation (room2vent).
+- Added construction tunnels (room3ct).
+- Added small gun storage (room2gs).
 - Added SCP-457, P-90 loading screens.
 
 End.
