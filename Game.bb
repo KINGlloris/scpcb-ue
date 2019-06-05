@@ -1,4 +1,4 @@
-;SCP - Ultimate Edition Mod
+;SCP - Containment Breach Ultimate Edition
 ;
 ;    This is a modification of the game "SCP - Containment Breach"
 ;

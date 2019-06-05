@@ -4202,7 +4202,7 @@ Function UpdateEvents()
 					EndIf
 				ElseIf e\EventState < 70*45
 					If	Rand(200)<5 And PlayerRoom = e\room Then 
-						LightBlink = Rnd(1.0,2.0)
+						If (Not WearingNightVision) Then LightBlink = Rnd(1.0,2.0)
 						If Rand(5)=1 Then PlaySound2(IntroSFX(Rand(10,12)), Camera, e\room\obj, 8.0, Rnd(0.1,0.3))
 					EndIf
 					
@@ -4264,7 +4264,9 @@ Function UpdateEvents()
 								e\room\NPC[0]\State = 2
 								PointEntity e\room\NPC[0]\obj, Curr096\Collider
 								RotateEntity (e\room\NPC[0]\Collider, 0, CurveAngle(EntityYaw(e\room\NPC[0]\obj),EntityYaw(e\room\NPC[0]\Collider),30),0)
-								If PlayerRoom = e\room Then LightBlink = (e\room\NPC[0]\Reload)+Rnd(0.5,2.0)
+								If PlayerRoom = e\room Then 
+									If (Not WearingNightVision) Then LightBlink = (e\room\NPC[0]\Reload)+Rnd(0.5,2.0)
+								EndIf
 								Curr096\Target = e\room\NPC[0]
 							Else
 								If e\EventState>70*22 Then Curr096\State = 4
@@ -4327,8 +4329,8 @@ Function UpdateEvents()
 						
 						If PlayerRoom = e\room Then
 							If e\SoundCHN<>0 Then
-								If	ChannelPlaying(e\SoundCHN) Then 
-									LightBlink = Rnd(0.5,6.0)
+								If ChannelPlaying(e\SoundCHN) Then 
+									If (Not WearingNightVision) Then LightBlink = Rnd(0.5,6.0)
 									If Rand(50)=1 Then PlaySound2(IntroSFX(Rand(10,12)), Camera, e\room\obj, 8.0, Rnd(0.1,0.3))
 								EndIf
 							EndIf						
@@ -4376,7 +4378,9 @@ Function UpdateEvents()
 						e\room\RoomDoors[0]\locked = False
 						e\room\RoomDoors[1]\locked = False
 					Else
-						If	Rand(200)<5 Then LightBlink = Rnd(0.5,1.0)
+						If Rand(200)<5 Then 
+							If (Not WearingNightVision) Then LightBlink = Rnd(0.5,1.0)
+						EndIf
 						
 						If e\room\RoomDoors[0]\open Then 
 							e\room\RoomDoors[0]\locked = False
@@ -6533,7 +6537,7 @@ Function UpdateEvents()
 						Case 0
 							;a dirty workaround to hide the pause when loading 966 model
 							If QuickLoadPercent = -1
-								;LightBlink = 5.0
+								If (Not WearingNightVision) Then LightBlink = 5.0
 								e\EventState = 1
 								;PlaySound_Strict LightSFX
 								QuickLoadPercent = 0
@@ -6842,7 +6846,7 @@ Function UpdateEvents()
 							If Distance(EntityX(Collider), EntityZ(Collider), EntityX(e\room\obj), EntityZ(e\room\obj)) < 3.5 Then
 								PlaySound_Strict(LightSFX)
 								
-								LightBlink = Rnd(0.0,1.0)*(e\EventState/200)
+								If (Not WearingNightVision) Then LightBlink = Rnd(0.0,1.0)*(e\EventState/200)
 								e\EventState = 1
 							End If
 						End If	
@@ -6852,18 +6856,18 @@ Function UpdateEvents()
 				If e\EventState > 0 And e\EventState < 200 Then
 					BlinkTimer = -10
 					If e\EventState > 30 Then 
-						LightBlink = 1.0 
+						If (Not WearingNightVision) Then LightBlink = 1.0 
 						If e\EventState-FPSfactor =< 30 Then 
-							PlaySound_Strict LoadTempSound("SFX\ambient\general\ambient3.ogg")
+							PlaySound_Strict LoadTempSound("SFX\Ambient\General\Ambient3.ogg")
 						EndIf
 					EndIf
 					If e\EventState-FPSfactor =< 100 And e\EventState > 100 Then
-						PlaySound_Strict LoadTempSound("SFX\ambient\general\ambient6.ogg")
+						PlaySound_Strict LoadTempSound("SFX\Ambient\General\Ambient6.ogg")
 						PositionEntity(Curr173\Collider, EntityX(e\room\obj), 0.6, EntityZ(e\room\obj))
 						ResetEntity(Curr173\Collider)					
 						Curr173\Idle = True		
 					EndIf
-					LightBlink = 1.0
+					If (Not WearingNightVision) Then LightBlink = 1.0
 					e\EventState = e\EventState + FPSfactor
 				ElseIf e\EventState <> 0 Then
 					BlinkTimer = BLINKFREQ
@@ -8505,7 +8509,7 @@ Function UpdateEvents()
 					
 					If EntityDistance(e\room\NPC[0]\Collider,Collider)<1.2
 						If e\EventState2 = 0
-							LightBlink = 12.0
+							If (Not WearingNightVision) Then LightBlink = 12.0
 							PlaySound_Strict LightSFX
 							e\EventState2 = FPSfactor
 						EndIf
@@ -10093,5 +10097,5 @@ End Function
 
 ;~IDEal Editor Parameters:
 ;~F#A16
-;~B#107E#1D80
+;~B#107E#1D84
 ;~C#Blitz3D
