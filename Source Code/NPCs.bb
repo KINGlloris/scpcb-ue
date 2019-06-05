@@ -1,11 +1,4 @@
-;[Block]
 Global Curr173.NPCs, Curr106.NPCs, Curr096.NPCs, Curr5131.NPCs
-Const NPCtype173% = 1, NPCtype106% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
-Const NPCtype372% = 6, NPCtypeApache% = 7, NPCtypeMTF% = 8, NPCtype096 = 9
-Const NPCtype049% = 10, NPCtype0492% = 11, NPCtype5131% = 12, NPCtype035Tentacle% = 13
-Const NPCtype860% = 14, NPCtype939% = 15, NPCtype066% = 16, NPCtypePdPlane% = 17
-Const NPCtype966% = 18, NPCtype1048a = 19, NPCtype1499% = 20, NPCtype0081% = 21, NPCtypeClerk% = 22
-;[End Block]
 
 Type NPCs
 	Field obj%, obj2%, obj3%, obj4%, Collider%
@@ -7410,5 +7403,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#197#1289#1323#13B2#1566#1671#1832#188E
+;~B#190#1282#131C#13AB#155F#166A#182B#1887
 ;~C#Blitz3D

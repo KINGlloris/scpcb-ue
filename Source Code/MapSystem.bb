@@ -696,22 +696,6 @@ Function KeyValue$(entity,key$,defaultvalue$="")
 	Forever 
 End Function
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;Forest gen consts
-Const gridsize% = 10
-Const deviation_chance% = 40 ;out of 100
-Const branch_chance% = 65
-Const branch_max_life% = 4
-Const branch_die_chance% = 18
-Const max_deviation_distance% = 3
-Const return_chance% = 27
-Const center = 5 ;(gridsize-1) / 2
-
 Include "Source Code\Drawportals.bb"
 
 Type Forest
@@ -1480,17 +1464,6 @@ Function UpdateForest(fr.Forest,ent%)
 	CatchErrors("UpdateForest")
 End Function
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Const MaxRoomLights% = 32
-Const MaxRoomEmitters% = 8
-Const MaxRoomObjects% = 30
-
-
-Const ROOM1% = 1, ROOM2% = 2, ROOM2C% = 3, ROOM3% = 4, ROOM4% = 5
-
 Global RoomTempID%
 Type RoomTemplates
 	Field obj%, id%
@@ -1632,7 +1605,6 @@ End Function
 LoadRoomTemplates("Data\rooms.ini")
 
 Global RoomScale# = 8.0 / 2048.0
-Const ZONEAMOUNT = 3
 Global MapWidth% = GetINIInt("options.ini", "options", "map size"), MapHeight% = GetINIInt("options.ini", "options", "map size")
 Dim MapTemp%(MapWidth+1, MapHeight+1)
 Dim MapFound%(MapWidth+1, MapHeight+1)
@@ -1707,7 +1679,6 @@ Type Rooms
 	Field MaxX#, MaxY#, MaxZ#
 End Type 
 
-Const gridsz%=19 ;Same size as the main map itself (better for the map creator)
 Type Grids
 	Field grid%[gridsz*gridsz]
 	Field angles%[gridsz*gridsz]
@@ -8626,6 +8597,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#3#D1#E0#13CB#13EC
-;~B#11BE
+;~F#D1#E0#13AE#13CF
+;~B#11A1
 ;~C#Blitz3D

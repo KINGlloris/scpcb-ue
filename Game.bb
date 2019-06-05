@@ -11,6 +11,7 @@
 ;
 ;    Special thanks to NTF mod (https://www.moddb.com/mods/scpntf)
 
+Include "Source Code\Constants.bb"
 Include "Source Code\Main.bb"
 
 ;~IDEal Editor Parameters:

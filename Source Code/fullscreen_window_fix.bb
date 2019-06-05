@@ -23,14 +23,6 @@
 ; http://www.gamedev.net/topic/418170-win32-borderless-window/
 ; http://stackoverflow.com/questions/15254078/win32-fullscreen-borderless-window-overlapping-taskbar
 
-
-
-; -- Declare Windows API constants.
-Const C_GWL_STYLE = -16
-Const C_WS_POPUP = $80000000
-Const C_HWND_TOP = 0
-Const C_SWP_SHOWWINDOW = $0040
-
 ; -- Get the width and height of the desktop and place them into these globals.
 Global G_desktop_screen_width
 Global G_desktop_screen_height
@@ -101,5 +93,5 @@ Function SyncGame()
 	
 End Function
 ;~IDEal Editor Parameters:
-;~F#40#4C
+;~F#38#44
 ;~C#Blitz3D

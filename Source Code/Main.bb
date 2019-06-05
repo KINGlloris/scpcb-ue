@@ -20,9 +20,6 @@ Include "Source Code\FMod.bb"
 Include "Source Code\StrictLoads.bb"
 Include "Source Code\fullscreen_window_fix.bb"
 Include "Source Code\KeyName.bb"
-
-Global OptionFile$ = "options.ini"
-
 Include "Source Code\DevilParticleSystem.bb"
 
 Global ErrorFile$ = "error_log_"
@@ -36,8 +33,6 @@ Global UpdaterFont%
 Global Font1%, Font2%, Font3%, Font4%, Font5%
 Global ConsoleFont%
 
-Global GameVersionNumber$ = "1.3.11"
-Global ModVersionNumber$ = "5.4"
 Global ModCompatibleNumber$ = "5.4" ;Only change this if the version given isn't working with the current build version - ENDSHN
 
 Global MenuWhite%, MenuBlack%
@@ -194,7 +189,6 @@ Global CurrFrameLimit# = (Framelimit%-19)/100.0
 Global ScreenGamma# = GetINIFloat(OptionFile, "options", "screengamma")
 ;If Fullscreen Then UpdateScreenGamma()
 
-Const HIT_MAP% = 1, HIT_PLAYER% = 2, HIT_ITEM% = 3, HIT_APACHE% = 4, HIT_178% = 5, HIT_DEAD% = 6
 SeedRnd MilliSecs()
 
 ;[End block]
@@ -262,8 +256,6 @@ Global KEY_SAVE = GetINIInt(OptionFile, "binds", "Save key")
 Global KEY_CONSOLE = GetINIInt(OptionFile, "binds", "Console key")
 
 Global MouseSmooth# = GetINIFloat(OptionFile,"options", "mouse smoothing", 1.0)
-
-Const INFINITY# = (999.0) ^ (99999.0), NAN# = (-1.0) ^ (0.5)
 
 Global Mesh_MinX#, Mesh_MinY#, Mesh_MinZ#
 Global Mesh_MaxX#, Mesh_MaxY#, Mesh_MaxZ#
@@ -1775,7 +1767,6 @@ Global LightConeModel
 
 Global ParticleEffect[10]
 
-Const MaxDTextures=8
 Global DTextures[MaxDTextures]
 
 Global NPC049OBJ, NPC0492OBJ
@@ -11918,6 +11909,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#545#23BA
-;~B#11D8#1450#1BEE
+;~F#53D#23B1
+;~B#11CF#1447#1BE5
 ;~C#Blitz3D

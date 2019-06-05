@@ -22,9 +22,6 @@ If FileType(dirPath)<>2 Then
 	CreateDir(dirPath)
 EndIf
 
-Const MusicPath$ = "SFX\Music\"
-Const MusicPath2$ = "SFX\Radio\UserTracks\"
-
 Local Dir% = ReadDir(MusicPath)
 Repeat
 	Local file$=NextFile(Dir)
@@ -48,8 +45,6 @@ Forever
 CloseDir Dir
 
 Local i
-
-Const ClrR = 50, ClrG = 50, ClrB = 50
 
 Global MouseHit1,MouseDown1
 
@@ -384,7 +379,6 @@ End Function
 
 
 
-
 ;~IDEal Editor Parameters:
-;~F#E4#112#116#11A#11E#126#13A#156#160
+;~F#DF#10D#111#115#119#121#135#151#15B
 ;~C#Blitz3D
