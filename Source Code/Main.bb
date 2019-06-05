@@ -990,7 +990,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("WHOA SLOW DOWN")
 					EndIf
 					;[End Block]
-				Case "scp-420-j","420j","weed"
+				Case "scp-420-j", "420j", "weed"
 					;[Block]
 					For i = 1 To 20
 						If Rand(2)=1 Then
@@ -1020,7 +1020,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("GODMODE OFF")	
 					EndIf
 					;[End Block]
-				Case "revive","undead","resurrect"
+				Case "revive", "undead", "resurrect"
 					;[Block]
 					DropSpeed = -0.1
 					HeadDropSpeed = 0.0
@@ -1045,7 +1045,7 @@ Function UpdateConsole()
 					KillTimer = 0
 					KillAnim = 0
 					;[End Block]
-				Case "noclip","fly"
+				Case "noclip", "fly"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
@@ -1163,7 +1163,7 @@ Function UpdateConsole()
 					EndIf
 					;[End Block]
 				;new Console Commands in SCP:CB 1.3 - ENDSHN
-				Case "infinitestamina","infstam"
+				Case "infinitestamina", "infstam", "is"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
@@ -1238,7 +1238,7 @@ Function UpdateConsole()
 					
 					RemoteDoorOn = True
 					;[End Block]
-				Case "kill","suicide"
+				Case "kill", "suicide"
 					;[Block]
 					KillTimer = -1
 					Select Rand(4)
@@ -5155,7 +5155,7 @@ Function DrawGUI()
 							For z% = 0 To OtherSize - 1
 								If OtherOpen\SecondInv[z]<>Null
 									Local name$=OtherOpen\SecondInv[z]\itemtemplate\tempname
-									If name$<>"25ct" And name$<>"coin" And name$<>"key" And name$<>"scp860" And name$<>"scp500pill" Then
+									If name$<>"25ct" And name$<>"coin" And name$<>"key" And name$<>"scp860" And name$<>"scp500pill" And name$<>"scp500pilldeath" Then
 										isEmpty=False
 										Exit
 									EndIf
@@ -5394,14 +5394,14 @@ Function DrawGUI()
 						SelectedItem = Null
 					ElseIf Inventory(MouseSlot) <> SelectedItem
 						Select SelectedItem\itemtemplate\tempname
-							Case "paper","key1","key2","key3","key4","key5","key6","misc","oldpaper","badge","ticket","25ct","coin","key","scp860"
+							Case "paper","key1","key2","key3","key4","key5","key6","misc","oldpaper","badge","ticket","25ct","coin","key","scp860", "scp500pill", "scp500pilldeath"
 								;[Block]
 								If Inventory(MouseSlot)\itemtemplate\tempname = "clipboard" Then
 									;Add an item to clipboard
 									Local added.Items = Null
 									Local b$ = SelectedItem\itemtemplate\tempname
 									Local b2$ = SelectedItem\itemtemplate\name
-									If (b<>"misc" And b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill") Or (b2="Playing Card" Or b2="Mastercard") Then
+									If (b<>"misc" And b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill" And b<>"scp500pilldeath") Or (b2="Playing Card" Or b2="Mastercard") Then
 										For c% = 0 To Inventory(MouseSlot)\invSlots-1
 											If (Inventory(MouseSlot)\SecondInv[c] = Null)
 												If SelectedItem <> Null Then
@@ -5449,7 +5449,7 @@ Function DrawGUI()
 												If SelectedItem <> Null Then
 													Inventory(MouseSlot)\SecondInv[c] = SelectedItem
 													Inventory(MouseSlot)\state = 1.0
-													If b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill"
+													If b<>"25ct" And b<>"coin" And b<>"key" And b<>"scp860" And b<>"scp500pill" And b<>"scp500pilldeath"
 														SetAnimTime Inventory(MouseSlot)\model,3.0
 													EndIf
 													Inventory(MouseSlot)\invimg = Inventory(MouseSlot)\itemtemplate\invimg
