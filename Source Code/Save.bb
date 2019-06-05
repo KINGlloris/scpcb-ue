@@ -34,8 +34,9 @@ Function SaveGame(file$)
 	WriteFloat f, EntityPitch(Collider)
 	WriteFloat f, EntityYaw(Collider)
 	
-	;WriteString f, VersionNumber
-	WriteString f, CompatibleNumber
+	;WriteString f, ModVersionNumber
+	;WriteString f, GameVersionNumber
+	WriteString f, ModCompatibleNumber
 	
 	WriteFloat f, BlinkTimer
 	WriteFloat f, BlinkEffect
@@ -708,7 +709,7 @@ Function LoadGame(file$)
 	room2gw_x = ReadFloat(f)
 	room2gw_z = ReadFloat(f)
 	
-	If version = CompatibleNumber Then
+	If version = ModCompatibleNumber Then
 		I_Zone\Transition[0] = ReadByte(f)
 		I_Zone\Transition[1] = ReadByte(f)
 		I_Zone\HasCustomForest = ReadByte(f)
@@ -1543,7 +1544,7 @@ Function LoadGameQuick(file$)
 	room2gw_x = ReadFloat(f)
 	room2gw_z = ReadFloat(f)
 	
-	If version = CompatibleNumber Then
+	If version = ModCompatibleNumber Then
 		I_Zone\Transition[0] = ReadByte(f)
 		I_Zone\Transition[1] = ReadByte(f)
 		I_Zone\HasCustomForest = ReadByte(f)

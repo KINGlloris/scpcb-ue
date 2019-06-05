@@ -1,4 +1,4 @@
-;SCP - Containment Breach
+;SCP - Containment Breach Ultimate Edition
 
 ;    The game is based on the works of the SCP Foundation community (http://www.scp-wiki.net/).
 
@@ -36,8 +36,9 @@ Global UpdaterFont%
 Global Font1%, Font2%, Font3%, Font4%, Font5%
 Global ConsoleFont%
 
-Global VersionNumber$ = "1.3.11"
-Global CompatibleNumber$ = "1.3.11" ;Only change this if the version given isn't working with the current build version - ENDSHN
+Global GameVersionNumber$ = "1.3.11"
+Global ModVersionNumber$ = "5.4"
+Global ModCompatibleNumber$ = "5.4" ;Only change this if the version given isn't working with the current build version - ENDSHN
 
 Global MenuWhite%, MenuBlack%
 Global ButtonSFX%
@@ -202,7 +203,7 @@ Global GameSaved%
 
 Global CanSave% = True
 
-AppTitle "SCP - Containment Breach v"+VersionNumber
+AppTitle "SCP - Containment Breach Ultimate Edition v"+ModVersionNumber
 
 PlayStartupVideos()
 
@@ -11511,9 +11512,9 @@ Function CatchErrors(location$)
 	If Len(errStr)>0 Then
 		If FileType(ErrorFile)=0 Then
 			errF = WriteFile(ErrorFile)
-			WriteLine errF,"An error occured in SCP - Containment Breach!"
-			WriteLine errF,"Version: "+VersionNumber
-			WriteLine errF,"Save compatible version: "+CompatibleNumber
+			WriteLine errF,"An error occured in SCP - Containment Breach!"			WriteLine errF,"Game Version: "+GameVersionNumber
+			WriteLine errF,"Mod Version: "+ModVersionNumber
+			WriteLine errF,"Save compatible version: "+ModCompatibleNumber
 			WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
 			WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
 			WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
@@ -11891,6 +11892,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#544#23B9
-;~B#11D7#144F#1BED
+;~F#545#23BA
+;~B#11D8#1450#1BEE
 ;~C#Blitz3D
