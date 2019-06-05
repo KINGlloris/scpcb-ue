@@ -1,57 +1,8 @@
-
-
-Type Materials
-	Field name$
-	Field Diff
-	Field Bump
-	
-	Field StepSound%
-End Type
-
-Function LoadMaterials(file$)
-	CatchErrors("Uncaught (LoadMaterials)")
-	;If Not BumpEnabled Then Return
-	
-	Local TemporaryString$
-	Local mat.Materials = Null
-	Local StrTemp$ = ""
-	
-	Local f = OpenFile(file)
-	
-	While Not Eof(f)
-		TemporaryString = Trim(ReadLine(f))
-		If Left(TemporaryString,1) = "[" Then
-			TemporaryString = Mid(TemporaryString, 2, Len(TemporaryString) - 2)
-			
-			mat.Materials = New Materials
-			
-			mat\name = Lower(TemporaryString)
-			
-			If BumpEnabled Then
-				StrTemp = GetINIString(file, TemporaryString, "bump")
-				If StrTemp <> "" Then 
-					mat\Bump =  LoadTexture_Strict(StrTemp)
-					
-					TextureBlend mat\Bump, 6
-					TextureBumpEnvMat mat\Bump,0,0,-0.012
-					TextureBumpEnvMat mat\Bump,0,1,-0.012
-					TextureBumpEnvMat mat\Bump,1,0,0.012
-					TextureBumpEnvMat mat\Bump,1,1,0.012
-					TextureBumpEnvOffset mat\Bump,0.5
-					TextureBumpEnvScale mat\Bump,1.0				
-				EndIf
-			EndIf
-			
-			mat\StepSound = (GetINIInt(file, TemporaryString, "stepsound")+1)
-		EndIf
-	Wend
-	
-	CloseFile f
-	
-	CatchErrors("LoadMaterials")
-End Function
+Include "Source Code/Materials.bb"
+Include "Source Code/TextureCache.bb"
 
 Function LoadWorld(file$, rt.RoomTemplates)
+	
 	Local map=LoadAnimMesh_Strict(file)
 	If Not map Then Return
 	
@@ -254,7 +205,7 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	
 End Function
 
-;RMESH STUFF;;;;
+;RMESH STUFF
 
 Function StripFilename$(file$)
 	Local mi$=""
@@ -269,68 +220,6 @@ Function StripFilename$(file$)
 	EndIf
 	
 	Return Left(file,lastSlash)
-End Function
-
-Function GetTextureFromCache%(name$)
-	For tc.Materials=Each Materials
-		If tc\name = name Then Return tc\Diff
-	Next
-	Return 0
-End Function
-
-Function GetBumpFromCache%(name$)
-	For tc.Materials=Each Materials
-		If tc\name = name Then Return tc\Bump
-	Next
-	Return 0
-End Function
-
-Function GetCache.Materials(name$)
-	For tc.Materials=Each Materials
-		If tc\name = name Then Return tc
-	Next
-	Return Null
-End Function
-
-Function AddTextureToCache(texture%)
-	Local tc.Materials=GetCache(StripPath(TextureName(texture)))
-	If tc.Materials=Null Then
-		tc.Materials=New Materials
-		tc\name=StripPath(TextureName(texture))
-		If BumpEnabled Then
-			Local temp$=GetINIString("Data\materials.ini",tc\name,"bump")
-			If temp<>"" Then
-				tc\Bump=LoadTexture_Strict(temp)
-				TextureBlend tc\Bump,6
-				TextureBumpEnvMat tc\Bump,0,0,-0.012
-				TextureBumpEnvMat tc\Bump,0,1,-0.012
-				TextureBumpEnvMat tc\Bump,1,0,0.012
-				TextureBumpEnvMat tc\Bump,1,1,0.012
-				TextureBumpEnvOffset tc\Bump,0.5
-				TextureBumpEnvScale tc\Bump,1.0
-			Else
-				tc\Bump=0
-			EndIf
-		EndIf
-		tc\Diff=0
-	EndIf
-	If tc\Diff=0 Then tc\Diff=texture
-End Function
-
-Function ClearTextureCache()
-	For tc.Materials=Each Materials
-		If tc\Diff<>0 Then FreeTexture tc\Diff
-		If tc\Bump<>0 Then FreeTexture tc\Bump
-		Delete tc
-	Next
-End Function
-
-Function FreeTextureCache()
-	For tc.Materials=Each Materials
-		If tc\Diff<>0 Then FreeTexture tc\Diff
-		If tc\Bump<>0 Then FreeTexture tc\Bump
-		tc\Diff = 0 : tc\Bump = 0
-	Next
 End Function
 
 Function LoadRMesh(file$,rt.RoomTemplates)
@@ -751,9 +640,6 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	Return obj%
 	
 End Function
-
-
-;-----------;;;;
 
 Function StripPath$(file$) 
 	Local name$=""
@@ -8740,10 +8626,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#2#A#35#102#111#118#11F#126#13F#147#14F#2F4#304#315#33D#34B#35B#360#36B#413
-;~F#51E#53F#563#57F#58A#5C6#5D6#5FF#63B#643#658#6A7#6B1#136A#13EC#13F8#143D#1448#1459#145E
-;~F#146D#1484#1505#150E#15D0#15ED#15F4#15FA#1608#162B#1650#1683#17CA#1803#1818#190C#19E1#19E6#19F6#1CA3
-;~F#1CC2#1CC9#1D2A#1DA6#1DD1#1DF2#1E05#1E1C#1E2F#1E36#1E6A#1E75#1E9D#1EFA#1F06#1F11#1F17#1F21#1F27#1F3D
-;~F#1F51#1F6F
-;~B#1230
+;~F#3#D1#E0#13CB#13EC
+;~B#11BE
 ;~C#Blitz3D
