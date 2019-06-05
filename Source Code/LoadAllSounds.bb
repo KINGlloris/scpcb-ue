@@ -134,8 +134,6 @@ Next
 For i = 10 To 12
 	IntroSFX(i) = LoadSound_Strict("SFX\Room\Intro\Light" + (i - 9) + ".ogg")
 Next
-;IntroSFX(13) = LoadSound_Strict("SFX\intro\shoot1.ogg")
-;IntroSFX(14) = LoadSound_Strict("SFX\intro\shoot2.ogg")
 IntroSFX(15) = LoadSound_Strict("SFX\Room\Intro\173Vent.ogg")
 
 ;Dim AlarmSFX%(5)
@@ -215,7 +213,5 @@ End Function
 
 
 
-
 ;~IDEal Editor Parameters:
-;~F#0
 ;~C#Blitz3D

@@ -1664,14 +1664,9 @@ Dim Scp173SFX%(3)
 
 Dim HorrorSFX%(20)
 
-
 DrawLoading(25, True)
 
 Dim IntroSFX%(20)
-
-;IntroSFX(13) = LoadSound_Strict("SFX\intro\shoot1.ogg")
-;IntroSFX(14) = LoadSound_Strict("SFX\intro\shoot2.ogg")
-
 
 Dim AlarmSFX%(5)
 
@@ -11896,6 +11891,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#544#23BE
-;~B#11DC#1454#1BF2
+;~F#544#23B9
+;~B#11D7#144F#1BED
 ;~C#Blitz3D

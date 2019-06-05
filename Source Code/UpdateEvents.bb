@@ -386,7 +386,10 @@ Function UpdateEvents()
 								
 								x = EntityX(e\room\obj)-(3224.0+1024.0)*RoomScale
 								y = 136.0*RoomScale
-								z = EntityZ(e\room\obj)+8.0*RoomScale	
+								z = EntityZ(e\room\obj)+8.0*RoomScale
+								
+								If e\EventState3-FPSfactor/30.0 < 3.7 And e\EventState3 > 3.7 Then PlaySound2(IntroSFX(19), Camera, Collider, 8, 0.5) 
+								If e\EventState3-FPSfactor/30.0 < 9.3 And e\EventState3 > 9.3 Then PlaySound2(IntroSFX(20), Camera, Collider, 8, 0.5)
 								
 								If e\EventState3 < 14 Then
 									mouse_x_speed_1#=0
@@ -936,6 +939,9 @@ Function UpdateEvents()
 								IntroSFX(16) = LoadSound_Strict("SFX\Room\Intro\Horror.ogg")
 								IntroSFX(17) = LoadSound_Strict("SFX\Room\Intro\See173.ogg")
 								IntroSFX(18) = LoadSound_Strict("SFX\Room\Intro\173Chamber.ogg")
+								For i = 19 To 20
+									IntroSFX(i) = LoadSound_Strict("SFX\Room\Intro\Ew"+(i-18)+".ogg")
+								Next
 								
 								Curr173\Idle = True
 								
@@ -10172,11 +10178,7 @@ End Function
 
 
 
-
 ;~IDEal Editor Parameters:
-;~F#1#14#29#13B#343#535#545#5B1#630#68D#6B4#6C2#6CC#6D9#8CA#8EB#93F#976#983#9BD
-;~F#9CE#9EE#9F7#A01#A10#B0B#B2D#DE2#E29#E3F#E4B#E68#EB9#ED2#FA1#10A3#1123#113C#115B#11C6
-;~F#11D3#11EC#1284#1439#152D#1581#1633#16D4#1796#17A9#187A#18A7#18C4#18EB#191B#1941#1969#19BB#19F8#1A29
-;~F#1A3C#1AFD#1B6A#1B7D#1B8B#1BCF#1BF0#1CDE#1D53#1E50#1ED1#1F1F#1F24#1F73#1F79#213E
-;~B#10D3#1DD1
+;~F#A16
+;~B#10D9#1DD7
 ;~C#Blitz3D
