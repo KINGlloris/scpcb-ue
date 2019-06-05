@@ -610,7 +610,7 @@ Function LoadGame(file$)
 		Select NPCtype
 			Case NPCtype173
 				Curr173 = n
-			Case NPCtypeOldMan
+			Case NPCtype106
 				Curr106 = n
 			Case NPCtype096
 				Curr096 = n
@@ -653,7 +653,7 @@ Function LoadGame(file$)
 		
 		Local frame# = ReadFloat(f)
 		Select NPCtype
-			Case NPCtypeOldMan, NPCtypeD, NPCtype096, NPCtypeMTF, NPCtypeGuard, NPCtype049, NPCtypeZombie, NPCtypeClerk
+			Case NPCtype106, NPCtypeD, NPCtype096, NPCtypeMTF, NPCtypeGuard, NPCtype049, NPCtypeZombie, NPCtypeClerk
 				SetAnimTime(n\obj, frame)
 		End Select
 		
@@ -1447,7 +1447,7 @@ Function LoadGameQuick(file$)
 		Select NPCtype
 			Case NPCtype173
 				Curr173 = n
-			Case NPCtypeOldMan
+			Case NPCtype106
 				Curr106 = n
 			Case NPCtype096
 				Curr096 = n
@@ -1488,7 +1488,7 @@ Function LoadGameQuick(file$)
 		
 		Local frame# = ReadFloat(f)
 		Select NPCtype
-			Case NPCtypeOldMan, NPCtypeD, NPCtype096, NPCtypeMTF, NPCtypeGuard, NPCtype049, NPCtypeZombie, NPCtypeClerk
+			Case NPCtype106, NPCtypeD, NPCtype096, NPCtypeMTF, NPCtypeGuard, NPCtype049, NPCtypeZombie, NPCtypeClerk
 				SetAnimTime(n\obj, frame)
 		End Select		
 		

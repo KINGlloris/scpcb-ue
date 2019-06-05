@@ -1,6 +1,6 @@
 ;[Block]
 Global Curr173.NPCs, Curr106.NPCs, Curr096.NPCs, Curr5131.NPCs
-Const NPCtype173% = 1, NPCtypeOldMan% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
+Const NPCtype173% = 1, NPCtype106% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
 Const NPCtype372% = 6, NPCtypeApache% = 7, NPCtypeMTF% = 8, NPCtype096 = 9
 Const NPCtype049% = 10, NPCtypeZombie% = 11, NPCtype5131% = 12, NPCtypeTentacle% = 13
 Const NPCtype860% = 14, NPCtype939% = 15, NPCtype066% = 16, NPCtypePdPlane% = 17
@@ -110,7 +110,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			n\CollRadius = 0.32
 			;[End Block]
-		Case NPCtypeOldMan
+		Case NPCtype106
 			;[Block]
 			n\NVName = "SCP-106"
 			n\Collider = CreatePivot()
@@ -932,7 +932,7 @@ Function UpdateNPCs()
 				EndIf
 				
 				;[End block]
-			Case NPCtypeOldMan ;------------------------------------------------------------------------------------------------------------------
+			Case NPCtype106
 				;[Block]
 				If Contained106 Then
 					n\Idle = True
@@ -5234,7 +5234,7 @@ Function UpdateMTFUnit(n.NPCs)
 		Select n\NPCtype
 			Case NPCtype173
                 realType = "173"
-			Case NPCtypeOldMan
+			Case NPCtype106
                 realType = "106"
 			Case NPCtypeGuard
                 realType = "guard"
@@ -7085,7 +7085,7 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 			consoleMSG = "SCP-096 spawned."
 			
 		Case "106", "scp106", "scp-106", "larry"
-			n.NPCs = CreateNPC(NPCtypeOldMan, EntityX(Collider), EntityY(Collider) - 0.5, EntityZ(Collider))
+			n.NPCs = CreateNPC(NPCtype106, EntityX(Collider), EntityY(Collider) - 0.5, EntityZ(Collider))
 			n\State = -1
 			consoleMSG = "SCP-106 spawned."
 			
@@ -7264,7 +7264,7 @@ End Function
 Function NPCSpeedChange(n.NPCs)
 	
 	Select n\NPCtype
-		Case NPCtype173,NPCtypeOldMan,NPCtype096,NPCtype049,NPCtype939,NPCtypeMTF
+		Case NPCtype173, NPCtype106, NPCtype096, NPCtype049, NPCtype939, NPCtypeMTF
 			Select SelectedDifficulty\otherFactors
 				Case NORMAL
 					n\Speed = n\Speed * 1.1
