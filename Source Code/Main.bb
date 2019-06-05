@@ -11705,6 +11705,8 @@ Function PlayStartupVideos()
 	Repeat
 		Cls
 		ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
+		Color 255,255,255
+	    Text GraphicWidth/2,GraphicHeight-50,"PRESS ANY KEY TO SKIP VIDEO",True, True
 		Flip
 	Until (GetKey() Or (Not IsStreamPlaying_Strict(SplashScreenAudio)))
 	StopStream_Strict(SplashScreenAudio)
@@ -11727,18 +11729,42 @@ Function PlayStartupVideos()
 	Repeat
 		Cls
 		ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
+		Color 255,255,255
+	    Text GraphicWidth/2,GraphicHeight-50,"PRESS ANY KEY TO SKIP VIDEO",True, True
 		Flip
 	Until (GetKey() Or (Not IsStreamPlaying_Strict(SplashScreenAudio)))
 	StopStream_Strict(SplashScreenAudio)
 	BlitzMovie_Stop()
 	BlitzMovie_Close()
+	FreeImage image
+	
+	Cls
+	Flip
+	
+	moviefile$ = "GFX\menu\startup_UET"
+	BlitzMovie_Open(moviefile$+".avi") ;Get movie size
+	moview = BlitzMovie_GetWidth()
+	movieh = BlitzMovie_GetHeight()
+	BlitzMovie_Close()
+	image = CreateImage(moview, movieh)
+	SplashScreenVideo = BlitzMovie_OpenDecodeToImage(moviefile$+".avi", image, False)
+	SplashScreenVideo = BlitzMovie_Play()
+	SplashScreenAudio = StreamSound_Strict(moviefile$+".ogg",SFXVolume,0)
+	Repeat
+		Cls
+		ProjectImage(image, RealGraphicWidth, ScaledGraphicHeight, Quad, Texture)
+		Color 255,255,255
+	    Text GraphicWidth/2,GraphicHeight-50,"PRESS ANY KEY TO SKIP VIDEO",True, True
+		Flip
+	Until (GetKey() Or (Not IsStreamPlaying_Strict(SplashScreenAudio)))
+	StopStream_Strict(SplashScreenAudio)
+	BlitzMovie_Stop()
+	BlitzMovie_Close()
+	FreeImage image
 	
 	FreeTexture Texture
 	FreeEntity Quad
 	FreeEntity Cam
-	FreeImage image
-	Cls
-	Flip
 	
 End Function
 
