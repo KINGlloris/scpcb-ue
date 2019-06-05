@@ -2,7 +2,7 @@
 Global Curr173.NPCs, Curr106.NPCs, Curr096.NPCs, Curr5131.NPCs
 Const NPCtype173% = 1, NPCtype106% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
 Const NPCtype372% = 6, NPCtypeApache% = 7, NPCtypeMTF% = 8, NPCtype096 = 9
-Const NPCtype049% = 10, NPCtypeZombie% = 11, NPCtype5131% = 12, NPCtype035Tentacle% = 13
+Const NPCtype049% = 10, NPCtype0492% = 11, NPCtype5131% = 12, NPCtype035Tentacle% = 13
 Const NPCtype860% = 14, NPCtype939% = 15, NPCtype066% = 16, NPCtypePdPlane% = 17
 Const NPCtype966% = 18, NPCtype1048a = 19, NPCtype1499% = 20, NPCtype0081% = 21, NPCtypeClerk% = 22
 ;[End Block]
@@ -279,7 +279,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			n\CanUseElevator = True
 			;[End Block]
-		Case NPCtypeZombie
+		Case NPCtype0492
 			;[Block]
 			n\NVName = "SCP-049-2"
 			n\Collider = CreatePivot()
@@ -2119,7 +2119,7 @@ Function UpdateNPCs()
 				n\State2 = Max(n\State2-FPSfactor,0)
 				
 				;[End Block]
-			Case NPCtypeZombie
+			Case NPCtype0492
 				;[Block]
 				
 				If Abs(EntityY(Collider)-EntityY(n\Collider))<4.0 Then
@@ -5216,12 +5216,12 @@ Function UpdateMTFUnit(n.NPCs)
                 realType = "096"
 			Case NPCtype049
                 realType = "049"
-			Case NPCtypeZombie
-                realType = "zombie"
+			Case NPCtype0492
+                realType = "049-2"
 			Case NPCtype5131
                 realType = "513-1"
 			Case NPCtype035Tentacle
-                realType = "tentacle"
+                realType = "035tentacle"
 			Case NPCtype860
                 realType = "860"
 			Case NPCtype939
@@ -5618,7 +5618,7 @@ Function UpdateMTFUnit(n.NPCs)
 								Exit
 							EndIf
 						EndIf
-					ElseIf n2\NPCtype = NPCtypeZombie And n2\IsDead = False
+					ElseIf n2\NPCtype = NPCtype0492 And n2\IsDead = False
 						If OtherNPCSeesMeNPC(n2,n) Then
 							If EntityVisible(n\Collider,n2\Collider)
 								n\State = 9
@@ -5974,7 +5974,7 @@ Function UpdateMTFUnit(n.NPCs)
 								Exit
 							EndIf
 						EndIf
-					ElseIf n2\NPCtype = NPCtypeZombie And n2\IsDead = False
+					ElseIf n2\NPCtype = NPCtype0492 And n2\IsDead = False
 						If OtherNPCSeesMeNPC(n2,n) Then
 							If EntityVisible(n\Collider,n2\Collider)
 								n\State = 9
@@ -6642,7 +6642,7 @@ Function UpdateMTFUnit(n.NPCs)
 							Else
 								If (Not n\Target\IsDead)
 									If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
-									If n\NPCtype = NPCtypeZombie
+									If n\NPCtype = NPCtype0492
 										n\Sound = LoadSound_Strict("SFX\Character\MTF\049\Player0492_2.ogg")
 										PlayMTFSound(n\Sound, n)
 									Else
@@ -7038,7 +7038,7 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 			consoleMSG = "SCP-049 spawned."
 			
 		Case "049-2", "0492", "scp-049-2", "scp049-2", "049zombie"
-			n.NPCs = CreateNPC(NPCtypeZombie, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
+			n.NPCs = CreateNPC(NPCtype0492, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
 			n\State = 1
 			consoleMSG = "SCP-049-2 spawned."
 			

@@ -3483,13 +3483,13 @@ Function QuickLoadEvents()
 			;[Block]
 			If e\EventState = 0 Then
 				If e\EventStr = "load0"
-					n.NPCs = CreateNPC(NPCtypeZombie, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True),EntityZ(e\room\Objects[4],True))
+					n.NPCs = CreateNPC(NPCtype0492, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True),EntityZ(e\room\Objects[4],True))
 					PointEntity n\Collider, e\room\obj
 					TurnEntity n\Collider, 0, 190, 0
 					QuickLoadPercent = 20
 					e\EventStr = "load1"
 				ElseIf e\EventStr = "load1"
-					n.NPCs = CreateNPC(NPCtypeZombie, EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True),EntityZ(e\room\Objects[5],True))
+					n.NPCs = CreateNPC(NPCtype0492, EntityX(e\room\Objects[5],True),EntityY(e\room\Objects[5],True),EntityZ(e\room\Objects[5],True))
 					PointEntity n\Collider, e\room\obj
 					TurnEntity n\Collider, 0, 20, 0
 					QuickLoadPercent = 60

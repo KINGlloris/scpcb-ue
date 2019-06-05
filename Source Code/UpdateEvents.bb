@@ -5482,8 +5482,8 @@ Function UpdateEvents()
 										
 										ShouldPlay = 0
 										
-										If e\room\NPC[0]=Null Then
-											If e\room\NPC[0]=Null Then e\room\NPC[0] = CreateNPC(NPCtype035Tentacle, 0,0,0)
+										If e\room\NPC[0] = Null Then
+											If e\room\NPC[0] = Null Then e\room\NPC[0] = CreateNPC(NPCtype035Tentacle, 0,0,0)
 										EndIf
 										
 										PositionEntity e\room\NPC[0]\Collider, EntityX(e\room\Objects[4],True), 0, EntityZ(e\room\Objects[4],True)
@@ -5684,7 +5684,7 @@ Function UpdateEvents()
 								EndIf
 							ElseIf e\EventState < 70*240
 								For n.NPCs = Each NPCs ;awake the zombies
-									If n\NPCtype = NPCtypeZombie And n\State = 0 Then
+									If n\NPCtype = NPCtype0492 And n\State = 0 Then
 										n\State = 1
 										SetNPCFrame(n, 155)
 									EndIf
@@ -5726,7 +5726,7 @@ Function UpdateEvents()
 								ResetEntity e\room\NPC[0]\Collider
 								
 								For n.NPCs = Each NPCs
-									If n\NPCtype = NPCtypeZombie Then
+									If n\NPCtype = NPCtype0492 Then
 										PositionEntity n\Collider, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True),EntityZ(e\room\Objects[4],True),True
 										ResetEntity n\Collider
 										n\State = 4
