@@ -826,7 +826,7 @@ Const max_deviation_distance% = 3
 Const return_chance% = 27
 Const center = 5 ;(gridsize-1) / 2
 
-Include "Drawportals.bb"
+Include "Source Code\Drawportals.bb"
 
 Type Forest
 	Field TileMesh%[6]
@@ -2347,7 +2347,7 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\Objects[3], r\x+1216.0*RoomScale, r\y, r\z+2112.0*RoomScale, True)
 			EntityParent r\Objects[3], r\obj
 			
-			;sillan loppup��
+			;sillan loppup??????
 			r\Objects[4]=CreatePivot()
 			PositionEntity(r\Objects[4], r\x, r\y+96.0*RoomScale, r\z+6400.0*RoomScale, True)
 			EntityParent r\Objects[4], r\obj		
@@ -2376,7 +2376,7 @@ Function FillRoom(r.Rooms)
 			r\Objects[9]=CreatePivot()
 			PositionEntity(r\Objects[9], r\x+2624.0*RoomScale, r\y+992.0*RoomScale, r\z+6157.0*RoomScale, True)
 			EntityParent r\Objects[9], r\obj	
-			;objects[10] = valopyssyn yl�osa
+			;objects[10] = valopyssyn yl???osa
 			
 			;tunnelin loppu
 			r\Objects[11]=CreatePivot()
@@ -2433,7 +2433,7 @@ Function FillRoom(r.Rooms)
 			RotateEntity r\RoomDoors[4]\buttons[1],0,r\angle-90,0,True
 			PositionEntity(r\RoomDoors[4]\buttons[0], r\x, 7.0, r\z, True)		
 			
-			;k�yt�v�n takaosa
+			;k???yt???v???n takaosa
 			r\Objects[3] = CreatePivot()
 			PositionEntity(r\Objects[3], r\x-7680.0*RoomScale, 10992.0*RoomScale, r\z-27048.0*RoomScale, True)
 			EntityParent r\Objects[3], r\obj
@@ -2489,7 +2489,7 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\Objects[11], r\x+2816.0*RoomScale, 11024.0*RoomScale, r\z-2816.0*RoomScale, True)
 			EntityParent r\Objects[11], r\obj
 			
-			;r\Objects[12] = 682:n k�si
+			;r\Objects[12] = 682:n k???si
 			
 			;"valvomon" takaovi
 			r\RoomDoors[5] = CreateDoor(0, r\x+3248.0*RoomScale, 9856.0*RoomScale, r\z+6400.0*RoomScale, 0, r, False, False, 0, "ABCD")
@@ -2951,10 +2951,10 @@ Function FillRoom(r.Rooms)
 			PositionEntity(d\buttons[0], EntityX(d\buttons[0],True), EntityY(d\buttons[0],True), r\z + 608.0 * RoomScale,True)
 			PositionEntity(d\buttons[1], EntityX(d\buttons[1],True), EntityY(d\buttons[1],True), r\z + 608.0 * RoomScale,True)
 			
-			;yl�kerran hissin ovi
+			;yl???kerran hissin ovi
 			r\RoomDoors[0] = CreateDoor(r\zone, r\x + 1192.0 * RoomScale, 0.0, r\z, 90, r, True, 3)
 			r\RoomDoors[0]\AutoClose = False : r\RoomDoors[0]\open = True
-			;yl�kerran hissi
+			;yl???kerran hissi
 			r\Objects[4] = CreatePivot()
 			PositionEntity(r\Objects[4], r\x + 1496.0 * RoomScale, 240.0 * RoomScale, r\z)
 			EntityParent(r\Objects[4], r\obj)
@@ -6095,7 +6095,7 @@ Function FindPath(n.NPCs, x#, y#, z#)
 	EndIf
 	If EndPoint = Null Then Return 2
 	
-       ;aloitus- ja lopetuspisteet l�ydetty, aletaan etsi� reitti�
+       ;aloitus- ja lopetuspisteet l???ydetty, aletaan etsi??? reitti???
 	
 	Repeat
 		
@@ -6146,7 +6146,7 @@ Function FindPath(n.NPCs, x#, y#, z#)
 					
                 EndIf
 			Next
-		Else ;open listilt� ei l�ytynyt mit��n
+		Else ;open listilt??? ei l???ytynyt mit??????n
 			If EndPoint\state > 0 Then
                 StartPoint\parent = Null
                 EndPoint\state = 2
@@ -6690,9 +6690,9 @@ Function UpdateLever(obj, locked=False)
 					EndIf
 				EndIf 
 				
-				If EntityPitch(obj,True) > 75 Then ;p��ll�
+				If EntityPitch(obj,True) > 75 Then ;p??????ll???
 					If prevpitch =< 75 Then PlaySound2(LeverSFX, Camera, obj, 1.0)
-				ElseIf EntityPitch(obj,True) < -75 ;pois p��lt�
+				ElseIf EntityPitch(obj,True) < -75 ;pois p??????lt???
 					If prevpitch => -75 Then PlaySound2(LeverSFX, Camera, obj, 1.0)	
 				EndIf						
 			EndIf
@@ -6709,9 +6709,9 @@ Function UpdateLever(obj, locked=False)
 		
 	EndIf
 	
-	If EntityPitch(obj,True) > 0 Then ;p��ll�
+	If EntityPitch(obj,True) > 0 Then ;p??????ll???
 		Return True
-	Else ;pois p��lt�
+	Else ;pois p??????lt???
 		Return False
 	EndIf	
 	
@@ -7479,7 +7479,7 @@ Function CreateMap()
 				
 				temp = Min(MapTemp(x + 1, y),1) + Min(MapTemp(x - 1, y),1) + Min(MapTemp(x, y + 1),1) + Min(MapTemp(x, y - 1),1)
 				
-				Select temp ;viereisiss� ruuduissa olevien huoneiden m��r�
+				Select temp ;viereisiss??? ruuduissa olevien huoneiden m??????r???
 					Case 1
 						If MapRoomID(ROOM1) < MaxRooms And MapName(x,y) = "" Then
 							If MapRoom(ROOM1, MapRoomID(ROOM1)) <> "" Then MapName(x, y) = MapRoom(ROOM1, MapRoomID(ROOM1))	
@@ -7898,9 +7898,7 @@ Function load_terrain(hmap,yscale#=0.7,t1%,t2%,mask%)
 	Return mesh
 End Function
 
-
-
-Include "Skybox.bb"
+Include "Source Code\Skybox.bb"
 
 Global UpdateRoomLightsTimer# = 0.0
 
