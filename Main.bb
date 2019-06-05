@@ -10,7 +10,6 @@
 Local InitErrorStr$ = ""
 ;If FileSize("bb_fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "bb_fmod.dll"+Chr(13)+Chr(10)
 If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "fmod.dll"+Chr(13)+Chr(10)
-If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ "zlibwapi.dll"+Chr(13)+Chr(10)
 
 If Len(InitErrorStr)>0 Then
 	RuntimeError "The following DLLs were not found in the game directory:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+InitErrorStr
@@ -23,11 +22,6 @@ Include "fullscreen_window_fix.bb"
 Include "KeyName.bb"
 
 Global OptionFile$ = "options.ini"
-
-Include "Blitz_Basic_Bank.bb"
-Include "Blitz_File_FileName.bb"
-Include "Blitz_File_ZipApi.bb"
-Include "Update.bb"
 
 Include "DevilParticleSystem.bb"
 
@@ -4395,7 +4389,7 @@ Function MouseLook()
 		Local up# = (Sin(Shake) / (20.0+CrouchState*20.0))*0.6;, side# = Cos(Shake / 2.0) / 35.0		
 		Local roll# = Max(Min(Sin(Shake/2)*2.5*Min(Injuries+0.25,3.0),8.0),-8.0)
 		
-		;kÃ¤Ã¤nnetÃ¤Ã¤n kameraa sivulle jos pelaaja on vammautunut
+		;k?¤?¤nnet?¤?¤n kameraa sivulle jos pelaaja on vammautunut
 		;RotateEntity Collider, EntityPitch(Collider), EntityYaw(Collider), Max(Min(up*30*Injuries,50),-50)
 		PositionEntity Camera, EntityX(Collider), EntityY(Collider), EntityZ(Collider)
 		RotateEntity Camera, 0, EntityYaw(Collider), roll*0.5
@@ -4472,7 +4466,7 @@ Function MouseLook()
 		
 	EndIf
 	
-	;pÃ¶lyhiukkasia
+	;p?¶lyhiukkasia
 	If ParticleAmount=2
 		If Rand(35) = 1 Then
 			Local pvt% = CreatePivot()
@@ -6191,7 +6185,7 @@ Function DrawGUI()
 											DebugLog UserTrackName$(RadioState(0))
 										EndIf
 									EndIf
-								Case 1 ;hÃ¤lytyskanava
+								Case 1 ;h?¤lytyskanava
 									DebugLog RadioState(1) 
 									
 									ResumeChannel(RadioCHN(1))
@@ -6407,7 +6401,7 @@ Function DrawGUI()
 											If RadioCHN(Int(SelectedItem\state2)) <> 0 Then PauseChannel(RadioCHN(Int(SelectedItem\state2)))
 										EndIf
 										SelectedItem\state2 = i-2
-										;jos nykyistÃ¤ kanavaa ollaan soitettu, laitetaan jatketaan toistoa samasta kohdasta
+										;jos nykyist?¤ kanavaa ollaan soitettu, laitetaan jatketaan toistoa samasta kohdasta
 										If RadioCHN(SelectedItem\state2)<>0 Then ResumeChannel(RadioCHN(SelectedItem\state2))
 									EndIf
 								Next
@@ -10320,7 +10314,7 @@ Function UpdateMTF%()
 	Local r.Rooms, n.NPCs
 	Local dist#, i%
 	
-	;mtf ei vielÃ¤ spawnannut, spawnataan jos pelaaja menee tarpeeksi lÃ¤helle gate b:tÃ¤
+	;mtf ei viel?¤ spawnannut, spawnataan jos pelaaja menee tarpeeksi l?¤helle gate b:t?¤
 	If MTFtimer = 0 Then
 		If Rand(30)=1 And PlayerRoom\RoomTemplate\Name$ <> "dimension1499" Then
 			
@@ -10636,11 +10630,11 @@ Function CircleToLineSegIsect% (cx#, cy#, r#, l1x#, l1y#, l2x#, l2y#)
 	
 	;Palauttaa:
 	;  True (1) kun:
-	;      YmpyrÃ¤ [keskipiste = (cx, cy): sÃ¤de = r]
+	;      Ympyr?¤ [keskipiste = (cx, cy): s?¤de = r]
 	;      leikkaa janan, joka kulkee pisteiden (l1x, l1y) & (l2x, l2y) kaitta
 	;  False (0) muulloin
 	
-	;YmpyrÃ¤n keskipisteen ja (ainakin toisen) janan pÃ¤Ã¤tepisteen etÃ¤isyys < r
+	;Ympyr?¤n keskipisteen ja (ainakin toisen) janan p?¤?¤tepisteen et?¤isyys < r
 	;-> leikkaus
 	If Distance(cx, cy, l1x, l1y) <= r Then
 		Return True
@@ -10650,7 +10644,7 @@ Function CircleToLineSegIsect% (cx#, cy#, r#, l1x#, l1y#, l2x#, l2y#)
 		Return True
 	EndIf	
 	
-	;Vektorit (janan vektori ja vektorit janan pÃ¤Ã¤tepisteistÃ¤ ympyrÃ¤n keskipisteeseen)
+	;Vektorit (janan vektori ja vektorit janan p?¤?¤tepisteist?¤ ympyr?¤n keskipisteeseen)
 	Local SegVecX# = l2x - l1x
 	Local SegVecY# = l2y - l1y
 	
@@ -10673,21 +10667,21 @@ Function CircleToLineSegIsect% (cx#, cy#, r#, l1x#, l1y#, l2x#, l2y#)
 		Return False
 	EndIf
 	
-	;Janan pÃ¤Ã¤tepisteiden kautta kulkevan suoran ;yhtÃ¤lÃ¶; (ax + by + c = 0)
+	;Janan p?¤?¤tepisteiden kautta kulkevan suoran ;yht?¤l?¶; (ax + by + c = 0)
 	Local a# = (l2y - l1y) / (l2x - l1x)
 	Local b# = -1
 	Local c# = -(l2y - l1y) / (l2x - l1x) * l1x + l1y
 	
-	;YmpyrÃ¤n keskipisteen etÃ¤isyys suorasta
+	;Ympyr?¤n keskipisteen et?¤isyys suorasta
 	Local d# = Abs(a * cx + b * cy + c) / Sqr(a * a + b * b)
 	
-	;YmpyrÃ¤ on liian kaukana
+	;Ympyr?¤ on liian kaukana
 	;-> ei leikkausta
 	If d > r Then Return False
 	
 	;Local kateetin_pituus# = Cos(angle) * hyp
 	
-	;Jos pÃ¤Ã¤stÃ¤Ã¤n tÃ¤nne saakka, ympyrÃ¤ ja jana leikkaavat (tai ovat sisÃ¤kkÃ¤in)
+	;Jos p?¤?¤st?¤?¤n t?¤nne saakka, ympyr?¤ ja jana leikkaavat (tai ovat sis?¤kk?¤in)
 	Return True
 End Function
 
