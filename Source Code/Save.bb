@@ -12,6 +12,7 @@ Function SaveGame(file$)
 	
 	Local x%, y%, i%, temp%
 	Local n.NPCs, r.Rooms, do.Doors
+	Local o.Objects = First Objects
 	
 	CreateDir(file)
 	
@@ -493,6 +494,10 @@ Function LoadGame(file$)
 	z = ReadFloat(f)	
 	PositionEntity(Collider, x, y+0.05, z)
 	ResetEntity(Collider)
+	
+	;MOD
+	HideEntity BloodOverlay
+	;End
 	
 	x = ReadFloat(f)
 	y = ReadFloat(f)
@@ -1311,11 +1316,17 @@ Function LoadGameQuick(file$)
 	
 	GodMode = 0
 	NoClip = 0
+	;MOD
+	Cheats = 0
+	;END
 	
 	PlayTime = ReadInt(f)
 	
 	;HideEntity Head
 	HideEntity Collider
+	;MOD
+	HideEntity BloodOverlay
+	;END
 	
 	x = ReadFloat(f)
 	y = ReadFloat(f)

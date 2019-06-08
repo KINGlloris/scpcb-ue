@@ -13,8 +13,6 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	Local meshes=CreatePivot(world)
 	Local renderbrushes=CreateMesh(world)
 	Local collisionbrushes=CreatePivot(world)
-	;Local pointentities=CreatePivot(world)
-	;Local solidentities=CreatePivot(world)
 	EntityType collisionbrushes,HIT_MAP
 	
 	For c=1 To CountChildren(map)
@@ -1961,8 +1959,9 @@ Function FillRoom(r.Rooms)
 	Local d.Doors, d2.Doors, sc.SecurityCams, de.Decals, r2.Rooms, sc2.SecurityCams
 	Local it.Items, i%
 	Local xtemp%, ytemp%, ztemp%
+	Local o.Objects = First Objects
 	
-	Local t1;, Bump	
+	Local t1
 	
 	Select r\RoomTemplate\Name
 		Case "room860"
@@ -1986,17 +1985,6 @@ Function FillRoom(r.Rooms)
 			ScaleEntity r\Objects[4],46.0*RoomScale,45.0*RoomScale,46.0*RoomScale,True
 			EntityParent r\Objects[4],r\obj
 			
-;			;DrawPortal stuff
-;			Local dp.DrawPortal = CreateDrawPortal(r\x + 184.0 * RoomScale,164.25*RoomScale,r\z,0.0,0.0,0.0,328.5*RoomScale,328.5*RoomScale);,r\x,r\y+5.2,r\z,0.0,0.0,0.0)
-;			r\dp=dp
-;			EntityParent dp\portal,r\obj
-;			
-;			CameraClsColor dp\cam,98,133,162
-;			CameraRange dp\cam,RoomScale,8.0
-;			CameraFogRange dp\cam,0.5,8.0
-;			CameraFogColor dp\cam,98,133,162
-;			CameraFogMode dp\cam,1
-			
 			;doors to observation booth
 			d = CreateDoor(r\zone, r\x + 928.0 * RoomScale,0,r\z + 640.0 * RoomScale,0,r,False,False,False,"ABCD")
 			d = CreateDoor(r\zone, r\x + 928.0 * RoomScale,0,r\z - 640.0 * RoomScale,0,r,True,False,False,"ABCD")
@@ -2013,32 +2001,6 @@ Function FillRoom(r.Rooms)
 				GenForestGrid(fr)
 				PlaceForest(fr,r\x,r\y+30.0,r\z,r)
 			EndIf
-			;EntityParent fr\Forest_Pivot,r\obj
-			
-;			PositionEntity dp\cam,EntityX(fr\Door[0],True),r\y+31.0,EntityZ(fr\Door[0],True),True
-;			dp\camyaw=EntityYaw(fr\Door[0],True)
-;			RotateEntity dp\cam, 0, dp\camyaw, 0, True
-;			MoveEntity dp\cam, 0,0,0.5
-;			
-;			;place the camera at the door
-;			For xtemp=0 To -1;gridsize-1
-;				If fr\grid[xtemp+((gridsize-1)*gridsize)]=3 Then
-;					PositionEntity dp\cam,r\x+(xtemp*8.0),r\y+30.5,r\z+((gridsize-2)*8.0)+0.2,True
-;					;make the camera point the right way
-;					ytemp=CreatePivot(r\obj)
-;					ztemp=CreatePivot()
-;					PositionEntity ytemp,EntityX(dp\cam,True),EntityY(dp\cam,True),EntityZ(dp\cam,True),True
-;					PositionEntity ztemp,EntityX(dp\cam,True),EntityY(dp\cam,True),EntityZ(dp\cam,True),True
-;					TranslateEntity ztemp,0.0,0.0,-10.0,True
-;					PointEntity ytemp,ztemp
-;					dp\campitch=EntityPitch(ytemp)
-;					dp\camyaw=EntityYaw(ytemp)
-;					r\Objects[4]=ytemp : ytemp = 0
-;					FreeEntity ztemp : ztemp = 0
-;				EndIf
-;			Next
-;			
-;			EntityParent dp\cam,fr\Forest_Pivot
 			
 			it = CreateItem("Document SCP-860-1", "paper", r\x + 672.0 * RoomScale, r\y + 176.0 * RoomScale, r\z + 335.0 * RoomScale)
 			RotateEntity it\collider, 0, r\angle+10, 0
@@ -2114,11 +2076,6 @@ Function FillRoom(r.Rooms)
 			em\Achange = -0.006
 			em\Gravity = -0.24
 			
-			;This needs more work
-			;dem.DevilEmitters = CreateDevilEmitter(r\x-175.0*RoomScale,r\y+370.0*RoomScale,r\z+656.0*RoomScale,r,2)
-			;dem\isDeconGas = True
-			;dem.DevilEmitters = CreateDevilEmitter(r\x-655.0*RoomScale,r\y+370.0*RoomScale,r\z+240.0*RoomScale,r,2)
-			;dem\isDeconGas = True
 			;[End Block]
 		Case "lockroom2"
 			;[Block]
@@ -2233,7 +2190,6 @@ Function FillRoom(r.Rooms)
 			r\Objects[9]=CreatePivot()
 			PositionEntity(r\Objects[9], r\x+2624.0*RoomScale, r\y+992.0*RoomScale, r\z+6157.0*RoomScale, True)
 			EntityParent r\Objects[9], r\obj	
-			;objects[10] = valopyssyn yl???osa
 			
 			;tunnelin loppu
 			r\Objects[11]=CreatePivot()
@@ -2244,13 +2200,11 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\Objects[13], r\x-4308.0*RoomScale, r\y-1045.0*RoomScale, r\z+544.0*RoomScale, True)
 			EntityColor r\Objects[13], 25,25,25
 			EntityType r\Objects[13],HIT_MAP
-			;EntityFX(r\Objects[13],1)
 			
 			r\Objects[14]=LoadMesh_Strict("GFX\map\gateawall2.b3d",r\obj)
 			PositionEntity(r\Objects[14], r\x-3820.0*RoomScale, r\y-1045.0*RoomScale, r\z+544.0*RoomScale, True)	
 			EntityColor r\Objects[14], 25,25,25
 			EntityType r\Objects[14],HIT_MAP
-			;EntityFX(r\Objects[14],1)
 			
 			r\Objects[15]=CreatePivot(r\obj)
 			PositionEntity(r\Objects[15], r\x-3568.0*RoomScale, r\y-1089.0*RoomScale, r\z+4944.0*RoomScale, True)
@@ -2371,7 +2325,6 @@ Function FillRoom(r.Rooms)
 			
 			;MTF:n spawnpoint
 			r\Objects[18] = CreatePivot()
-			;PositionEntity(r\Objects[18], r\x+3727.0*RoomScale, 10066.0*RoomScale, r\z+6623.0*RoomScale, True)
 			PositionEntity(r\Objects[18], r\x+3250.0*RoomScale, 9896.0*RoomScale, r\z+6623.0*RoomScale, True)
 			EntityParent r\Objects[18], r\obj
 			
@@ -2406,9 +2359,7 @@ Function FillRoom(r.Rooms)
 			d = CreateDoor(r\zone, r\x, -448.0*RoomScale, r\z + 1136.0 * RoomScale, 0, r, False,True, 4)
 			d\dir = 1 : d\AutoClose = False : d\open = False
 			PositionEntity(d\buttons[1], r\x + 224.0 * RoomScale, -250*RoomScale, r\z + 918.0 * RoomScale, True)
-			;TurnEntity(d\buttons[0],0,-90,0,True)
 			PositionEntity(d\buttons[0], r\x - 240.0 * RoomScale, -250*RoomScale, r\z + 1366.0 * RoomScale, True)
-			;TurnEntity(d\buttons[1],0, 90,0,True)	
 			
 			r\RoomDoors[0] = CreateDoor(r\zone, r\x + 1456.0*RoomScale, -448.0*RoomScale, r\z + 976.0 * RoomScale, 0, r, False, True, 3)
 			r\RoomDoors[0]\dir = 1 : r\RoomDoors[0]\AutoClose = False : r\RoomDoors[0]\open = False
@@ -2450,8 +2401,6 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\RoomDoors[0]\buttons[1], r\x - 152.0 * RoomScale, EntityY(r\RoomDoors[0]\buttons[1],True), r\z + 96.0 * RoomScale, True)
 			
 			r\RoomDoors[1] = CreateDoor(0, r\x - 352.0*RoomScale, 0, r\z - 128.0 * RoomScale, 0, r, False, False, 3)
-			;FreeEntity r\RoomDoors[1]\buttons[0]
-			;FreeEntity r\RoomDoors[1]\buttons[1]
 			
 			r\RoomDoors[1]\LinkedDoor = r\RoomDoors[0]
 			r\RoomDoors[0]\LinkedDoor = r\RoomDoors[1]
@@ -2480,7 +2429,7 @@ Function FillRoom(r.Rooms)
 			EntityFX r\Objects[3],1
 			
 			If MapTemp(Floor(r\x / 8.0),Floor(r\z /8.0)-1)=0 Then
-				CreateDoor(r\zone, r\x, 0, r\z  - 4.0, 0, r, 0, False, 0, "GEAR")
+				CreateDoor(r\zone, r\x, 0, r\z  - 4.0, 0, r, 0, False, 0, "ABCD")
 			EndIf
 			;[End Block]
 		Case "checkpoint2"
@@ -2490,8 +2439,6 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\RoomDoors[0]\buttons[1], r\x + 152.0 * RoomScale, EntityY(r\RoomDoors[0]\buttons[1],True), r\z + 352.0 * RoomScale, True)
 			
 			r\RoomDoors[1] = CreateDoor(0, r\x + 352.0*RoomScale, 0, r\z + 128.0 * RoomScale, 0, r, False, False, 5)
-			;FreeEntity r\RoomDoors[1]\buttons[0]
-			;FreeEntity r\RoomDoors[1]\buttons[1]
 			
 			r\RoomDoors[1]\LinkedDoor = r\RoomDoors[0]
 			r\RoomDoors[0]\LinkedDoor = r\RoomDoors[1]
@@ -2515,7 +2462,7 @@ Function FillRoom(r.Rooms)
 			r\RoomDoors[1]\timer = 70 * 5
 			
 			If MapTemp(Floor(r\x / 8.0),Floor(r\z /8.0)-1)=0 Then
-				CreateDoor(r\zone, r\x, 0, r\z  - 4.0, 0, r, 0, False, 0, "GEAR")
+				CreateDoor(r\zone, r\x, 0, r\z  - 4.0, 0, r, 0, False, 0, "ABCD")
 			EndIf
 			;[End Block]
 		Case "room2pit"
@@ -2576,11 +2523,6 @@ Function FillRoom(r.Rooms)
 			d = CreateDoor(r\zone, r\x - 512.0 * RoomScale, 0.0, r\z + 384.0 * RoomScale, 0, r, False, False)
 			d\AutoClose = False : d\open = False					
 			
-			;d = CreateDoor(r\zone, r\x - 816.0 * RoomScale, 0.0, r\z - 208.0 * RoomScale, 0, r, False, False)
-			;d\AutoClose = False : d\open = False
-			;FreeEntity(d\buttons[0]) : d\buttons[0]=0
-			;FreeEntity(d\buttons[1]) : d\buttons[1]=0
-			
 			it = CreateItem("Level 2 Key Card", "key2", r\x - 914.0 * RoomScale, r\y + 137.0 * RoomScale, r\z + 61.0 * RoomScale)
 			EntityParent(it\collider, r\obj)
 			
@@ -2601,7 +2543,6 @@ Function FillRoom(r.Rooms)
 			EntityParent(r\Objects[0], r\obj)
 			
 			r\Objects[1] = CreatePivot()
-			;PositionEntity(r\Objects[1], r\x + 1270.0*RoomScale, 0.5, r\z+570.0*RoomScale)
 			PositionEntity(r\Objects[1], r\x + 1530.0*RoomScale, 0.5, r\z+512.0*RoomScale)
 			EntityParent(r\Objects[1], r\obj)
 			
@@ -3558,10 +3499,8 @@ Function FillRoom(r.Rooms)
 					
 					EntityParent(r\Objects[n * 2 + i], r\obj)
 				Next
-				;RotateEntity(r\Objects[n * 2], 0, -90, 0)
 				RotateEntity(r\Objects[n*2+1], 81, -180, 0)
 				
-				;EntityPickMode(r\Objects[n * 2 + 1], 2)
 				EntityPickMode r\Objects[n * 2 + 1], 1, False
 				EntityRadius r\Objects[n * 2 + 1], 0.1
 				;makecollbox(r\Objects[n * 2 + 1])
@@ -3571,8 +3510,6 @@ Function FillRoom(r.Rooms)
 			RotateEntity(r\Objects[4+1], -81, -180, 0)
 			
 			;096 spawnpoint
-;			r\Objects[6]=CreatePivot(r\obj)
-;			PositionEntity(r\Objects[6], r\x - 848*RoomScale, 0.5, r\z-576*RoomScale, True)
 			r\Objects[6]=CreatePivot(r\obj)
 			PositionEntity(r\Objects[6],r\x-320*RoomScale,0.5,r\z,True)
 			;guard spawnpoint
@@ -3608,7 +3545,7 @@ Function FillRoom(r.Rooms)
 			r\Objects[2] = CreatePivot(r\obj)
 			PositionEntity(r\Objects[2], r\x + 736.0 * RoomScale, -512.0 * RoomScale, r\z + 272.0 * RoomScale, True)
 			
-			r\Objects[3] = LoadMesh_Strict("GFX\npcs\duck_low_res.b3d")
+			r\Objects[3] = CopyEntity(o\NPCModelID[25])
 			ScaleEntity(r\Objects[3], 0.07, 0.07, 0.07)
 			tex = LoadTexture_Strict("GFX\npcs\duck2.png")
 			EntityTexture r\Objects[3], tex
@@ -3737,7 +3674,7 @@ Function FillRoom(r.Rooms)
 			it = CreateItem("S-NAV 300 Navigator", "nav", r\x - 336.0 * RoomScale, r\y - 48.0 * RoomScale, r\z - 480.0 * RoomScale)
 			it\state = 28 : EntityParent(it\collider, r\obj)		
 			
-			r\Objects[0] = LoadMesh_Strict("GFX\npcs\duck_low_res.b3d")
+			r\Objects[0] = CopyEntity(o\NPCModelID[25])
 			ScaleEntity(r\Objects[0], 0.07, 0.07, 0.07)
 			
 			EntityParent(r\Objects[0], r\obj)
@@ -4423,35 +4360,6 @@ Function FillRoom(r.Rooms)
 			EntityPickMode r\Objects[6], 3
 			PositionEntity(r\Objects[6],r\x+784.0*RoomScale,-980.0*RoomScale,r\z+720.0*RoomScale,True)
 			
-			;If BumpEnabled Then 
-			;	
-			;	For i = 1 To CountSurfaces(r\Objects[6])
-			;		sf = GetSurface(r\Objects[6],i)
-			;		b = GetSurfaceBrush( sf )
-			;		t = GetBrushTexture(b,1)
-			;		texname$ =  StripPath(TextureName(t))
-			;		
-			;		mat.Materials=GetCache(texname)
-			;		If mat<>Null Then
-			;			If mat\Bump<>0 Then
-			;				t1 = GetBrushTexture(b,0)
-			;				
-			;				BrushTexture b, t1, 0, 0	
-			;				BrushTexture b, mat\Bump, 0, 1
-			;				BrushTexture b, t, 0, 2					
-			;				
-			;				PaintSurface sf,b
-			;				
-			;				If t1<>0 Then FreeTexture t1 : t1=0
-			;			EndIf
-			;		EndIf
-			;		
-			;		If t<>0 Then FreeTexture t : t=0
-			;		If b<>0 Then FreeBrush b : b=0
-			;	Next
-			;	
-			;EndIf
-			
 			EntityParent(r\Objects[6], r\obj)
 			
 			For n = 0 To 2 Step 2
@@ -4469,11 +4377,9 @@ Function FillRoom(r.Rooms)
 				RotateEntity(r\Objects[n], 0, 0, 0)
 				RotateEntity(r\Objects[n+1], 10, -180, 0)
 				
-				;EntityPickMode(r\Objects[n * 2 + 1], 2)
 				EntityPickMode r\Objects[n+1], 1, False
 				EntityRadius r\Objects[n+1], 0.1
-				;makecollbox(r\Objects[n * 2 + 1])
-			Next
+		    Next
 			
 			RotateEntity(r\Objects[1], 81,-180,0)
 			RotateEntity(r\Objects[3], -81,-180,0)			
@@ -4495,12 +4401,10 @@ Function FillRoom(r.Rooms)
 			EntityParent sc\ScrObj, r\obj
 			sc\CoffinEffect=0
 			
-			;r\NPC[0] = CreateNPC(NPCtypeD, r\x + 1088.0 * RoomScale, 1096.0 * RoomScale, r\z + 1728.0 * RoomScale)
 			r\Objects[5] = CreatePivot()
 			TurnEntity r\Objects[5], 0,180,0
 			PositionEntity (r\Objects[5], r\x + 1088.0 * RoomScale, 1104.0 * RoomScale, r\z + 1888.0 * RoomScale) 
 			EntityParent r\Objects[5], r\obj
-			;HideEntity r\NPC[0]\obj
 			
 			r\Objects[9] = CreatePivot(r\obj)
 			PositionEntity (r\Objects[9], r\x - 272 * RoomScale, r\y - 672.0 * RoomScale, r\z + 2736.0 * RoomScale, True)
@@ -4614,7 +4518,6 @@ Function FillRoom(r.Rooms)
 			PositionEntity(d\buttons[0], EntityX(d\buttons[0],True), EntityY(d\buttons[0],True), EntityZ(d\buttons[0],True), True)
 			FreeEntity d\buttons[1] : d\buttons[1]=0
 			r\RoomDoors[0] = d
-			;PositionEntity(d\buttons[1], EntityX(d\buttons[1],True), EntityY(d\buttons[1],True), EntityZ(d\buttons[1],True), True)		
 			
 			r\Objects[3] = CreatePivot(r\obj)
 			PositionEntity(r\Objects[3], r\x + 832.0 * RoomScale, r\y + 166.0 * RoomScale, r\z + 784.0 * RoomScale, True)
@@ -4684,7 +4587,6 @@ Function FillRoom(r.Rooms)
 			
 			terrain = LoadMesh_Strict("GFX\map\pocketdimensionterrain.b3d")
 			ScaleEntity terrain,RoomScale,RoomScale,RoomScale,True
-			;RotateEntity terrain,0,e\room\angle,0,True
 			PositionEntity terrain, 0, 2944, 0, True
 			
 			
@@ -4706,40 +4608,11 @@ Function FillRoom(r.Rooms)
 						entity = r\Objects[11]							
 				End Select 
 				
-				;If BumpEnabled Then 
-				;	
-				;	For i = 1 To CountSurfaces(entity)
-				;		sf = GetSurface(entity,i)
-				;		b = GetSurfaceBrush( sf )
-				;		t = GetBrushTexture(b,1)
-				;		texname$ =  StripPath(TextureName(t))
-				;		mat.Materials=GetCache(texname)
-				;		If mat<>Null Then
-				;			If mat\Bump<>0 Then
-				;				t1 = GetBrushTexture(b,0)
-				;				
-				;				BrushTexture b, t1, 0, 0	
-				;				BrushTexture b, mat\Bump, 0, 1
-				;				BrushTexture b, t, 0, 2					
-				;				
-				;				PaintSurface sf,b
-				;				
-				;				If t1<>0 Then FreeTexture t1 : t1=0
-				;			EndIf
-				;		EndIf
-				;		
-				;		If t<>0 Then FreeTexture t : t=0
-				;		If b<>0 Then FreeBrush b : b=0
-				;	Next
-				;	
-				;EndIf
-				
 			Next
 			
 			For i = 8 To 11
 				ScaleEntity (r\Objects[i],RoomScale,RoomScale,RoomScale)
 				EntityType r\Objects[i], HIT_MAP
-				;EntityPickMode r\Objects[i], 3
 				EntityPickMode r\Objects[i], 2
 				PositionEntity(r\Objects[i],r\x,r\y,r\z+32.0,True)
 			Next
@@ -4805,7 +4678,7 @@ Function FillRoom(r.Rooms)
 				
 			Next
 			
-			Local OldManEyes% = LoadTexture_Strict("GFX\npcs\oldmaneyes.jpg")
+			Local OldManEyes% = LoadTexture_Strict("GFX\npcs\scp106_eyes.png")
 			r\Objects[17] = CreateSprite()
 			ScaleSprite(r\Objects[17], 0.03, 0.03)
 			EntityTexture(r\Objects[17], OldManEyes)
@@ -4813,8 +4686,8 @@ Function FillRoom(r.Rooms)
 			EntityFX(r\Objects[17], 1 + 8)
 			SpriteViewMode(r\Objects[17], 2)
 			
-			r\Objects[18] = LoadTexture_Strict("GFX\npcs\pdplane.png", 1+2)
-			r\Objects[19] = LoadTexture_Strict("GFX\npcs\pdplaneeye.png", 1+2)		
+			r\Objects[18] = LoadTexture_Strict("GFX\npcs\pd_plane.png", 1+2)
+			r\Objects[19] = LoadTexture_Strict("GFX\npcs\pd_plane_eye.png", 1+2)		
 			
 			r\Objects[20] = CreateSprite()
 			ScaleSprite(r\Objects[20], 8.0, 8.0)
@@ -5316,6 +5189,24 @@ Function FillRoom(r.Rooms)
 			PositionEntity r\Levers[0],r\x+205.0*RoomScale,r\y+200.0*RoomScale,r\z+2287.0*RoomScale
 			EntityParent r\Levers[0],r\obj
 			;[End Block]
+		;MOD
+		Case "room4info" ;(Upgraded by Ultimate Edition Mod)
+			;[Block]
+			r\Objects[0] = CreatePivot()
+			PositionEntity r\Objects[0], r\x + 600.0 * RoomScale ,r\y + 178.0 * RoomScale, r\z - 810.0 * RoomScale
+			EntityParent r\Objects[0], r\obj
+			
+			it = CreateItem("Radio Transceiver", "fineradio", r\x + 650.0 * RoomScale, r\y + 178.0 * RoomScale, r\z - 760.0 * RoomScale)
+			EntityParent(it\collider, r\obj)			
+			
+			r\Objects[1] = CopyEntity(Monitor2, r\obj)
+			ScaleEntity(r\Objects[1], 2.0, 2.0, 2.0)
+			PositionEntity (r\Objects[1], r\x - 700.0 * RoomScale, 384.0 * RoomScale, r\z + 290.0 * RoomScale, True)
+			RotateEntity (r\Objects[1], 0, 360, 0)
+			EntityFX r\Objects[1], 1
+			
+			;[End Block]
+		;END
 	End Select
 	
 	For lt.lighttemplates = Each LightTemplates
@@ -6181,6 +6072,8 @@ End Function
 Function UpdateSecurityCams()
 	CatchErrors("Uncaught (UpdateSecurityCams)")
 	Local sc.SecurityCams
+	Local RedTexture% = LoadTexture_Strict("GFX\map\CameraTexture2.png")
+	Local JustTexture% = LoadTexture_Strict("GFX\map\CameraTexture1.png")
 	
 	;coffineffect = 0, not affected by 895
 	;coffineffect = 1, constantly affected by 895
@@ -6233,6 +6126,14 @@ Function UpdateSecurityCams()
 					End If
 					RotateEntity(sc\obj, 0, sc\room\angle + sc\angle + Max(Min(sc\CurrAngle, sc\turn), -sc\turn), 0)
 					
+					If EntityInView(sc\CameraObj, Camera) And EntityVisible(sc\CameraObj, Camera) Then
+					    If (MilliSecs2() Mod 1500) < 1100 Then
+                            EntityTexture sc\CameraObj, RedTexture
+	                    Else
+		                    EntityTexture sc\CameraObj, JustTexture
+	                    EndIf
+	                EndIf
+					
 					PositionEntity(sc\CameraObj, EntityX(sc\obj, True), EntityY(sc\obj, True) - 0.083, EntityZ(sc\obj, True))
 					RotateEntity(sc\CameraObj, EntityPitch(sc\CameraObj), EntityYaw(sc\obj), 0)
 					
@@ -6275,7 +6176,7 @@ Function UpdateSecurityCams()
 						DeathMSG = DeathMSG + "Further testing is needed to determine whether SCP-895's "+Chr(34)+"Red Zone"+Chr(34)+" is increasing."+Chr(34)
 						
 						If VomitTimer < -10 Then
-							Kill()
+							Kill(False)
 						EndIf
 					EndIf
 					
@@ -8555,6 +8456,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#D1#E0#1384#13A5
-;~B#11A1
+;~F#CF#DE#1305#1326
+;~B#1141
 ;~C#Blitz3D

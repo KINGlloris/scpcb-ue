@@ -67,6 +67,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 	Local n.NPCs = New NPCs, n2.NPCs
 	Local temp#, i%, diff1, bump1, spec1
 	Local sf, b, t1
+	Local o.Objects = First Objects
 	
 	n\NPCtype = NPCtype
 	n\GravityMult = 1.0
@@ -74,35 +75,127 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 	n\CollRadius = 0.2
 	n\FallingPickDistance = 10
 	Select NPCtype
-		Case NPCtype173
+		Case NPCtype0081
 			;[Block]
-			n\NVName = "SCP-173"
+			n\NVName = "SCP-008-1"
 			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.23, 0.32
+			EntityRadius n\Collider, 0.2
 			EntityType n\Collider, HIT_PLAYER
-			n\Gravity = True
 			
-			n\obj = LoadMesh_Strict("GFX\npcs\173_2.b3d")
+			n\obj = CopyEntity(o\NPCModelID[0])
 			
-			;On Halloween set jack-o-latern texture.
-			If (Left(CurrentDate(), 7) = "31 Oct ") Then
-				HalloweenTex = True
-				Local texFestive = LoadTexture_Strict("GFX\npcs\173h.pt", 1)
-				EntityTexture n\obj, texFestive, 0, 0
-				FreeTexture texFestive
+			temp# = 0.5 / MeshWidth(n\obj)
+			ScaleEntity n\obj, temp, temp, temp
+			
+			n\Speed = 2.0 / 100
+			
+			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj)*2, MeshHeight(n\obj)*2, MeshDepth(n\obj)*2)
+			
+			SetNPCFrame n,11
+			
+			n\Sound = LoadSound_Strict("SFX\SCP\008_1\Breath.ogg")
+			
+			n\HP = 120
+			;[End Block]
+			
+		Case NPCtype035Tentacle
+			;[Block]
+			n\NVName = "Unidentified"
+			
+			n\Collider = CreatePivot()
+			
+			For n2.NPCs = Each NPCs
+				If n\NPCtype = n2\NPCtype And n<>n2 Then
+					n\obj = CopyEntity (n2\obj)
+					Exit
+				EndIf
+			Next
+			
+			If n\obj = 0 Then 
+				n\obj = CopyEntity(o\NPCModelID[1])
+				ScaleEntity n\obj, 0.065,0.065,0.065
 			EndIf
 			
-			temp# = (GetINIFloat("DATA\NPCs.ini", "SCP-173", "scale") / MeshDepth(n\obj))			
-			ScaleEntity n\obj, temp,temp,temp
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-173", "speed") / 100.0)
-			
-			n\obj2 = LoadMesh_Strict("GFX\173box.b3d")
-			ScaleEntity n\obj2, RoomScale, RoomScale, RoomScale
-			HideEntity n\obj2
-			
-			n\CollRadius = 0.32
+			SetAnimTime n\obj, 283
 			;[End Block]
+			
+		Case NPCtype049
+			;[Block]
+			n\NVName = "SCP-049"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			EntityType n\Collider, HIT_PLAYER
+			n\obj = CopyEntity(o\NPCModelID[2])
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-049", "speed") / 100.0)
+			
+			temp# = GetINIFloat("Data\NPCs.ini", "SCP-049", "scale")
+			ScaleEntity n\obj, temp, temp, temp	
+			
+			n\Sound = LoadSound_Strict("SFX\Horror\Horror12.ogg")
+			
+			If HorrorSFX(13) = 0 Then HorrorSFX(13) = LoadSound_Strict("SFX\Horror\Horror13.ogg")
+			
+			n\CanUseElevator = True
+			;[End Block]
+			
+		Case NPCtype0492
+			;[Block]
+			n\NVName = "SCP-049-2"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			EntityType n\Collider, HIT_PLAYER
+			
+			If n\obj = 0 Then 
+				n\obj = CopyEntity(o\NPCModelID[3])
+				
+				temp# = (GetINIFloat("Data\NPCs.ini", "SCP-049-2", "scale") / 2.5)
+				ScaleEntity n\obj, temp, temp, temp
+				
+				MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj)*2, MeshHeight(n\obj)*2, MeshDepth(n\obj)*2)
+			EndIf
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-049-2", "speed") / 100.0)
+			
+			SetAnimTime(n\obj, 107)
+			
+			n\Sound = LoadSound_Strict("SFX\SCP\049_2\Breath.ogg")
+			
+			n\HP = 100
+			;[End Block]
+			
+		Case NPCtype066
+			;[Block]
+			n\NVName = "SCP-066"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			EntityType n\Collider, HIT_PLAYER
+			
+			n\obj = CopyEntity(o\NPCModelID[4])
+			temp# = GetINIFloat("Data\NPCs.ini", "SCP-066", "scale") / 2.5
+			ScaleEntity n\obj, temp, temp, temp		
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-066", "speed") / 100.0)
+			;[End Block]
+			
+		Case NPCtype096
+			;[Block]
+			n\NVName = "SCP-096"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.26
+			EntityType n\Collider, HIT_PLAYER
+			n\obj = CopyEntity(o\NPCModelID[5])
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-096", "speed") / 100.0)
+			
+			temp# = (GetINIFloat("Data\NPCs.ini", "SCP-096", "scale") / 3.0)
+			ScaleEntity n\obj, temp, temp, temp	
+			
+			MeshCullBox (n\obj, -MeshWidth(n\obj) * 2, -MeshHeight(n\obj) * 2, -MeshDepth(n\obj) * 2, MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 4, MeshDepth(n\obj) * 4)
+			
+			n\CollRadius = 0.26
+			;[End Block]
+			
 		Case NPCtype106
 			;[Block]
 			n\NVName = "SCP-106"
@@ -111,14 +204,14 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			n\MaxGravity = 0.0
 			EntityRadius n\Collider, 0.2
 			EntityType n\Collider, HIT_PLAYER
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\106_2.b3d")
+			n\obj = CopyEntity(o\NPCModelID[6])
 			
-			temp# = (GetINIFloat("DATA\NPCs.ini", "SCP-106", "scale") / 2.2)		
+			temp# = (GetINIFloat("Data\NPCs.ini", "SCP-106", "scale") / 2.2)		
 			ScaleEntity n\obj, temp, temp, temp
 			
-			Local OldManEyes% = LoadTexture_Strict("GFX\npcs\oldmaneyes.jpg")
+			Local OldManEyes% = LoadTexture_Strict("GFX\npcs\scp106_eyes.png")
 			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-106", "speed") / 100.0)
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-106", "speed") / 100.0)
 			
 			n\obj2 = CreateSprite()
 			ScaleSprite(n\obj2, 0.03, 0.03)
@@ -129,39 +222,309 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 			
 			FreeTexture OldManEyes%
 			;[End Block]
+			
+		Case NPCtype173
+			;[Block]
+			n\NVName = "SCP-173"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.23, 0.32
+			EntityType n\Collider, HIT_PLAYER
+			n\Gravity = True
+			
+			n\obj = CopyEntity(o\NPCModelID[7])
+			
+			;On Halloween set jack-o-latern texture.
+			If (Left(CurrentDate(), 7) = "31 Oct ") Then
+				HalloweenTex = True
+				Local texFestive = LoadTexture_Strict("GFX\npcs\scp173_h.pt", 1)
+				EntityTexture n\obj, texFestive, 0, 0
+				FreeTexture texFestive
+			EndIf
+			
+			temp# = (GetINIFloat("Data\NPCs.ini", "SCP-173", "scale") / MeshDepth(n\obj))			
+			ScaleEntity n\obj, temp,temp,temp
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-173", "speed") / 100.0)
+			
+			n\obj2 = CopyEntity(o\NPCModelID[8])
+			ScaleEntity n\obj2, RoomScale, RoomScale, RoomScale
+			HideEntity n\obj2
+			
+			n\CollRadius = 0.32
+			;[End Block]
+			
+		Case NPCtype372
+			;[Block]
+			n\NVName = "SCP-372"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			n\obj = CopyEntity(o\NPCModelID[9])
+			
+			temp# = 0.35 / MeshWidth(n\obj)
+			ScaleEntity n\obj, temp, temp, temp
+			;[End Block]
+			
+		Case NPCtype5131
+			;[Block]
+			n\NVName = "SCP-513-1"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			n\obj = CopyEntity(o\NPCModelID[10])
+			
+			n\obj2 = CopyEntity (n\obj)
+			EntityAlpha n\obj2, 0.6
+			
+			temp# = 1.8 / MeshWidth(n\obj)
+			ScaleEntity n\obj, temp, temp, temp
+			ScaleEntity n\obj2, temp, temp, temp
+			;[End Block]
+			
+		Case NPCtype8602
+			;[Block]
+			n\NVName = "Unidentified"
+			
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.25
+			EntityType n\Collider, HIT_PLAYER
+			n\obj = CopyEntity(o\NPCModelID[20])
+			
+			EntityFX(n\obj, 1)
+			
+			tex = LoadTexture_Strict("GFX\npcs\scp860_2_eyes.png", 1 + 2)
+			
+			n\obj2 = CreateSprite()
+			ScaleSprite(n\obj2, 0.1, 0.1)
+			EntityTexture(n\obj2, tex)
+			FreeTexture tex
+			
+			EntityFX(n\obj2, 1 + 8)
+			EntityBlend(n\obj2, BLEND_ADD)
+			SpriteViewMode(n\obj2, 2)
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-860-2", "speed") / 100.0)
+			
+			temp# = (GetINIFloat("Data\NPCs.ini", "SCP-860-2", "scale") / 20.0)
+			ScaleEntity n\obj, temp, temp, temp	
+			
+			MeshCullBox (n\obj, -MeshWidth(n\obj) * 2, -MeshHeight(n\obj) * 2, -MeshDepth(n\obj) * 2, MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 4, MeshDepth(n\obj) * 4)
+			
+			n\CollRadius = 0.25
+			;[End Block]
+			
+		Case NPCtype939
+			;[Block]
+			Local amount939% = 0
+			For n2.NPCs = Each NPCs
+				If (n\NPCtype = n2\NPCtype) And (n<>n2)
+					amount939% = amount939% + 1
+				EndIf
+			Next
+			If amount939% = 0 Then i = 53
+			If amount939% = 1 Then i = 89
+			If amount939% = 2 Then i = 96
+			n\NVName = "SCP-939-"+i
+			
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.3
+			EntityType n\Collider, HIT_PLAYER
+			For n2.NPCs = Each NPCs
+				If n\NPCtype = n2\NPCtype And n<>n2 Then
+					n\obj = CopyEntity (n2\obj)
+					Exit
+				EndIf
+			Next
+			
+			If n\obj = 0 Then 
+				n\obj = CopyEntity(o\NPCModelID[11])
+				
+				temp# = GetINIFloat("Data\NPCs.ini", "SCP-939", "scale")/2.5
+				ScaleEntity n\obj, temp, temp, temp		
+			EndIf
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-939", "speed") / 100.0)
+			
+			n\CollRadius = 0.3
+			;[End Block]
+			
+		Case NPCtype966
+			;[Block]
+			i = 1
+			For n2.NPCs = Each NPCs
+				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then i=i+1
+			Next
+			n\NVName = "SCP-966-"+i
+			
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider,0.2
+			
+			For n2.NPCs = Each NPCs
+				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then
+					n\obj = CopyEntity (n2\obj)
+					Exit
+				EndIf
+			Next
+			
+			If n\obj = 0 Then n\obj = CopyEntity(o\NPCModelID[12])
+				
+			EntityFX n\obj,1
+			
+			temp# = GetINIFloat("Data\NPCs.ini", "SCP-966", "scale")/40.0
+			ScaleEntity n\obj, temp, temp, temp		
+			SetAnimTime n\obj,15.0
+			
+			EntityType n\Collider,HIT_PLAYER
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-966", "speed") / 100.0)
+			;[End Block]
+			
+		Case NPCtype1048a
+			;[Block]
+			n\NVName = "SCP-1048-A"
+			n\obj =	CopyEntity(o\NPCModelID[13])
+			ScaleEntity n\obj, 0.05,0.05,0.05
+			SetAnimTime(n\obj, 2)
+			
+			n\Sound = LoadSound_Strict("SFX\SCP\1048A\Shriek.ogg")
+			n\Sound2 = LoadSound_Strict("SFX\SCP\1048A\Growth.ogg")
+			;[End Block]
+			
+		Case NPCtype1499
+			;[Block]
+			n\NVName = "Unidentified"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			EntityType n\Collider, HIT_PLAYER
+			For n2.NPCs = Each NPCs
+				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then
+					n\obj = CopyEntity (n2\obj)
+					Exit
+				EndIf
+			Next
+			
+			If n\obj = 0 Then n\obj = CopyEntity(o\NPCModelID[14])
+			
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "SCP-1499-1", "speed") / 100.0) * Rnd(0.9,1.1)
+			temp# = (GetINIFloat("Data\NPCs.ini", "SCP-1499-1", "scale") / 4.0) * Rnd(0.8,1.0)
+			
+			ScaleEntity n\obj, temp, temp, temp
+			
+			EntityFX n\obj,1
+			
+			EntityAutoFade n\obj, HideDistance * 2.5, HideDistance*2.95
+			;[End Block]
+			
+		Case NPCtypeApache
+			;[Block]
+			n\NVName = "Apache Helicopter"
+			n\GravityMult = 0.0
+			n\MaxGravity = 0.0
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.2
+			n\obj = CopyEntity(o\NPCModelID[15])
+			
+			n\obj2 = CopyEntity(o\NPCModelID[16])
+			EntityParent n\obj2,n\obj
+			
+			For i = -1 To 1 Step 2
+				Local rotor2 = CopyEntity(n\obj2, n\obj2)
+				RotateEntity rotor2,0,4.0*i,0
+				EntityAlpha rotor2, 0.5
+			Next
+			
+			n\obj3 = CopyEntity(o\NPCModelID[17])
+			EntityParent n\obj3, n\obj
+			PositionEntity n\obj3, 0.0, 2.15, -5.48
+			
+			EntityType n\Collider, HIT_APACHE
+			EntityRadius n\Collider, 3.0
+			
+			For i = -1 To 1 Step 2
+				Local Light1 = CreateLight(2,n\obj)
+				LightRange(Light1,2.0)
+				LightColor(Light1,255,255,255)
+				PositionEntity(Light1, 1.65*i, 1.17, -0.25)
+				
+				Local lightsprite = CreateSprite(n\obj)
+				PositionEntity(lightsprite, 1.65*i, 1.17, 0, -0.25)
+				ScaleSprite(lightsprite, 0.13, 0.13)
+				EntityTexture(lightsprite, LightSpriteTex(0))
+				EntityBlend (lightsprite, 3)
+				EntityFX lightsprite, 1+8				
+			Next
+			
+			temp# = 0.6
+			ScaleEntity n\obj, temp, temp, temp
+			;[End Block]
+			
+		Case NPCtypeClerk
+			;[Block]
+			n\NVName = "Human"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.32
+			EntityType n\Collider, HIT_PLAYER
+			
+			n\obj = CopyEntity(o\NPCModelID[18])
+			
+			temp# = 0.5 / MeshWidth(n\obj)
+			ScaleEntity n\obj, temp, temp, temp
+			
+			n\Speed = 2.0 / 100
+			
+			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 2, MeshDepth(n\obj) * 2)
+			
+			n\CollRadius = 0.32
+			;[End Block]
+			
+		Case NPCtypeD
+			;[Block]
+			n\NVName = "Human"
+			n\Collider = CreatePivot()
+			EntityRadius n\Collider, 0.32
+			EntityType n\Collider, HIT_PLAYER
+			
+			n\obj = CopyEntity(o\NPCModelID[19])
+			
+			temp# = 0.5 / MeshWidth(n\obj)
+			ScaleEntity n\obj, temp, temp, temp
+			
+			n\Speed = 2.0 / 100
+			
+			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 2, MeshDepth(n\obj) * 2)
+			
+			n\CollRadius = 0.32
+			;[End Block]
+			
 		Case NPCtypeGuard
 			;[Block]
 			n\NVName = "Human"
 			n\Collider = CreatePivot()
 			EntityRadius n\Collider, 0.2
-			;EntityRadius Collider, 0.15, 0.30
 			EntityType n\Collider, HIT_PLAYER
-			n\obj = CopyEntity(GuardObj) ;LoadAnimMesh_Strict("GFX\npcs\mtf.b3d")
+			n\obj = CopyEntity(o\NPCModelID[21])
 			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "Guard", "speed") / 100.0)
-			temp# = (GetINIFloat("DATA\NPCs.ini", "Guard", "scale") / 2.5)
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "Guard", "speed") / 100.0)
+			temp# = (GetINIFloat("Data\NPCs.ini", "Guard", "scale") / 2.5)
 			
 			ScaleEntity n\obj, temp, temp, temp
 			
-			MeshCullBox (n\obj, -MeshWidth(GuardObj), -MeshHeight(GuardObj), -MeshDepth(GuardObj), MeshWidth(GuardObj)*2, MeshHeight(GuardObj)*2, MeshDepth(GuardObj)*2)
+			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 2, MeshDepth(n\obj) * 2)
 			;[End Block]
+			
 		Case NPCtypeMTF
 			;[Block]
 			n\NVName = "Human"
 			n\Collider = CreatePivot()
 			EntityRadius n\Collider, 0.2
-			;EntityRadius Collider, 0.15, 0.30
 			EntityType n\Collider, HIT_PLAYER
-			;EntityPickMode n\Collider, 1
-			n\obj = CopyEntity(MTFObj) ;LoadAnimMesh_Strict("GFX\npcs\mtf.b3d")
+			n\obj = CopyEntity(o\NPCModelID[22])
 			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "MTF", "speed") / 100.0)
+			n\Speed = (GetINIFloat("Data\NPCs.ini", "MTF", "speed") / 100.0)
 			
-			temp# = (GetINIFloat("DATA\NPCs.ini", "MTF", "scale") / 2.5)
+			temp# = (GetINIFloat("Data\NPCs.ini", "MTF", "scale") / 2.5)
 			
 			ScaleEntity n\obj, temp, temp, temp
 			
-			MeshCullBox (n\obj, -MeshWidth(MTFObj), -MeshHeight(MTFObj), -MeshDepth(MTFObj), MeshWidth(MTFObj)*2, MeshHeight(MTFObj)*2, MeshDepth(MTFObj)*2) 
+			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj) * 2, MeshHeight(n\obj) * 2, MeshDepth(n\obj) * 2) 
 			
 			If MTFSFX(0)=0 Then
 				MTFSFX(0)=LoadSound_Strict("SFX\Character\MTF\ClassD1.ogg")
@@ -193,378 +556,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 				Next			
 			EndIf
 			;[End Block]
-		Case NPCtypeD
-			;[Block]
-			n\NVName = "Human"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.32
-			EntityType n\Collider, HIT_PLAYER
 			
-			n\obj = CopyEntity(ClassDObj)
-			
-			temp# = 0.5 / MeshWidth(n\obj)
-			ScaleEntity n\obj, temp, temp, temp
-			
-			n\Speed = 2.0 / 100
-			
-			MeshCullBox (n\obj, -MeshWidth(ClassDObj), -MeshHeight(ClassDObj), -MeshDepth(ClassDObj), MeshWidth(ClassDObj)*2, MeshHeight(ClassDObj)*2, MeshDepth(ClassDObj)*2)
-			
-			n\CollRadius = 0.32
-			;[End Block]
-		Case NPCtype372
-			;[Block]
-			n\NVName = "SCP-372"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\372.b3d")
-			
-			temp# = 0.35 / MeshWidth(n\obj)
-			ScaleEntity n\obj, temp, temp, temp
-			;[End Block]
-		Case NPCtype5131
-			;[Block]
-			n\NVName = "SCP-513-1"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\bll.b3d")
-			
-			n\obj2 = CopyEntity (n\obj)
-			EntityAlpha n\obj2, 0.6
-			
-			temp# = 1.8 / MeshWidth(n\obj)
-			ScaleEntity n\obj, temp, temp, temp
-			ScaleEntity n\obj2, temp, temp, temp
-			;[End Block]
-		Case NPCtype096
-			;[Block]
-			n\NVName = "SCP-096"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.26
-			EntityType n\Collider, HIT_PLAYER
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\scp096.b3d")
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-096", "speed") / 100.0)
-			
-			temp# = (GetINIFloat("DATA\NPCs.ini", "SCP-096", "scale") / 3.0)
-			ScaleEntity n\obj, temp, temp, temp	
-			
-			MeshCullBox (n\obj, -MeshWidth(n\obj)*2, -MeshHeight(n\obj)*2, -MeshDepth(n\obj)*2, MeshWidth(n\obj)*2, MeshHeight(n\obj)*4, MeshDepth(n\obj)*4)
-			
-			n\CollRadius = 0.26
-			;[End Block]
-		Case NPCtype049
-			;[Block]
-			n\NVName = "SCP-049"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			EntityType n\Collider, HIT_PLAYER
-			;n\obj = LoadAnimMesh_Strict("GFX\npcs\scp-049.b3d")
-			n\obj = CopyEntity(NPC049OBJ)
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-049", "speed") / 100.0)
-			
-			temp# = GetINIFloat("DATA\NPCs.ini", "SCP-049", "scale")
-			ScaleEntity n\obj, temp, temp, temp	
-			
-			n\Sound = LoadSound_Strict("SFX\Horror\Horror12.ogg")
-			
-			If HorrorSFX(13)=0 Then HorrorSFX(13)=LoadSound_Strict("SFX\Horror\Horror13.ogg")
-			
-			n\CanUseElevator = True
-			;[End Block]
-		Case NPCtype0492
-			;[Block]
-			n\NVName = "SCP-049-2"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			EntityType n\Collider, HIT_PLAYER
-			
-			;For n2.NPCs = Each NPCs
-			;	If n\NPCtype = n2\NPCtype And n<>n2 Then
-			;		n\obj = CopyEntity (n2\obj)
-			;		Exit
-			;	EndIf
-			;Next
-			
-			If n\obj = 0 Then 
-				;n\obj = LoadAnimMesh_Strict("GFX\npcs\zombie1.b3d")
-				n\obj = CopyEntity(NPC0492OBJ)
-				
-				temp# = (GetINIFloat("DATA\NPCs.ini", "SCP-049-2", "scale") / 2.5)
-				ScaleEntity n\obj, temp, temp, temp
-				
-				MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj)*2, MeshHeight(n\obj)*2, MeshDepth(n\obj)*2)
-			EndIf
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-049-2", "speed") / 100.0)
-			
-			SetAnimTime(n\obj, 107)
-			
-			n\Sound = LoadSound_Strict("SFX\SCP\049\0492Breath.ogg")
-			
-			n\HP = 100
-			;[End Block]
-		Case NPCtypeApache
-			;[Block]
-			n\NVName = "Apache Helicopter"
-			n\GravityMult = 0.0
-			n\MaxGravity = 0.0
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			n\obj = CopyEntity(ApacheObj);LoadAnimMesh_Strict("GFX\apache.b3d")
-			
-			n\obj2 = CopyEntity(ApacheRotorObj);LoadAnimMesh_Strict("GFX\apacherotor.b3d",n\obj)
-			EntityParent n\obj2,n\obj
-			
-			For i = -1 To 1 Step 2
-				Local rotor2 = CopyEntity(n\obj2,n\obj2)
-				RotateEntity rotor2,0,4.0*i,0
-				EntityAlpha rotor2, 0.5
-			Next
-			
-			n\obj3 = LoadAnimMesh_Strict("GFX\apacherotor2.b3d",n\obj)
-			PositionEntity n\obj3, 0.0, 2.15, -5.48
-			
-			EntityType n\Collider, HIT_APACHE
-			EntityRadius n\Collider, 3.0
-			
-			For i = -1 To 1 Step 2
-				Local Light1 = CreateLight(2,n\obj)
-				;room\LightDist[i] = range
-				LightRange(Light1,2.0)
-				LightColor(Light1,255,255,255)
-				PositionEntity(Light1, 1.65*i, 1.17, -0.25)
-				
-				Local lightsprite = CreateSprite(n\obj)
-				PositionEntity(lightsprite, 1.65*i, 1.17, 0, -0.25)
-				ScaleSprite(lightsprite, 0.13, 0.13)
-				EntityTexture(lightsprite, LightSpriteTex(0))
-				EntityBlend (lightsprite, 3)
-				EntityFX lightsprite, 1+8				
-			Next
-			
-			temp# = 0.6
-			ScaleEntity n\obj, temp, temp, temp
-			;[End Block]
-		Case NPCtype035Tentacle
-			;[Block]
-			n\NVName = "Unidentified"
-			
-			n\Collider = CreatePivot()
-			
-			For n2.NPCs = Each NPCs
-				If n\NPCtype = n2\NPCtype And n<>n2 Then
-					n\obj = CopyEntity (n2\obj)
-					Exit
-				EndIf
-			Next
-			
-			If n\obj = 0 Then 
-				n\obj = LoadAnimMesh_Strict("GFX\npcs\035tentacle.b3d")
-				ScaleEntity n\obj, 0.065,0.065,0.065
-			EndIf
-			
-			SetAnimTime n\obj, 283
-			;[End Block]
-		Case NPCtypeForestMonster
-			;[Block]
-			n\NVName = "Unidentified"
-			
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.25
-			EntityType n\Collider, HIT_PLAYER
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\forestmonster.b3d")
-			
-			EntityFX(n\obj, 1)
-			
-			tex = LoadTexture_Strict("GFX\npcs\860_eyes.png",1+2)
-			
-			n\obj2 = CreateSprite()
-			ScaleSprite(n\obj2, 0.1, 0.1)
-			EntityTexture(n\obj2, tex)
-			FreeTexture tex
-			
-			EntityFX(n\obj2, 1 + 8)
-			EntityBlend(n\obj2, BLEND_ADD)
-			SpriteViewMode(n\obj2, 2)
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "forestmonster", "speed") / 100.0)
-			
-			temp# = (GetINIFloat("DATA\NPCs.ini", "forestmonster", "scale") / 20.0)
-			ScaleEntity n\obj, temp, temp, temp	
-			
-			MeshCullBox (n\obj, -MeshWidth(n\obj)*2, -MeshHeight(n\obj)*2, -MeshDepth(n\obj)*2, MeshWidth(n\obj)*2, MeshHeight(n\obj)*4, MeshDepth(n\obj)*4)
-			
-			n\CollRadius = 0.25
-			;[End Block]
-		Case NPCtype939
-			;[Block]
-			Local amount939% = 0
-			For n2.NPCs = Each NPCs
-				If (n\NPCtype = n2\NPCtype) And (n<>n2)
-					amount939% = amount939% + 1
-				EndIf
-			Next
-			If amount939% = 0 Then i = 53
-			If amount939% = 1 Then i = 89
-			If amount939% = 2 Then i = 96
-			n\NVName = "SCP-939-"+i
-			
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.3
-			EntityType n\Collider, HIT_PLAYER
-			For n2.NPCs = Each NPCs
-				If n\NPCtype = n2\NPCtype And n<>n2 Then
-					n\obj = CopyEntity (n2\obj)
-					Exit
-				EndIf
-			Next
-			
-			If n\obj = 0 Then 
-				n\obj = LoadAnimMesh_Strict("GFX\NPCs\scp-939.b3d")
-				
-				temp# = GetINIFloat("DATA\NPCs.ini", "SCP-939", "scale")/2.5
-				ScaleEntity n\obj, temp, temp, temp		
-			EndIf
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-939", "speed") / 100.0)
-			
-			n\CollRadius = 0.3
-			;[End Block]
-		Case NPCtype066
-			;[Block]
-			n\NVName = "SCP-066"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			EntityType n\Collider, HIT_PLAYER
-			
-			n\obj = LoadAnimMesh_Strict("GFX\NPCs\scp-066.b3d")
-			temp# = GetINIFloat("DATA\NPCs.ini", "SCP-066", "scale")/2.5
-			ScaleEntity n\obj, temp, temp, temp		
-			
-			;If BumpEnabled Then 
-			;	diff1 = LoadTexture_Strict("GFX\npcs\scp-066_diffuse01.jpg")
-			;	bump1 = LoadTexture_Strict("GFX\npcs\scp-066_normal.png")
-			;	;TextureBlend bump1, FE_BUMP ;USE DOT3
-			;	EntityTexture n\obj, bump1, 0, 1
-			;	EntityTexture n\obj, diff1, 0, 2
-			;	FreeTexture diff1
-			;	FreeTexture bump1
-			;EndIf
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-066", "speed") / 100.0)
-			;[End Block]
-		Case NPCtype966
-			;[Block]
-			i = 1
-			For n2.NPCs = Each NPCs
-				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then i=i+1
-			Next
-			n\NVName = "SCP-966-"+i
-			
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider,0.2
-			
-			For n2.NPCs = Each NPCs
-				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then
-					n\obj = CopyEntity (n2\obj)
-					Exit
-				EndIf
-			Next
-			
-			If n\obj = 0 Then 
-				n\obj = LoadAnimMesh_Strict("GFX\npcs\scp-966.b3d")
-			EndIf
-			
-			EntityFX n\obj,1
-			
-			temp# = GetINIFloat("DATA\NPCs.ini", "SCP-966", "scale")/40.0
-			ScaleEntity n\obj, temp, temp, temp		
-			
-			;EntityColor n\obj,Rnd(0,50),0,Rnd(50,100)
-			
-			SetAnimTime n\obj,15.0
-			
-			EntityType n\Collider,HIT_PLAYER
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-966", "speed") / 100.0)
-			;[End Block]
-		Case NPCtype1048a
-			;[Block]
-			n\NVName = "SCP-1048-A"
-			n\obj =	LoadAnimMesh_Strict("GFX\npcs\scp-1048a.b3d")
-			ScaleEntity n\obj, 0.05,0.05,0.05
-			SetAnimTime(n\obj, 2)
-			
-			n\Sound = LoadSound_Strict("SFX\SCP\1048A\Shriek.ogg")
-			n\Sound2 = LoadSound_Strict("SFX\SCP\1048A\Growth.ogg")
-			;[End Block]
-		Case NPCtype1499
-			;[Block]
-			n\NVName = "Unidentified"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			EntityType n\Collider, HIT_PLAYER
-			For n2.NPCs = Each NPCs
-				If (n\NPCtype = n2\NPCtype) And (n<>n2) Then
-					n\obj = CopyEntity (n2\obj)
-					Exit
-				EndIf
-			Next
-			
-			If n\obj = 0 Then 
-				n\obj = LoadAnimMesh_Strict("GFX\npcs\1499-1.b3d")
-			EndIf
-			
-			n\Speed = (GetINIFloat("DATA\NPCs.ini", "SCP-1499-1", "speed") / 100.0) * Rnd(0.9,1.1)
-			temp# = (GetINIFloat("DATA\NPCs.ini", "SCP-1499-1", "scale") / 4.0) * Rnd(0.8,1.0)
-			
-			ScaleEntity n\obj, temp, temp, temp
-			
-			EntityFX n\obj,1
-			
-			EntityAutoFade n\obj,HideDistance*2.5,HideDistance*2.95
-			;[End Block]
-		Case NPCtype0081
-			;[Block]
-			n\NVName = "SCP-008-1"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.2
-			EntityType n\Collider, HIT_PLAYER
-			
-			n\obj = LoadAnimMesh_Strict("GFX\npcs\zombiesurgeon.b3d")
-			
-			temp# = 0.5 / MeshWidth(n\obj)
-			ScaleEntity n\obj, temp, temp, temp
-			
-			n\Speed = 2.0 / 100
-			
-			MeshCullBox (n\obj, -MeshWidth(n\obj), -MeshHeight(n\obj), -MeshDepth(n\obj), MeshWidth(n\obj)*2, MeshHeight(n\obj)*2, MeshDepth(n\obj)*2)
-			
-			SetNPCFrame n,11
-			
-			n\Sound = LoadSound_Strict("SFX\SCP\049\0492Breath.ogg")
-			
-			n\HP = 120
-			;[End Block]
-		Case NPCtypeClerk
-			;[Block]
-			n\NVName = "Human"
-			n\Collider = CreatePivot()
-			EntityRadius n\Collider, 0.32
-			EntityType n\Collider, HIT_PLAYER
-			
-			n\obj = CopyEntity(ClerkOBJ)
-			
-			temp# = 0.5 / MeshWidth(n\obj)
-			ScaleEntity n\obj, temp, temp, temp
-			
-			n\Speed = 2.0 / 100
-			
-			MeshCullBox (n\obj, -MeshWidth(ClerkOBJ), -MeshHeight(ClerkOBJ), -MeshDepth(ClerkOBJ), MeshWidth(ClerkOBJ)*2, MeshHeight(ClerkOBJ)*2, MeshDepth(ClerkOBJ)*2)
-			
-			n\CollRadius = 0.32
-			;[End Block]
 	End Select
 	
 	PositionEntity(n\Collider, x, y, z, True)
@@ -810,7 +802,7 @@ Function UpdateNPCs()
 												Else
 													TurnEntity(Camera, 0, Rand(-100,-80), 0)
 												EndIf
-												Kill()
+												Kill(False)
 												
 											EndIf
 										Else
@@ -1667,14 +1659,10 @@ Function UpdateNPCs()
 								AnimateNPC(n, 659, 538, -0.45, False)
 								If n\Frame > 537.9 Then n\Frame = 37
 								
-								;Animate2(n\obj, AnimTime(n\obj), 659, 538, -0.45, False)
-								;If AnimTime(n\obj)=538 Then SetAnimTime(n\obj, 37)
 							Else
 								AnimateNPC(n, 37, 269, 0.7, False)
 								If n\Frame>268.9 Then n\State = 2
 								
-								;Animate2(n\obj, AnimTime(n\obj), 37, 269, 0.7, False)
-								;If AnimTime(n\obj)=269 Then n\State = 2
 							EndIf
 							;[End Block]
 						Case 2 ;being active
@@ -1745,7 +1733,7 @@ Function UpdateNPCs()
 													Next
 												Else
 													DeathMSG = "An active instance of SCP-049-2 was discovered in [REDACTED]. Terminated by Nine-Tailed Fox."
-													Kill()
+													Kill(False)
 												EndIf
 												PlaySound_Strict HorrorSFX(13)
 												If n\Sound2 <> 0 Then FreeSound_Strict(n\Sound2)
@@ -2157,8 +2145,9 @@ Function UpdateNPCs()
 									n\State3=n\State3-FPSfactor
 								EndIf
 								
+								n\SoundChn = LoopSound2(n\Sound, n\SoundChn, Camera, n\Collider, 6.0, 0.6)
+								
 								If n\State2 > 0 And (Not NoTarget) Then ;player is visible -> attack
-									n\SoundChn = LoopSound2(n\Sound, n\SoundChn, Camera, n\Collider, 6.0, 0.6)
 									
 									n\PathStatus = 0
 									
@@ -2205,9 +2194,26 @@ Function UpdateNPCs()
 											AnimateNPC(n, 936, 1017, n\CurrSpeed*60)
 											;Animate2(n\obj, AnimTime(n\obj), 936, 1017, n\CurrSpeed*60)
 											
-											If EntityDistance(n\Collider,n\Path[n\PathLocation]\obj) < 0.2 Then
-												n\PathLocation = n\PathLocation + 1
-											EndIf 
+											;opens doors in front of him
+										    dist2# = EntityDistance(n\Collider,n\Path[n\PathLocation]\obj)
+										    If dist2 < 0.6 Then
+											    temp = True
+											    If n\Path[n\PathLocation]\door <> Null Then
+												    If (Not n\Path[n\PathLocation]\door\IsElevatorDoor)
+													    If n\Path[n\PathLocation]\door\locked Or n\Path[n\PathLocation]\door\KeyCard>0 Or n\Path[n\PathLocation]\door\Code<>"" Then
+														    temp = False
+													    Else
+														    If n\Path[n\PathLocation]\door\open = False Then UseDoor(n\Path[n\PathLocation]\door, False)
+													    EndIf
+												    EndIf
+											    EndIf
+											    If dist2#<0.2 And temp
+												    n\PathLocation = n\PathLocation + 1
+											    ElseIf dist2#<0.5 And (Not temp)
+												    n\PathStatus = 0
+												    n\PathTimer# = 0.0
+											    EndIf
+										    EndIf	
 										EndIf
 									Else ;no path to the player, stands still
 										n\CurrSpeed = 0
@@ -2242,7 +2248,10 @@ Function UpdateNPCs()
 											If (Abs(DeltaYaw(n\Collider,Collider))<=60.0)
 												PlaySound_Strict DamageSFX(Rand(5,8))
 												Injuries = Injuries+Rnd(0.4,1.0)
-												DeathMSG = "Subject D-9341. Cause of death: multiple lacerations and severe blunt force trauma caused by an instance of SCP-049-2."
+												If Injuries > 3.0
+												    DeathMSG = SubjectName$+". Cause of death: multiple lacerations And severe blunt force trauma caused by an instance of SCP-049-2."
+												    Kill(True)
+											    EndIf
 											EndIf
 										EndIf
 									ElseIf n\Frame=65 Then
@@ -2256,7 +2265,10 @@ Function UpdateNPCs()
 											If (Abs(DeltaYaw(n\Collider,Collider))<=60.0)
 												PlaySound_Strict DamageSFX(Rand(5,8))
 												Injuries = Injuries+Rnd(0.4,1.0)
-												DeathMSG = "Subject D-9341. Cause of death: multiple lacerations and severe blunt force trauma caused by an instance of SCP-049-2."
+												If Injuries > 3.0
+												    DeathMSG = SubjectName$+". Cause of death: multiple lacerations And severe blunt force trauma caused by an instance of SCP-049-2."
+												    Kill(True)
+												EndIf
 											EndIf
 										EndIf
 									ElseIf n\Frame=132 Then
@@ -3278,7 +3290,7 @@ Function UpdateNPCs()
 				
 				ResetEntity n\Collider
 				;[End Block]
-			Case NPCtypeForestMonster
+			Case NPCtype8602
 				;[Block]
 				If PlayerRoom\RoomTemplate\Name = "room860" Then
 					Local fr.Forest=PlayerRoom\fr;Object.Forest(e\room\Objects[1])
@@ -5215,8 +5227,8 @@ Function UpdateMTFUnit(n.NPCs)
                 realType = "513-1"
 			Case NPCtype035Tentacle
                 realType = "035tentacle"
-			Case NPCtypeForestMonster
-                realType = "ForestMonster"
+			Case NPCtype8602
+                realType = "860-2"
 			Case NPCtype939
                 realType = "939"
 			Case NPCtype066
@@ -5345,6 +5357,9 @@ Function UpdateMTFUnit(n.NPCs)
 											n\Sound = LoadSound_Strict("SFX\Character\MTF\173\Cont"+Rand(1,4)+".ogg")
 											PlayMTFSound(n\Sound, n)
 											PlayAnnouncement("SFX\Character\MTF\Announc173Contain.ogg")
+											r\RoomDoors[1]\MTFClose = True
+                                         	UseDoor(r\RoomDoors[1], False)
+											r\RoomDoors[1]\open = False
 											DebugLog "173 contained"
 											Exit
 										EndIf
@@ -6776,7 +6791,7 @@ End Function
 Function Shoot(x#, y#, z#, hitProb# = 1.0, particles% = True, instaKill% = False)
 	
 	;muzzle flash
-	Local p.Particles = CreateParticle(x,y,z, 1, Rnd(0.08,0.1), 0.0, 5)
+	Local p.particles = CreateParticle(x,y,z, 1, Rnd(0.08,0.1), 0.0, 5)
 	TurnEntity p\obj, 0,0,Rnd(360)
 	p\Achange = -0.15
 	
@@ -6877,7 +6892,7 @@ Function Shoot(x#, y#, z#, hitProb# = 1.0, particles% = True, instaKill% = False
 				
 				If particles Then 
 					;dust/smoke particles
-					p.Particles = CreateParticle(PickedX(),PickedY(),PickedZ(), 0, 0.03, 0, 80)
+					p.particles = CreateParticle(PickedX(),PickedY(),PickedZ(), 0, 0.03, 0, 80)
 					p\speed = 0.001
 					p\SizeChange = 0.003
 					p\A = 0.8
@@ -6885,7 +6900,7 @@ Function Shoot(x#, y#, z#, hitProb# = 1.0, particles% = True, instaKill% = False
 					RotateEntity p\pvt, EntityPitch(pvt)-180, EntityYaw(pvt),0
 					
 					For i = 0 To Rand(2,3)
-						p.Particles = CreateParticle(PickedX(),PickedY(),PickedZ(), 0, 0.006, 0.003, 80)
+						p.particles = CreateParticle(PickedX(),PickedY(),PickedZ(), 0, 0.006, 0.003, 80)
 						p\speed = 0.02
 						p\A = 0.8
 						p\Achange = -0.01
@@ -7020,7 +7035,7 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 	Local consoleMSG$
 	
 	Select c_input$ 
-		Case "008", "008zombie"
+		Case "0081", "008-1", "scp-008-1", "008zombie", "scp008-1"
 			n.NPCs = CreateNPC(NPCtype0081, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
 			n\State = 1
 			consoleMSG = "SCP-008 infected human spawned."
@@ -7375,7 +7390,9 @@ Function FinishWalking(n.NPCs,startframe#,endframe#,speed#)
 End Function
 
 Function ChangeNPCTextureID(n.NPCs,textureid%)
-	If (n=Null) Then
+	Local o.Objects = First Objects
+	
+	If (n = Null) Then
 		CreateConsoleMsg("Tried to change the texture of an invalid NPC")
 		If ConsoleOpening Then
 			ConsoleOpen = True
@@ -7383,13 +7400,13 @@ Function ChangeNPCTextureID(n.NPCs,textureid%)
 		Return
 	EndIf
 	
-	n\TextureID = textureid%+1
+	n\TextureID = textureid% + 1
 	FreeEntity n\obj
-	n\obj = CopyEntity(DTextures[textureid%+1])
+	n\obj = CopyEntity(DTextures[textureid% + 1])
 	
 	temp# = 0.5 / MeshWidth(n\obj)
 	ScaleEntity n\obj, temp, temp, temp
-	MeshCullBox (n\obj, -MeshWidth(ClassDObj), -MeshHeight(ClassDObj), -MeshDepth(ClassDObj), MeshWidth(ClassDObj)*2, MeshHeight(ClassDObj)*2, MeshDepth(ClassDObj)*2)
+	MeshCullBox (n\obj, -MeshWidth(o\NPCModelID[19]), -MeshHeight(o\NPCModelID[19]), -MeshDepth(o\NPCModelID[19]), MeshWidth(o\NPCModelID[19]) * 2, MeshHeight(o\NPCModelID[19]) * 2, MeshDepth(o\NPCModelID[19]) * 2)
 	
 	SetNPCFrame(n,n\Frame)
 	
@@ -7403,5 +7420,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#190#1282#131C#13AB#155F#166A#182B#1887
+;~B#22D#128E#1328#13B7#156E#1679#183A#1896
 ;~C#Blitz3D

@@ -3,6 +3,7 @@ Function UpdateEvents()
 	Local dist#, i%, temp%, pvt%, strtemp$, j%, k%
 	
 	Local p.Particles, n.NPCs, r.Rooms, e.Events, e2.Events, it.Items, it2.Items, em.Emitters, sc.SecurityCams, sc2.SecurityCams
+	Local o.Objects = First Objects
 	
 	Local CurrTrigger$ = ""
 	
@@ -456,14 +457,10 @@ Function UpdateEvents()
 								UpdateSoundOrigin(e\room\NPC[3]\SoundChn2,Camera,e\room\NPC[3]\Collider)
 								
 								If (Not ChannelPlaying(e\room\NPC[3]\SoundChn2))
-									;BlinkTimer = -10
 									
 									e\room\NPC[3]\Sound = LoadSound_Strict("SFX\Room\Intro\Guard\Ulgrin\ExitCell.ogg")
 									e\room\NPC[3]\SoundChn = PlaySound2(e\room\NPC[3]\Sound, Camera, e\room\NPC[3]\Collider)
 									
-									;e\room\NPC[3]\State = 7
-									;e\room\NPC[4]\State = 7
-									;e\room\NPC[5]\State = 7
 									e\room\NPC[3]\State = 9
 									e\room\NPC[4]\State = 9
 									e\room\NPC[5]\State = 9
@@ -475,20 +472,10 @@ Function UpdateEvents()
 							Else
 								FreeSound_Strict e\room\NPC[3]\Sound2
 								
-								;PointEntity e\room\NPC[3]\obj, Collider
-								;RotateEntity e\room\NPC[3]\Collider, 0, EntityYaw(e\room\NPC[3]\obj), 0
-								
-								;PointEntity e\room\NPC[4]\obj, Collider
-								;RotateEntity e\room\NPC[4]\Collider, 0, EntityYaw(e\room\NPC[4]\obj), 0
-								
 								e\EventState3 = Min(e\EventState3+FPSfactor/4,699)
 								
 								;outside the cell
 								If Distance(EntityX(Collider),EntityZ(Collider),PlayerRoom\x-(3072+1024)*RoomScale, PlayerRoom\z+192.0*RoomScale)>1.5 Then
-									;e\room\NPC[3]\State = 5
-									;e\room\NPC[3]\EnemyX = EntityX(Collider)
-									;e\room\NPC[3]\EnemyY = EntityY(Collider)
-									;e\room\NPC[3]\EnemyZ = EntityZ(Collider)
 									
 									If e\EventState3 > 250 Then
 										If e\room\NPC[3]\SoundChn<>0 Then
@@ -498,8 +485,6 @@ Function UpdateEvents()
 										e\room\NPC[3]\Sound = LoadSound_Strict("SFX\Room\Intro\Guard\Ulgrin\Escort"+Rand(1,2)+".ogg")
 										e\room\NPC[3]\SoundChn = PlaySound2(e\room\NPC[3]\Sound, Camera, e\room\NPC[3]\Collider)
 										
-										;e\room\NPC[3]\PathStatus = FindPath(e\room\NPC[3],PlayerRoom\x-1584*RoomScale, 0.3, PlayerRoom\z-1040*RoomScale)
-										;e\room\NPC[4]\PathStatus = FindPath(e\room\NPC[4],PlayerRoom\x-1584*RoomScale, 0.3, PlayerRoom\z-1040*RoomScale)
 										e\room\NPC[3]\PathStatus = FindPath(e\room\NPC[3],PlayerRoom\x-320*RoomScale, 0.3, PlayerRoom\z-704*RoomScale)
 										e\room\NPC[4]\PathStatus = FindPath(e\room\NPC[4],PlayerRoom\x-320*RoomScale, 0.3, PlayerRoom\z-704*RoomScale)
 										
@@ -507,8 +492,6 @@ Function UpdateEvents()
 									EndIf
 								Else ;inside the cell
 									e\room\NPC[3]\State = 9
-									;PointEntity e\room\NPC[3]\Collider, Collider		
-									;RotateEntity e\room\NPC[3]\Collider, 0, EntityYaw(e\room\NPC[3]\Collider), 0
 									
 									If e\EventState3-(FPSfactor/4) < 350 And e\EventState3=>350 Then
 										FreeSound_Strict e\room\NPC[3]\Sound
@@ -548,11 +531,6 @@ Function UpdateEvents()
 						ElseIf e\EventState3 < 800
 							e\EventState3 = e\EventState3+FPSfactor/4.0
 							
-							;e\room\NPC[3]\State = 5
-							;e\room\NPC[3]\EnemyX = EntityX(Collider)
-							;e\room\NPC[3]\EnemyY = EntityY(Collider)
-							;e\room\NPC[3]\EnemyZ = EntityZ(Collider)
-							
 							If e\room\NPC[5]\State <> 11
 								If EntityDistance(e\room\NPC[3]\Collider,e\room\NPC[5]\Collider)>5.0 And EntityDistance(e\room\NPC[4]\Collider,e\room\NPC[5]\Collider)
 									If EntityDistance(e\room\NPC[5]\Collider,Collider)<3.5
@@ -568,7 +546,6 @@ Function UpdateEvents()
 							
 							If EntityX(Collider)<EntityX(e\room\obj,True)-5376*RoomScale And e\EventStr = "" Then
 								If Rand(3)=1 Then
-									;e\EventStr = "scripted\scripted"+Rand(1,6)+".ogg|off.ogg|"
 									e\EventStr = "scripted\scripted"+Rand(1,5)+".ogg|off.ogg|"
 								Else
 									;generate the PA message
@@ -629,7 +606,6 @@ Function UpdateEvents()
 							
 							If e\room\NPC[8]<>Null Then ;the 2 guards and ClassD
 								If e\room\NPC[8]\State = 7 Then
-									;If e\room\RoomDoors[7]\open Then 
 									If Distance(EntityX(Collider), EntityZ(Collider), EntityX(e\room\obj,True)-6688*RoomScale, EntityZ(e\room\obj,True)-1252*RoomScale)<2.5 Then
 										e\room\NPC[8]\State = 10
 										e\room\NPC[9]\State = 1
@@ -728,7 +704,6 @@ Function UpdateEvents()
 										RotateEntity e\room\NPC[3]\Collider,0,CurveValue(EntityYaw(e\room\NPC[3]\obj),EntityYaw(e\room\NPC[3]\Collider),20.0),0,True
 										
 										If e\room\NPC[3]\PathStatus = 2 Then
-											;e\room\NPC[3]\PathStatus = FindPath(e\room\NPC[3],EntityX(e\room\obj,True)-1584*RoomScale, 0.3, EntityZ(e\room\obj,True)-1040*RoomScale)
 											e\room\NPC[3]\PathStatus = FindPath(e\room\NPC[3],PlayerRoom\x-320*RoomScale, 0.3, PlayerRoom\z-704*RoomScale)
 											e\room\NPC[4]\PathStatus = FindPath(e\room\NPC[4],PlayerRoom\x-320*RoomScale, 0.3, PlayerRoom\z-704*RoomScale)
 											e\room\NPC[3]\State = 3
@@ -755,12 +730,8 @@ Function UpdateEvents()
 										e\room\NPC[3]\EnemyX = EntityX(Collider)
 										e\room\NPC[3]\EnemyY = EntityY(Collider)
 										e\room\NPC[3]\EnemyZ = EntityZ(Collider)
-										;e\room\NPC[3]\PathStatus = FindPath(e\room\NPC[3],EntityY(Collider), 0.3, EntityZ(Collider))
 									EndIf
 								EndIf	
-								
-								;PointEntity e\room\NPC[5]\obj, Collider
-								;RotateEntity e\room\NPC[5]\Collider, 0, CurveAngle(EntityYaw(e\room\NPC[5]\obj),EntityYaw(e\room\NPC[5]\Collider),30), 0
 								
 								dist = EntityDistance(Collider, e\room\NPC[4]\Collider)
 								If dist > 1.5 And EntityDistance(e\room\NPC[3]\Collider, Collider)<EntityDistance(e\room\NPC[3]\Collider,e\room\NPC[4]\Collider) Then
@@ -787,8 +758,6 @@ Function UpdateEvents()
 								e\room\NPC[2] = CreateNPC(NPCtypeD, EntityX(e\room\Objects[2], True), 0.5, EntityZ(e\room\Objects[2], True))
 								PointEntity(e\room\NPC[2]\Collider, e\room\Objects[5])
 								ChangeNPCTextureID(e\room\NPC[2],6)
-								;EntityTexture e\room\NPC[2]\obj, DTextures[7]
-								;FreeTexture DTextures[7]
 								e\room\NPC[3]\State = 9								
 								
 								If e\room\NPC[7]\SoundChn<>0 Then
@@ -832,9 +801,6 @@ Function UpdateEvents()
 								
 								e\room\NPC[4]\State = 9
 								
-								;e\room\RoomDoors[2]\locked = False
-								;UseDoor(e\room\RoomDoors[2],False)
-								;e\room\RoomDoors[2]\locked = True
 							EndIf
 						ElseIf e\EventState3 <= 905
 							If (Not ChannelPlaying(e\room\NPC[3]\SoundChn)) And e\room\NPC[3]\Frame < 358.0 Then
@@ -951,23 +917,16 @@ Function UpdateEvents()
 								e\room\NPC[4] = CreateNPC(NPCtypeGuard, e\room\x-3840*RoomScale, 0.3, e\room\z+768*RoomScale)
 								RotateEntity e\room\NPC[4]\Collider,0,e\room\angle+135,0
 								e\room\NPC[4]\State = 7
-								;SetNPCFrame(e\room\NPC[4], Rnd(1035, 1326))
 								e\room\NPC[5] = CreateNPC(NPCtypeGuard, e\room\x-8288*RoomScale, 0.3, e\room\z+1096*RoomScale)
 								e\room\NPC[5]\Sound = LoadSound_Strict("SFX\Room\Intro\Guard\Music"+Rand(1,5)+".ogg")
 								RotateEntity e\room\NPC[5]\Collider, 0, e\room\angle+180, 0, True
 								e\room\NPC[5]\State = 7
 								e\room\NPC[5]\Sound2 = LoadSound_Strict("SFX\Room\Intro\Guard\PlayerEscape.ogg")
 								e\room\NPC[6] = CreateNPC(NPCtypeD, e\room\x-3712*RoomScale, -0.3, e\room\z-2208*RoomScale)
-								;tex = LoadTexture_Strict("GFX\npcs\scientist2.jpg")
-								;EntityTexture e\room\NPC[6]\obj, DTextures[4]
-								;FreeTexture tex
 								ChangeNPCTextureID(e\room\NPC[6],3)
 								e\room\NPC[7] = CreateNPC(NPCtypeD, e\room\x-3712*RoomScale, -0.3, e\room\z-2208*RoomScale)
-								;tex = LoadTexture_Strict("GFX\npcs\scientist.jpg")
 								e\room\NPC[7]\Sound = LoadSound_Strict("SFX\Room\Intro\Scientist\Conversation.ogg")
-								;EntityTexture e\room\NPC[7]\obj, DTextures[3]
-								;FreeTexture tex
-								ChangeNPCTextureID(e\room\NPC[7],2)
+								ChangeNPCTextureID(e\room\NPC[7], 2)
 								pvt = CreatePivot()
 								RotateEntity pvt,90,0,0
 								
@@ -975,9 +934,7 @@ Function UpdateEvents()
 								e\room\NPC[8]\State = 7
 								e\room\NPC[9] = CreateNPC(NPCtypeD, e\room\x-4000.0*RoomScale, 1.1, e\room\z-3900.0*RoomScale)
 								e\room\NPC[9]\State2 = 1.0
-								tex = LoadTexture_Strict("GFX\npcs\classd3.jpg")
-								EntityTexture e\room\NPC[9]\obj, tex
-								FreeTexture tex
+								ChangeNPCTextureID(e\room\NPC[9], 8)
 								e\room\NPC[10] = CreateNPC(NPCtypeGuard, e\room\x-4200.0*RoomScale, 1.0, e\room\z-3900.0*RoomScale)
 								e\room\NPC[10]\State = 7
 								
@@ -1462,7 +1419,7 @@ Function UpdateEvents()
 					If e\EventState3=0 Then
 						If Rand(2)=1 Then
 							GiveAchievement(Achv1048)
-							e\room\Objects[1]=LoadAnimMesh_Strict("GFX\npcs\scp-1048.b3d")
+							e\room\Objects[1] = CopyEntity(o\NPCModelID[24])
 							ScaleEntity e\room\Objects[1], 0.05,0.05,0.05
 							PositionEntity(e\room\Objects[1],EntityX(e\room\Objects[0],True),EntityY(e\room\Objects[0],True),EntityZ(e\room\Objects[0],True))
 							SetAnimTime e\room\Objects[1],267	
@@ -2820,15 +2777,12 @@ Function UpdateEvents()
 				EndIf
 				
 				If e\EventState3 = 0 Then
-					n.NPCs = CreateNPC(NPCtypeD,EntityX(e\room\Objects[6],True),0.5,EntityZ(e\room\Objects[6],True))
-					RotateEntity n\Collider,0,e\room\angle+90,0
-					n\State = 3
-					SetNPCFrame(n,40)
-					n\IsDead = True
-					n\texture = "GFX\npcs\body2.jpg"
-					tex = LoadTexture_Strict(n\texture)
-					EntityTexture(n\obj, tex)
-					FreeTexture tex
+					e\room\NPC[0] = CreateNPC(NPCtypeD,EntityX(e\room\Objects[6],True),0.5,EntityZ(e\room\Objects[6],True))
+					TurnEntity e\room\NPC[0]\Collider, 0, e\room\angle + 90, 0
+					ChangeNPCTextureID(e\room\NPC[0], 10)
+					e\room\NPC[0]\State = 3
+					SetNPCFrame(e\room\NPC[0], 40)
+					e\room\NPC[0]\IsDead = True
 					e\EventState3 = 1
 				EndIf
 				;[End Block]
@@ -3862,7 +3816,7 @@ Function UpdateEvents()
 						Next
 						EntityAlpha(GetChild(e\room\obj,2),0)
 						
-						ShouldPlay = 7
+						ShouldPlay = 26
 						
 						If e\EventState = 0 Then
 							If EntityDistance(Collider, e\room\Objects[0]) < EntityDistance(Collider, e\room\Objects[1]) Then
@@ -3944,7 +3898,6 @@ Function UpdateEvents()
 							AnimateNPC(Curr106, 334, 494, 0.2)
 							
 							PositionEntity(Curr106\Collider, (EntityX(e\room\Objects[0], True)+EntityX(e\room\Objects[1], True))/2, EntityY(Collider) - 0.15, (EntityZ(e\room\Objects[0], True)+EntityZ(e\room\Objects[1], True))/2)
-							;MoveEntity(Curr106\Collider, 0, 0, EntityDistance(e\room\Objects[0], e\room\Objects[1])*0.5)
 							RotateEntity(Curr106\Collider,0, CurveValue(e\EventState,EntityYaw(Curr106\Collider),30.0),0,True)
 							If EntityDistance(Curr106\Collider, Collider)<4.0 Then
 								pvt = CreatePivot()
@@ -3970,8 +3923,6 @@ Function UpdateEvents()
 						
 						PositionEntity(Curr106\obj, EntityX(Curr106\Collider), EntityY(Curr106\Collider) - 0.15, EntityZ(Curr106\Collider))
 						RotateEntity Curr106\obj, 0, EntityYaw(Curr106\Collider), 0
-						
-						;PositionEntity(Curr106\Collider, EntityX(Curr106\Collider), EntityY(Collider) - 0.20, EntityZ(Curr106\Collider))
 						
 						If (e\EventState / 250.0) > 0.3 And ((e\EventState - FPSfactor*0.7) / 250.0) <= 0.3 Then
 							e\SoundCHN = PlaySound_Strict(HorrorSFX(6))
@@ -4034,7 +3985,7 @@ Function UpdateEvents()
 				;[Block]
 				If PlayerRoom = e\room Then
 					If e\room\Objects[2] = 0 Then
-						e\room\Objects[2] =	LoadMesh_Strict("GFX\npcs\duck_low_res.b3d")
+						e\room\Objects[2] =	CopyEntity(o\NPCModelID[25])
 						ScaleEntity(e\room\Objects[2], 0.07, 0.07, 0.07)
 						tex = LoadTexture_Strict("GFX\npcs\duck1.png")
 						EntityTexture e\room\Objects[2], tex
@@ -4063,7 +4014,7 @@ Function UpdateEvents()
 				;[Block]
 				If PlayerRoom = e\room Then
 					If e\room\Objects[2] = 0 Then
-						e\room\Objects[2] =	LoadAnimMesh_Strict("GFX\npcs\scp-1048pp.b3d")
+						e\room\Objects[2] =	CopyEntity(o\NPCModelID[27])
 						ScaleEntity e\room\Objects[2], 0.05,0.05,0.05
 						SetAnimTime(e\room\Objects[2], 414)
 						
@@ -4094,7 +4045,6 @@ Function UpdateEvents()
 								PaintSurface sf, brush
 							EndIf
 							;MAV???
-							;If texname<>"" Then FreeTexture t
 							FreeBrush b
 						Next
 						
@@ -4103,7 +4053,6 @@ Function UpdateEvents()
 						
 						PositionEntity (e\room\Objects[2], EntityX(e\room\Objects[0],True), EntityY(e\room\Objects[0],True), EntityZ(e\room\Objects[0],True))
 						
-						;e\Sound = LoadSound_Strict("SFX\SCP\Joke\Saxophone.ogg")
 					Else
 						PointEntity e\room\Objects[2], Collider
 						RotateEntity(e\room\Objects[2], -90, EntityYaw(e\room\Objects[2],True),0, True)
@@ -4567,7 +4516,7 @@ Function UpdateEvents()
 								EndIf
 							Case 60
 								If (Not HalloweenTex) Then
-									Local tex970 = LoadTexture_Strict("GFX\npcs\173h.pt", 1)
+									Local tex970 = LoadTexture_Strict("GFX\npcs\scp173_h.pt", 1)
 									EntityTexture Curr173\obj, tex970, 0, 0
 									FreeTexture tex970
 								EndIf
@@ -4722,7 +4671,7 @@ Function UpdateEvents()
 						
 						GiveAchievement(Achv939)
 						
-						ShouldPlay = 26
+						ShouldPlay = 7
 						
 						If e\room\NPC[0]=Null Or e\room\NPC[1]=Null Or e\room\NPC[2]=Null Then
 							If QuickLoadPercent = -1 Then
@@ -5013,8 +4962,8 @@ Function UpdateEvents()
 						If EntityDistance(Collider, e\room\Objects[3])<2 Then
 							n.NPCs = CreateNPC(NPCtypeD, EntityX(e\room\Objects[4],True),0.5,EntityZ(e\room\Objects[4],True))
 							
-							n\texture = "GFX\NPCs\035victim.jpg"
-							n\Model = "GFX\NPCs\035.b3d"
+							n\texture = "GFX\npcs\scp035_victim.png"
+							n\Model = CopyEntity(o\NPCModelID[29])
 							HideEntity n\obj
 							
 							SetAnimTime(n\obj, 501)
@@ -5028,13 +4977,13 @@ Function UpdateEvents()
 					ElseIf e\EventState > 0
 						If e\room\NPC[0]=Null Then
 							For n.NPCs = Each NPCs
-								If n\texture = "GFX\NPCs\035victim.jpg" Then
+								If n\texture = "GFX\npcs\scp035_victim.png" Then
 									e\room\NPC[0]=n
 									
 									temp = e\room\NPC[0]\Frame
 									
 									FreeEntity e\room\NPC[0]\obj
-									e\room\NPC[0]\obj = LoadAnimMesh_Strict("GFX\NPCs\035.b3d")
+									e\room\NPC[0]\obj = CopyEntity(o\NPCModelID[29])
 									x = 0.5 / MeshWidth(e\room\NPC[0]\obj)
 									e\room\NPC[0]\ModelScaleX = x
 									e\room\NPC[0]\ModelScaleY = x
@@ -5632,7 +5581,7 @@ Function UpdateEvents()
 								
 								PlaySound_Strict LoadTempSound("SFX\Character\MTF\049\Player0492_1.ogg")
 								
-								LoadEventSound(e,"SFX\SCP\049\0492Breath.ogg")
+								LoadEventSound(e,"SFX\SCP\049_2\Breath.ogg")
 								
 								IsZombie = True
 							EndIf
@@ -6430,11 +6379,6 @@ Function UpdateEvents()
 						CanSave = False
 					EndIf
 					If e\EventState = 1 Then
-						;If e\SoundCHN = 0 Then
-						;	e\SoundCHN = 
-						;Else
-						;	If Not ChannelPlaying(e\SoundCHN) Then e\SoundCHN = PlaySound_Strict(moddedambience)
-						;End If
 						
 						;Saving Injuries and Bloodloss, so that the player won't be healed automatically
 						PrevInjuries = Injuries
@@ -6443,23 +6387,17 @@ Function UpdateEvents()
 						SecondaryLightOn = True
 						
 						e\room\NPC[0] = CreateNPC(NPCtypeD, EntityX(e\room\Objects[6],True),EntityY(e\room\Objects[6],True),EntityZ(e\room\Objects[6],True))
-						;e\room\NPC[1] = CreateNPC(NPCtypeD, EntityX(e\room\Objects[7],True),EntityY(e\room\Objects[7],True),EntityZ(e\room\Objects[7],True))
 						
-						nazi = LoadAnimMesh_Strict("GFX\npcs\naziofficer.b3d")
+						nazi = CopyEntity(o\NPCModelID[26])
 						scale# = 0.5 / MeshWidth(nazi)
 						
 						FreeEntity e\room\NPC[0]\obj
 						e\room\NPC[0]\obj = CopyEntity(nazi)
 						ScaleEntity e\room\NPC[0]\obj, scale, scale, scale
 						
-						;FreeEntity e\room\NPC[1]\obj
-						;e\room\NPC[1]\obj = CopyEntity(nazi)
-						;ScaleEntity e\room\NPC[1]\obj, scale, scale, scale
-						
 						FreeEntity nazi
 						PositionEntity Collider, EntityX(e\room\Objects[4],True),EntityY(e\room\Objects[4],True),EntityZ(e\room\Objects[4],True),True
 						ResetEntity Collider
-						;PlaySound_Strict(HorrorSFX(9))
 						CameraShake = 1.0
 						BlurTimer = 1200
 						Injuries = 1.0
@@ -6489,7 +6427,6 @@ Function UpdateEvents()
 							EndIf
 							e\room\NPC[0]\State = 3
 							AnimateNPC(e\room\NPC[0],3,26,0.2,True)
-							;Animate2(e\room\Objects[4], AnimTime(e\room\Objects[4]), 0, 8, 0.1, False)
 							If EntityDistance(Collider, e\room\Objects[4])>392*RoomScale Then
 								BlinkTimer = -10
 								BlurTimer = 500
@@ -6511,8 +6448,6 @@ Function UpdateEvents()
 							e\EventState=4
 						EndIf
 					ElseIf e\EventState=4
-						
-						;PointEntity e\room\NPC[1]\Collider, Collider
 						
 						TFormPoint EntityX(Collider),EntityY(Collider),EntityZ(Collider),0,e\room\obj
 						
@@ -6545,16 +6480,12 @@ Function UpdateEvents()
 									BlinkTimer = -10
 									BlurTimer = 500	
 									Injuries = 1.5
-									Bloodloss = 70
-								;PlaySound_Strict(LoadTempSound("SFX\Door\WoodenDoorClose.ogg"))							
+									Bloodloss = 70						
 								EndIf								
 							EndIf
 							
 						EndIf
 						
-						;RemoveNPC(e\room\NPC[0])
-						;RemoveNPC(e\room\NPC[1])
-						;RemoveEvent(e)
 					ElseIf e\EventState = 5
 						e\EventState2 = e\EventState2 + FPSfactor
 						If e\EventState2 > 500 Then 
@@ -6632,17 +6563,15 @@ Function UpdateEvents()
 				EndIf
 				;[End Block]
 				
-				
-				
 			Case "testroom"
 				;[Block]
 				If e <> Null Then
 					If PlayerRoom = e\room Then
 						If e\EventState = 0 Then
-							e\room\Objects[7]=LoadAnimMesh_Strict("GFX\npcs\scp-1048.b3d")
+							e\room\Objects[7] = CopyEntity(o\NPCModelID[24])
 							ScaleEntity e\room\Objects[7], 0.05,0.05,0.05
 							
-							TFormPoint EntityX(Collider),EntityY(Collider),EntityZ(Collider),0,e\room\obj
+							TFormPoint EntityX(Collider), EntityY(Collider), EntityZ(Collider), 0, e\room\obj
 							If TFormedZ()=0 Then temp = -1 Else temp = -Sgn(TFormedZ())
 							TFormPoint -720,0,816*temp,e\room\obj,0
 							PositionEntity(e\room\Objects[7],TFormedX(),0,TFormedZ())
@@ -6656,12 +6585,10 @@ Function UpdateEvents()
 							For i = 0 To 5
 								em.Emitters = CreateEmitter(EntityX(e\room\Objects[i], True), EntityY(e\room\Objects[i], True), EntityZ(e\room\Objects[i], True), 0)
 								TurnEntity(em\Obj, 90, 0, 0, True)
-								;entityParent(em\obj, e\room\obj)
 								em\RandAngle = 5
 								em\Speed = 0.042
 								em\SizeChange = 0.0025									
 							Next
-							;Delete e
 							e\EventState = e\EventState * -1
 						EndIf
 						If e\room\Objects[7]<>0 Then
@@ -6692,7 +6619,6 @@ Function UpdateEvents()
 							em\RandAngle = 10
 							em\Speed = 0.06
 							em\SizeChange = 0.007
-							;EntityParent(em\Obj, e\room\obj)
 							
 							For z = 0 To Ceil(3.3333*(ParticleAmount+1))
 								p.Particles = CreateParticle(EntityX(em\Obj, True), 448*RoomScale, EntityZ(em\Obj, True), Rand(em\MinImage, em\MaxImage), em\Size, em\Gravity, em\LifeTime)
@@ -7056,7 +6982,6 @@ Function UpdateEvents()
 								e\EventState=e\EventState+FPSfactor
 								AnimateNPC(e\room\NPC[0], 11, 19, 0.25, False)
 								If e\Sound=0 Then 
-									;e\Sound = LoadSound("SFX\General\BodyFall.ogg")
 									LoadEventSound(e,"SFX\General\BodyFall.ogg")
 									PlaySound_Strict e\Sound
 									
@@ -7365,7 +7290,7 @@ Function UpdateEvents()
 								EndIf
 							Next
 							If e\room\Objects[0]=0 Then
-								e\room\Objects[0] =	LoadAnimMesh_Strict("GFX\npcs\scp-1048a.b3d")
+								e\room\Objects[0] =	CopyEntity(o\NPCModelID[13])
 							EndIf
 							ScaleEntity e\room\Objects[0], 0.05,0.05,0.05
 							SetAnimTime(e\room\Objects[0], 2)
@@ -7474,11 +7399,7 @@ Function UpdateEvents()
 				;[Block]
 				If e\room\dist < 10.0 And e\room\dist > 0 Then
 					e\room\NPC[0]=CreateNPC(NPCtypeD, EntityX(e\room\obj,True)+1.0, 0.5, EntityZ(e\room\obj,True)+1.0)
-					e\room\NPC[0]\texture = "GFX\npcs\body1.jpg"
-					tex = LoadTexture_Strict(e\room\NPC[0]\texture)
-					EntityTexture(e\room\NPC[0]\obj, tex)
-					FreeTexture tex
-					;EntityTexture e\room\NPC[0]\obj,NTF_BodyTextures(0)
+					ChangeNPCTextureID(e\room\NPC[0], 9)
 					
 					RotateEntity e\room\NPC[0]\Collider, 0, EntityYaw(e\room\obj)-(Rand(20,60)),0, True	
 					
@@ -8458,7 +8379,7 @@ Function UpdateEvents()
 							RotateEntity e\room\NPC[0]\Collider,0,e\room\angle+180,0
 							MoveEntity e\room\NPC[0]\Collider,0,0,-0.5
 							e\room\NPC[0]\State = 3
-							e\room\NPC[0]\texture = "GFX\npcs\035victim.jpg"
+							e\room\NPC[0]\texture = "GFX\npcs\scp035_victim.png"
 							ChangeNPCTextureID(e\room\NPC[0],7)
 							SetNPCFrame(e\room\NPC[0],19)
 						EndIf
@@ -8523,6 +8444,29 @@ Function UpdateEvents()
 					Next
 				EndIf
 				;[End Block]
+			;MOD
+			Case "room4info"
+			    ;[Block]			
+				If e\EventState = 0 Then
+					e\room\NPC[0] = CreateNPC(NPCtypeClerk, EntityX(e\room\Objects[0], True), 0.5, EntityZ(e\room\Objects[0], True))
+					RotateEntity e\room\NPC[0]\Collider, 0, e\room\angle + 270, 0
+					e\room\NPC[0]\State = 3
+					SetNPCFrame(e\room\NPC[0], 40)
+					e\room\NPC[0]\IsDead = True
+					tex = LoadTexture_Strict("GFX\npcs\body1c.png")
+					EntityTexture(e\room\NPC[0]\obj, tex)
+					FreeTexture tex
+					e\EventState = 1
+					If EntityDistance(e\room\Objects[0], Collider) < 4.0 And EntityDistance(e\room\Objects[0], Collider) > 0 Then e\EventState = 1
+				ElseIf e\EventState = 1
+				    e\EventState = 2	
+				Else
+					If e\room\dist < 7.0 And e\room\dist >= 0 Then 
+						e\SoundCHN = LoopSound2(ScientistRadioSFX(Rand(0,1)), e\SoundCHN, Camera, e\room\Objects[0], 3.5)	
+				    EndIf
+			    EndIf
+				;[End Block]
+			;END
 		End Select
 		
 		If e<>Null Then
@@ -8663,7 +8607,7 @@ Function UpdateDimension1499()
 						n\PrevState = 2
 						n\Angle = 270
 						RotateEntity n\Collider,0,n\Angle,0
-						tex = LoadTexture_Strict("GFX\npcs\1499_King.jpg")
+						tex = LoadTexture_Strict("GFX\npcs\scp1499_1_king.png")
 						EntityTexture n\obj,tex
 						FreeTexture tex
 						e\room\NPC[0] = n
@@ -8959,7 +8903,8 @@ Function UpdateDimension1499()
 End Function
 
 Function UpdateEndings()
-	Local e.Events,n.NPCs,r.Rooms,i,pvt,p.Particles
+	Local e.Events, n.NPCs, r.Rooms, i, pvt, p.Particles
+	Local o.Objects = First Objects
 	
 	For e.Events = Each Events
 		Select e\EventName
@@ -9262,6 +9207,7 @@ Function UpdateEndings()
 												PlaySound_Strict LoadTempSound("SFX\Ending\GateB\Gunshot.ogg")
 												GodMode = 0
 												NoClip = 0
+												Cheats = 0
 												KillTimer = -0.1
 												DeathMSG = ""
 												Kill()
@@ -9285,7 +9231,7 @@ Function UpdateEndings()
 							
 							If e\EventState > 26.5*70 Then
 								If e\room\Objects[12] = 0 Then
-									e\room\Objects[12] = LoadMesh_Strict("GFX\NPCs\682arm.b3d")
+									e\room\Objects[12] = CopyEntity(o\NPCModelID[23])
 									ScaleEntity e\room\Objects[12], 0.15,0.15,0.15
 									temp = (Min(((EntityDistance(e\room\NPC[3]\Collider,Collider)/RoomScale)-3000.0)/4,1000)+12192.0)*RoomScale
 									PositionEntity e\room\Objects[12],EntityX(e\room\NPC[3]\Collider),12192.0*RoomScale,EntityZ(e\room\NPC[3]\Collider)
@@ -9724,7 +9670,7 @@ Function UpdateEndings()
 									
 									If Abs(EntityY(Collider)-EntityY(e\room\Objects[11],True))<1.0 Then
 										If Distance(EntityX(Collider),EntityZ(Collider),EntityX(e\room\Objects[11],True),EntityZ(e\room\Objects[11],True)) < 7.0 Then
-											e\room\Objects[12] = LoadMesh_Strict("GFX\npcs\s2.b3d")
+											e\room\Objects[12] = CopyEntity(o\NPCModelID[28])
 											EntityColor e\room\Objects[12], 0,0,0
 											ScaleMesh (e\room\Objects[12], 0.32/21.3, 0.32/21.3, 0.32/21.3)
 											PositionEntity e\room\Objects[12], EntityX(e\room\Objects[11],True), EntityY(e\room\Objects[11],True), EntityZ(e\room\Objects[11],True)
@@ -9803,6 +9749,7 @@ Function UpdateEndings()
 											
 											SelectedEnding = "A1"
 											GodMode = 0
+											Cheats = 0
 											NoClip = 0
 											KillTimer = -0.1
 											DeathMSG = ""
@@ -9877,6 +9824,7 @@ Function UpdateEndings()
 											PlaySound_Strict IntroSFX(9)
 											SelectedEnding = "A2"
 											GodMode = 0
+											Cheats = 0
 											NoClip = 0
 											KillTimer = -0.1
 											DeathMSG = ""
@@ -9969,6 +9917,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#A16
-;~B#107E#1D05
+;~F#9EB
+;~B#104B#1CBA
 ;~C#Blitz3D

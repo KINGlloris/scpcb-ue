@@ -201,6 +201,10 @@ AppTitle "SCP - Containment Breach Ultimate Edition v"+ModVersionNumber
 
 PlayStartupVideos()
 
+Type Objects
+	Field NPCModelID[MaxNPCModelIDAmount-1]
+End Type
+
 ;---------------------------------------------------------------------------------------------------------------------
 
 ;[Block]
@@ -307,6 +311,12 @@ Global GodMode%, NoClip%, NoClipSpeed# = 2.0
 Global CoffinDistance# = 100.0
 
 Global PlayerSoundVolume#
+
+;MOD
+
+Global Cheats%
+
+;END
 
 ;camera/lighting effects (blur, camera shake, etc)-------------------------------------------------------------------
 Global Shake#
@@ -617,13 +627,23 @@ Function UpdateConsole()
 							CreateConsoleMsg("- camerafog [near] [far]")
 							CreateConsoleMsg("- gamma [value]")
 							CreateConsoleMsg("- infinitestamina")
-							CreateConsoleMsg("******************************")
-							CreateConsoleMsg("Use "+Chr(34)+"help [command name]"+Chr(34)+" to get more information about a command.")
-							CreateConsoleMsg("******************************")
-						Case "3"
 							CreateConsoleMsg("- playmusic [clip + .wav/.ogg]")
 							CreateConsoleMsg("- notarget")
 							CreateConsoleMsg("- unlockexits")
+							CreateConsoleMsg("******************************")
+							CreateConsoleMsg("Use "+Chr(34)+"help [command name]"+Chr(34)+" to get more information about a command.")
+							CreateConsoleMsg("******************************")
+						;MOD
+						Case "3"
+						    CreateConsoleMsg("LIST OF COMMANDS - PAGE 3/3")
+						    CreateConsoleMsg("******************************")
+						    CreateConsoleMsg("MODS COMMANDS")
+						    CreateConsoleMsg("******************************")
+						    CreateConsoleMsg("- cheats")  
+						    CreateConsoleMsg("- reset372") 
+							CreateConsoleMsg("- money") 
+						    CreateConsoleMsg("******************************")
+						;END
 						Case "asd"
 							CreateConsoleMsg("HELP - asd")
 							CreateConsoleMsg("******************************")
@@ -728,12 +748,31 @@ Function UpdateConsole()
 							CreateConsoleMsg("Will play tracks in .ogg/.wav format")
 							CreateConsoleMsg("from "+Chr(34)+"SFX\Music\Custom\"+Chr(34)+".")
 							CreateConsoleMsg("******************************")
-							
+						;MOD
+						Case "reset372" 
+						    CreateConsoleMsg("HELP - reset372")
+							CreateConsoleMsg("******************************")
+							CreateConsoleMsg("Returns SCP-372 to inactive state.")
+							CreateConsoleMsg("******************************")
+						Case "money" 
+							CreateConsoleMsg("HELP - money")
+							CreateConsoleMsg("******************************")
+							CreateConsoleMsg("Generates a lot of money.")
+							CreateConsoleMsg("******************************")
+						Case "cheats" 
+							CreateConsoleMsg("HELP - cheats")
+							CreateConsoleMsg("******************************")
+							CreateConsoleMsg("Actives godmode, noclip, notarget")
+							CreateConsoleMsg("and infinitestamina.")
+							CreateConsoleMsg("Is specified (on/off).")
+							CreateConsoleMsg("******************************")
+						;END
 						Default
 							CreateConsoleMsg("There is no help available for that command.",255,150,0)
 					End Select
 					
 					;[End Block]
+					
 				Case "asd"
 					;[Block]
 					WireFrame 1
@@ -743,6 +782,7 @@ Function UpdateConsole()
 					CameraFogNear = 15
 					CameraFogFar = 20
 					;[End Block]
+					
 				Case "status"
 					;[Block]
 					ConsoleR = 0 : ConsoleG = 255 : ConsoleB = 0
@@ -775,6 +815,7 @@ Function UpdateConsole()
 					CreateConsoleMsg("Bloodloss: "+Bloodloss)
 					CreateConsoleMsg("******************************")
 					;[End Block]
+					
 				Case "camerapick"
 					;[Block]
 					ConsoleR = 0 : ConsoleG = 255 : ConsoleB = 0
@@ -795,40 +836,47 @@ Function UpdateConsole()
 						CreateConsoleMsg("******************************")							
 					EndIf
 					;[End Block]
+					
 				Case "hidedistance"
 					;[Block]
 					HideDistance = Float(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					CreateConsoleMsg("Hidedistance set to "+HideDistance)
 					;[End Block]
+					
 				Case "ending"
 					;[Block]
 					SelectedEnding = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					KillTimer = -0.1
 					;EndingTimer = -0.1
 					;[End Block]
+					
 				Case "noclipspeed"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
 					NoClipSpeed = Float(StrTemp)
 					;[End Block]
+					
 				Case "injure"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
 					Injuries = Float(StrTemp)
 					;[End Block]
+					
 				Case "infect"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
 					Infect = Float(StrTemp)
 					;[End Block]
+					
 				Case "heal"
 					;[Block]
 					Injuries = 0
 					Bloodloss = 0
 					;[End Block]
+					
 				Case "teleport"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -859,6 +907,7 @@ Function UpdateConsole()
 					
 					If PlayerRoom\RoomTemplate\Name <> StrTemp Then CreateConsoleMsg("Room not found.",255,150,0)
 					;[End Block]
+					
 				Case "spawnitem"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -881,6 +930,7 @@ Function UpdateConsole()
 					
 					If temp = False Then CreateConsoleMsg("Item not found.",255,150,0)
 					;[End Block]
+					
 				Case "wireframe"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -902,18 +952,21 @@ Function UpdateConsole()
 					
 					WireFrame WireframeState
 					;[End Block]
+					
 				Case "173speed"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					Curr173\Speed = Float(StrTemp)
 					CreateConsoleMsg("173's speed set to " + StrTemp)
 					;[End Block]
+					
 				Case "106speed"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					Curr106\Speed = Float(StrTemp)
 					CreateConsoleMsg("106's speed set to " + StrTemp)
 					;[End Block]
+					
 				Case "173state"
 					;[Block]
 					CreateConsoleMsg("SCP-173")
@@ -921,6 +974,7 @@ Function UpdateConsole()
 					CreateConsoleMsg("Idle: " + Curr173\Idle)
 					CreateConsoleMsg("State: " + Curr173\State)
 					;[End Block]
+					
 				Case "106state"
 					;[Block]
 					CreateConsoleMsg("SCP-106")
@@ -928,6 +982,7 @@ Function UpdateConsole()
 					CreateConsoleMsg("Idle: " + Curr106\Idle)
 					CreateConsoleMsg("State: " + Curr106\State)
 					;[End Block]
+					
 				Case "reset096"
 					;[Block]
 					For n.NPCs = Each NPCs
@@ -941,24 +996,28 @@ Function UpdateConsole()
 						EndIf
 					Next
 					;[End Block]
+					
 				Case "disable173"
 					;[Block]
 					Curr173\Idle = 3 ;This phenominal comment is brought to you by PolyFox. His absolute wisdom in this fatigue of knowledge brought about a new era of 173 state checks.
 					HideEntity Curr173\obj
 					HideEntity Curr173\Collider
 					;[End Block]
+					
 				Case "enable173"
 					;[Block]
 					Curr173\Idle = False
 					ShowEntity Curr173\obj
 					ShowEntity Curr173\Collider
 					;[End Block]
+					
 				Case "disable106"
 					;[Block]
 					Curr106\Idle = True
 					Curr106\State = 200000
 					Contained106 = True
 					;[End Block]
+					
 				Case "enable106"
 					;[Block]
 					Curr106\Idle = False
@@ -966,21 +1025,23 @@ Function UpdateConsole()
 					ShowEntity Curr106\Collider
 					ShowEntity Curr106\obj
 					;[End Block]
+					
 				Case "halloween"
 					;[Block]
 					HalloweenTex = Not HalloweenTex
 					If HalloweenTex Then
-						Local tex = LoadTexture_Strict("GFX\npcs\173h.pt", 1)
+						Local tex = LoadTexture_Strict("GFX\npcs\scp173_h.pt", 1)
 						EntityTexture Curr173\obj, tex, 0, 0
 						FreeTexture tex
 						CreateConsoleMsg("173 JACK-O-LANTERN ON")
 					Else
-						Local tex2 = LoadTexture_Strict("GFX\npcs\173texture.jpg", 1)
+						Local tex2 = LoadTexture_Strict("GFX\npcs\scp173.png", 1)
 						EntityTexture Curr173\obj, tex2, 0, 0
 						FreeTexture tex2
 						CreateConsoleMsg("173 JACK-O-LANTERN OFF")
 					EndIf
 					;[End Block]
+					
 				Case "sanic"
 					;[Block]
 					SuperMan = Not SuperMan
@@ -990,6 +1051,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("WHOA SLOW DOWN")
 					EndIf
 					;[End Block]
+					
 				Case "scp-420-j", "420j", "weed"
 					;[Block]
 					For i = 1 To 20
@@ -1002,6 +1064,7 @@ Function UpdateConsole()
 					Next
 					PlaySound_Strict LoadTempSound("SFX\Music\Using420J.ogg")
 					;[End Block]
+					
 				Case "godmode", "god"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1020,6 +1083,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("GODMODE OFF")	
 					EndIf
 					;[End Block]
+					
 				Case "revive", "undead", "resurrect"
 					;[Block]
 					DropSpeed = -0.1
@@ -1044,7 +1108,10 @@ Function UpdateConsole()
 					
 					KillTimer = 0
 					KillAnim = 0
+					
+					HideEntity BloodOverlay
 					;[End Block]
+					
 				Case "noclip", "fly"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1078,6 +1145,7 @@ Function UpdateConsole()
 					ShowFPS = Not ShowFPS
 					CreateConsoleMsg("ShowFPS: "+Str(ShowFPS))
 					;[End Block]
+					
 				Case "096state"
 					;[Block]
 					For n.NPCs = Each NPCs
@@ -1091,6 +1159,7 @@ Function UpdateConsole()
 					Next
 					CreateConsoleMsg("SCP-096 has not spawned.")
 					;[End Block]
+					
 				Case "debughud"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1109,6 +1178,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("Debug Mode Off")
 					EndIf
 					;[End Block]
+					
 				Case "stopsound", "stfu"
 					;[Block]
 					For snd.Sound = Each Sound
@@ -1136,6 +1206,7 @@ Function UpdateConsole()
 					Next
 					CreateConsoleMsg("Stopped all sounds.")
 					;[End Block]
+					
 				Case "camerafog"
 					;[Block]
 					args$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1143,12 +1214,14 @@ Function UpdateConsole()
 					CameraFogFar = Float(Right(args, Len(args) - Instr(args, " ")))
 					CreateConsoleMsg("Near set to: " + CameraFogNear + ", far set to: " + CameraFogFar)
 					;[End Block]
+					
 				Case "gamma"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					ScreenGamma = Int(StrTemp)
 					CreateConsoleMsg("Gamma set to " + ScreenGamma)
 					;[End Block]
+					
 				Case "spawn"
 					;[Block]
 					args$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1162,7 +1235,7 @@ Function UpdateConsole()
 						Console_SpawnNPC(StrTemp)
 					EndIf
 					;[End Block]
-				;new Console Commands in SCP:CB 1.3 - ENDSHN
+					
 				Case "infinitestamina", "infstam", "is"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1182,6 +1255,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("INFINITE STAMINA OFF")	
 					EndIf
 					;[End Block]
+					
 				Case "asd2"
 					;[Block]
 					GodMode = 1
@@ -1191,6 +1265,7 @@ Function UpdateConsole()
 					Curr106\State = 200000
 					Contained106 = True
 					;[End Block]
+					
 				Case "toggle_warhead_lever"
 					;[Block]
 					For e.Events = Each Events
@@ -1200,6 +1275,7 @@ Function UpdateConsole()
 						EndIf
 					Next
 					;[End Block]
+					
 				Case "unlockexits"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1238,6 +1314,7 @@ Function UpdateConsole()
 					
 					RemoteDoorOn = True
 					;[End Block]
+					
 				Case "kill", "suicide"
 					;[Block]
 					KillTimer = -1
@@ -1256,6 +1333,7 @@ Function UpdateConsole()
 							DeathMSG = DeathMSG + "No other signs of physical trauma or struggle can be observed. Body was sent for autopsy."
 					End Select
 					;[End Block]
+					
 				Case "playmusic"
 					;[Block]
 					; I think this might be broken since the FMod library streaming was added. -Mark
@@ -1279,6 +1357,7 @@ Function UpdateConsole()
 						If MusicCHN <> 0 Then StopChannel MusicCHN
 					EndIf
 					;[End Block]
+					
 				Case "tp"
 					;[Block]
 					For n.NPCs = Each NPCs
@@ -1291,6 +1370,7 @@ Function UpdateConsole()
 						EndIf
 					Next
 					;[End Block]
+					
 				Case "tele"
 					;[Block]
 					args$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1303,6 +1383,7 @@ Function UpdateConsole()
 					ResetEntity Camera
 					CreateConsoleMsg("Teleported to coordinates (X|Y|Z): "+EntityX(Collider)+"|"+EntityY(Collider)+"|"+EntityZ(Collider))
 					;[End Block]
+					
 				Case "notarget", "nt"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1322,22 +1403,26 @@ Function UpdateConsole()
 						CreateConsoleMsg("NOTARGET ON")	
 					EndIf
 					;[End Block]
+					
 				Case "spawnradio"
 					;[Block]
 					it.Items = CreateItem("Radio Transceiver", "fineradio", EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
 					EntityType(it\collider, HIT_ITEM)
 					it\state = 101
 					;[End Block]
+					
 				Case "spawnnvg"
 					;[Block]
 					it.Items = CreateItem("Night Vision Goggles", "nvgoggles", EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
 					EntityType(it\collider, HIT_ITEM)
 					it\state = 1000
 					;[End Block]
+					
 				Case "spawnpumpkin","pumpkin"
 					;[Block]
 					CreateConsoleMsg("What pumpkin?")
 					;[End Block]
+					
 				Case "spawnnav"
 					;[Block]
 					it.Items = CreateItem("S-NAV Navigator Ultimate", "nav", EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
@@ -1349,6 +1434,7 @@ Function UpdateConsole()
 					PositionEntity Curr173\Collider,EntityX(Collider),EntityY(Collider)+0.2,EntityZ(Collider)
 					ResetEntity Curr173\Collider
 					;[End Block]
+					
 				Case "seteventstate"
 					;[Block]
 					args$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1380,6 +1466,7 @@ Function UpdateConsole()
 						EndIf
 					EndIf
 					;[End Block]
+					
 				Case "spawnparticles"
 					;[Block]
 					If Instr(ConsoleInput, " ")<>0 Then
@@ -1395,6 +1482,7 @@ Function UpdateConsole()
 						CreateConsoleMsg("Particle emitter with ID "+Int(StrTemp)+" not found.",255,150,0)
 					EndIf
 					;[End Block]
+					
 				Case "giveachievement"
 					;[Block]
 					If Instr(ConsoleInput, " ")<>0 Then
@@ -1410,17 +1498,20 @@ Function UpdateConsole()
 						CreateConsoleMsg("Achievement with ID "+Int(StrTemp)+" doesn't exist.",255,150,0)
 					EndIf
 					;[End Block]
+					
 				Case "427state"
 					;[Block]
 					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
 					
 					I_427\Timer = Float(StrTemp)*70.0
 					;[End Block]
+					
 				Case "teleport106"
 					;[Block]
 					Curr106\State = 0
 					Curr106\Idle = False
 					;[End Block]
+					
 				Case "setblinkeffect"
 					;[Block]
 					args$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
@@ -1428,6 +1519,7 @@ Function UpdateConsole()
 					BlinkEffectTimer = Float(Right(args, Len(args) - Instr(args, " ")))
 					CreateConsoleMsg("Set BlinkEffect to: " + BlinkEffect + "and BlinkEffect timer: " + BlinkEffectTimer)
 					;[End Block]
+					
 				Case "jorge"
 					;[Block]	
 					CreateConsoleMsg(Chr(74)+Chr(79)+Chr(82)+Chr(71)+Chr(69)+Chr(32)+Chr(72)+Chr(65)+Chr(83)+Chr(32)+Chr(66)+Chr(69)+Chr(69)+Chr(78)+Chr(32)+Chr(69)+Chr(88)+Chr(80)+Chr(69)+Chr(67)+Chr(84)+Chr(73)+Chr(78)+Chr(71)+Chr(32)+Chr(89)+Chr(79)+Chr(85)+Chr(46))
@@ -1444,6 +1536,57 @@ Function UpdateConsole()
 ;						CreateConsoleMsg(Chr(74)+Chr(32)+Chr(79)+Chr(32)+Chr(82)+Chr(32)+Chr(71)+Chr(32)+Chr(69)+Chr(32)+Chr(32)+Chr(67)+Chr(32)+Chr(65)+Chr(32)+Chr(78)+Chr(32)+Chr(78)+Chr(32)+Chr(79)+Chr(32)+Chr(84)+Chr(32)+Chr(32)+Chr(66)+Chr(32)+Chr(69)+Chr(32)+Chr(32)+Chr(67)+Chr(32)+Chr(79)+Chr(32)+Chr(78)+Chr(32)+Chr(84)+Chr(32)+Chr(65)+Chr(32)+Chr(73)+Chr(32)+Chr(78)+Chr(32)+Chr(69)+Chr(32)+Chr(68)+Chr(46))
 ;					EndIf
 					;[End Block]
+				;MOD
+				Case "cheats" 
+					;[Block]
+					
+					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
+					
+					Select StrTemp
+						Case "on", "1", "true"
+							Cheats = True			
+						Case "off", "0", "false"
+	                        Cheats = False
+						Default
+							Cheats = Not Cheats
+					End Select	
+					If Cheats = True Then
+                        GodMode = True
+                        NoTarget = True
+                        NoClip = True
+                        InfiniteStamina = True
+						CreateConsoleMsg("CHEATS ON")
+					Else
+					    GodMode = False
+                        NoTarget = False
+                        NoClip = False
+                        InfiniteStamina = False
+						CreateConsoleMsg("CHEATS OFF")	
+					EndIf
+					;[End Block]
+					
+				Case "reset372" 
+					;[Block]				
+					For n.NPCs = Each NPCs
+						If n\NPCtype = NPCtype372 Then
+							RemoveNPC(n)
+							CreateEvent("room372", "room372", 0, 0)   
+							Exit
+						EndIf
+				    Next
+					;[End Block]
+				Case "money", "rich"
+					;[Block]
+					For i = 1 To 20
+					    If Rand(2) = 1 Then
+						    it.Items = CreateItem("Quarter","25ct", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
+					    Else
+					        it.Items = CreateItem("Coin","coin", EntityX(Collider,True)+Cos((360.0/20.0)*i)*Rnd(0.3,0.5), EntityY(Camera,True), EntityZ(Collider,True)+Sin((360.0/20.0)*i)*Rnd(0.3,0.5))
+					    EndIf
+					    EntityType (it\collider, HIT_ITEM)
+					Next
+					;[End Block]
+				;END
 				Default
 					;[Block]
 					CreateConsoleMsg("Command not found.",255,0,0)
@@ -1552,19 +1695,19 @@ Music(3) = "PD"
 Music(4) = "Room079"
 Music(5) = "GateB1"
 Music(6) = "GateB2"
-Music(7) = "Room2Tunnel"
+Music(7) = "Room3Storage"
 Music(8) = "Room049"
-Music(9) = "Forest"
+Music(9) = "860_1"
 Music(10) = "106Chase"
 Music(11) = "Menu"
-Music(12) = "ForestMonsterChase"
+Music(12) = "860_2Chase"
 Music(13) = "Intro"
 Music(14) = "Using178"
 Music(15) = "PDTrench"
 Music(16) = "Room205"
 Music(17) = "GateA"
 Music(18) = "Dimension1499"
-Music(19) = "1499Chase"
+Music(19) = "1499_1Chase"
 Music(20) = "049Chase"
 Music(21) = "..\Ending\MenuBreath"
 Music(22) = "Room914"
@@ -1572,7 +1715,7 @@ Music(23) = "Ending"
 Music(24) = "Credits"
 Music(25) = "SaveMeFrom"
 ;MOD
-Music(26) = "Room3Storage"
+Music(26) = "Room2Tunnel"
 ;END
 
 Global MusicVolume# = GetINIFloat(OptionFile, "audio", "music volume")
@@ -1692,14 +1835,18 @@ Dim StepSFX%(5, 2, 8) ;(normal/metal, walk/run, id)
 
 Dim Step2SFX(6)
 
+;MOD
+
+Dim ScientistRadioSFX%(1) 
+
+;END
+
 DrawLoading(30, True)
 
-;[End block]
+;[End Block]
 
 ;New Sounds and Meshes/Other things in SCP:CB 1.3 - ENDSHN
 ;[Block]
-;Global NTF_1499EnterSFX% = LoadSound_Strict("SFX\SCP\1499\Enter.ogg")
-;Global NTF_1499LeaveSFX% = LoadSound_Strict("SFX\SCP\1499\Exit.ogg")
 
 Global PlayCustomMusic% = False, CustomMusic% = 0
 
@@ -1771,9 +1918,6 @@ Global LightConeModel
 Global ParticleEffect[10]
 
 Global DTextures[MaxDTextures]
-
-Global NPC049OBJ, NPC0492OBJ
-Global ClerkOBJ
 
 Global IntercomStreamCHN%
 
@@ -2659,6 +2803,12 @@ Function InitEvents()
 	
 	CreateEvent("room1archive", "room1archive", 0, 1.0)
 	
+	;MOD
+	
+	CreateEvent("room4info", "room4info", 0)
+	
+	;END
+	
 End Function
 
 Include "Source Code\UpdateEvents.bb"
@@ -2713,8 +2863,7 @@ Dim DecalTextures%(20)
 Global Monitor%, MonitorTexture%
 Global CamBaseOBJ%, CamOBJ%
 
-Global LiquidObj%,MTFObj%,GuardObj%,ClassDObj%
-Global ApacheObj%,ApacheRotorObj%
+Global LiquidObj%
 
 Global UnableToMove% = False
 Global ShouldEntitiesFall% = True
@@ -2726,6 +2875,12 @@ Global Save_MSG_Y# = 0.0
 
 Global MTF_CameraCheckTimer# = 0.0
 Global MTF_CameraCheckDetected% = False
+
+;MOD
+
+Global BloodTexture%, BloodOverlay%
+
+;END
 
 ;---------------------------------------------------------------------------------------------------
 
@@ -3568,7 +3723,7 @@ Function QuickLoadEvents()
 				e\EventStr = "load2"
 			ElseIf e\EventStr = "load2"
 				QuickLoadPercent = 100
-				If e\room\NPC[0]=Null Then e\room\NPC[0]=CreateNPC(NPCtypeForestMonster, 0,0,0)
+				If e\room\NPC[0] = Null Then e\room\NPC[0] = CreateNPC(NPCtype8602, 0,0,0)
 				e\EventStr = "loaddone"
 			EndIf
 			;[End Block]
@@ -3640,7 +3795,7 @@ Function QuickLoadEvents()
 	
 End Function
 
-Function Kill()
+Function Kill(blood%=True)
 	If GodMode Then Return
 	
 	If BreathCHN <> 0 Then
@@ -3655,6 +3810,8 @@ Function Kill()
 			DeleteDir(SavePath + CurrSave)
 			LoadSaveGames()
 		End If
+		
+		If blood% = True Then ShowEntity BloodOverlay
 		
 		KillTimer = Min(-1, KillTimer)
 		ShowEntity Head
@@ -4611,7 +4768,7 @@ Function DrawGUI()
 							If e\img = 0 Then
 								If BlinkTimer > -5 And Rand(30)=1 Then
 									PlaySound_Strict DripSFX(0)
-									If e\img = 0 Then e\img = LoadImage_Strict("GFX\npcs\106face.jpg")
+									If e\img = 0 Then e\img = LoadImage_Strict("GFX\npcs\scp106_face.png")
 								EndIf
 							Else
 								DrawImage e\img, GraphicWidth/2-Rand(390,310), GraphicHeight/2-Rand(290,310)
@@ -5129,21 +5286,6 @@ Function DrawGUI()
 					RotateEntity(SelectedItem\collider, 0, Rand(360), 0)
 					ResetEntity (SelectedItem\collider)
 					;move the item so that it doesn't overlap with other items
-					;For it.Items = Each Items
-					;	If it <> SelectedItem And it\Picked = False Then
-					;		x = Abs(EntityX(SelectedItem\collider, True)-EntityX(it\collider, True))
-					;		If x < 0.2 Then 
-					;			z = Abs(EntityZ(SelectedItem\collider, True)-EntityZ(it\collider, True))
-					;			If z < 0.2 Then
-					;				While (x+z)<0.25
-					;					MoveEntity(SelectedItem\collider, 0, 0, 0.025)
-					;					x = Abs(EntityX(SelectedItem\collider, True)-EntityX(it\collider, True))
-					;					z = Abs(EntityZ(SelectedItem\collider, True)-EntityZ(it\collider, True))
-					;				Wend
-					;			EndIf
-					;		EndIf
-					;	EndIf
-					;Next
 					
 					SelectedItem\DropSpeed = 0.0
 					
@@ -7803,14 +7945,15 @@ Function LoadEntities()
 	DrawLoading(0)
 	
 	Local i%
+	Local o.Objects = New Objects
 	
-	For i=0 To 9
-		TempSounds[i]=0
+	For i = 0 To 9
+		TempSounds[i] = 0
 	Next
 	
 	PauseMenuIMG% = LoadImage_Strict("GFX\menu\pausemenu.jpg")
 	MaskImage PauseMenuIMG, 255,255,0
-	ScaleImage PauseMenuIMG,MenuScale,MenuScale
+	ScaleImage PauseMenuIMG, MenuScale, MenuScale
 	
 	SprintIcon% = LoadImage_Strict("GFX\sprinticon.png")
 	BlinkIcon% = LoadImage_Strict("GFX\blinkicon.png")
@@ -7831,8 +7974,6 @@ Function LoadEntities()
 	CameraFogNear# = GetINIFloat("options.ini", "options", "camera fog near")
 	CameraFogFar# = GetINIFloat("options.ini", "options", "camera fog far")
 	StoredCameraFogFar# = CameraFogFar
-	
-	;TextureLodBias
 	
 	AmbientLightRoomTex% = CreateTexture(2,2,257)
 	TextureBlend AmbientLightRoomTex,5
@@ -7857,7 +7998,6 @@ Function LoadEntities()
 	
 	CreateBlurImage()
 	CameraProjMode ark_blur_cam,0
-	;Listener = CreateListener(Camera)
 	
 	FogTexture = LoadTexture_Strict("GFX\fog.jpg", 1)
 	
@@ -7886,7 +8026,6 @@ Function LoadEntities()
 	EntityFX(InfectOverlay, 1)
 	EntityOrder InfectOverlay, -1003
 	MoveEntity(InfectOverlay, 0, 0, 1.0)
-	;EntityAlpha (InfectOverlay, 255.0)
 	HideEntity(InfectOverlay)
 	
 	NVTexture = LoadTexture_Strict("GFX\NightVisionOverlay.jpg", 1)
@@ -7905,6 +8044,20 @@ Function LoadEntities()
 	EntityOrder NVBlink, -1005
 	MoveEntity(NVBlink, 0, 0, 1.0)
 	HideEntity(NVBlink)
+	
+	;MOD
+	
+	BloodTexture = LoadTexture_Strict("GFX\BloodOverlay.png", 1)
+	BloodOverlay = CreateSprite(ark_blur_cam)
+	ScaleSprite(BloodOverlay, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityTexture(BloodOverlay, BloodTexture)
+	EntityBlend (BloodOverlay, 2)
+	EntityFX(BloodOverlay, 1)
+	EntityOrder BloodOverlay, -1003
+	MoveEntity(BloodOverlay, 0, 0, 1.0)
+	HideEntity(BloodOverlay)
+	
+	;END
 	
 	FogNVTexture = LoadTexture_Strict("GFX\fogNV.jpg", 1)
 	
@@ -7949,85 +8102,85 @@ Function LoadEntities()
 	EntityRadius Head, 0.15
 	EntityType Head, HIT_PLAYER
 	
-	
 	LiquidObj = LoadMesh_Strict("GFX\items\cupliquid.x") ;optimized the cups dispensed by 294
 	HideEntity LiquidObj
 	
-	MTFObj = LoadAnimMesh_Strict("GFX\npcs\MTF2.b3d") ;optimized MTFs
-	GuardObj = LoadAnimMesh_Strict("GFX\npcs\guard.b3d") ;optimized Guards
-	;GuardTex = LoadTexture_Strict("GFX\npcs\body.jpg") ;optimized the guards even more
+	;[NPCs]
 	
-	;If BumpEnabled Then
-	;	bump1 = LoadTexture_Strict("GFX\npcs\mtf_newnormal01.png")
-	;	;TextureBlend bump1, FE_BUMP ;USE DOT3
-	;		
-	;	For i = 2 To CountSurfaces(MTFObj)
-	;		sf = GetSurface(MTFObj,i)
-	;		b = GetSurfaceBrush( sf )
-	;		t1 = GetBrushTexture(b,0)
-	;		
-	;		Select Lower(StripPath(TextureName(t1)))
-	;			Case "MTF_newdiffuse02.png"
-	;				
-	;				BrushTexture b, bump1, 0, 0
-	;				BrushTexture b, t1, 0, 1
-	;				PaintSurface sf,b
-	;		End Select
-	;		FreeBrush b
-	;		FreeTexture t1
-	;	Next
-	;	FreeTexture bump1	
-	;EndIf
+	o\NPCModelID[0] = LoadAnimMesh_Strict("GFX\npcs\scp008_1.b3d") ;SCP-008-1
+	
+	o\NPCModelID[1] = LoadAnimMesh_Strict("GFX\npcs\scp035_tentacle.b3d") ;SCP-035's Tentacle
+	
+	o\NPCModelID[2] = LoadAnimMesh_Strict("GFX\npcs\scp049.b3d") ;SCP-049
+	
+	o\NPCModelID[3] = LoadAnimMesh_Strict("GFX\npcs\scp049_2.b3d") ;SCP-049-2
+	
+	o\NPCModelID[4] = LoadAnimMesh_Strict("GFX\npcs\scp066.b3d") ;SCP-066
+	
+	o\NPCModelID[5] = LoadAnimMesh_Strict("GFX\npcs\scp096.b3d") ;SCP-096
+	
+	o\NPCModelID[6] = LoadAnimMesh_Strict("GFX\npcs\scp106.b3d") ;SCP-106
+	
+	o\NPCModelID[7] = LoadMesh_Strict("GFX\npcs\scp173.b3d") ;SCP-173
+	
+	o\NPCModelID[8] = LoadMesh_Strict("GFX\scp173_box.b3d") ;SCP-173's Box
+	
+	o\NPCModelID[9] = LoadAnimMesh_Strict("GFX\npcs\scp372.b3d") ;SCP-372
+	
+	o\NPCModelID[10] = LoadAnimMesh_Strict("GFX\npcs\scp513_1.b3d") ;SCP-513-1
+	
+	o\NPCModelID[11] = LoadAnimMesh_Strict("GFX\npcs\scp939.b3d") ;SCP-939
+	
+	o\NPCModelID[12] = LoadAnimMesh_Strict("GFX\npcs\scp966.b3d") ;SCP-966
+	
+	o\NPCModelID[13] = LoadAnimMesh_Strict("GFX\npcs\scp1048_a.b3d") ;SCP-1048-A
+	
+	o\NPCModelID[14] = LoadAnimMesh_Strict("GFX\npcs\scp1499_1.b3d") ;SCP-1499
+	
+	o\NPCModelID[15] = LoadAnimMesh_Strict("GFX\npcs\apache.b3d") ;Apache Helicopter
+	
+	o\NPCModelID[16] = LoadAnimMesh_Strict("GFX\npcs\apacherotor.b3d") ;Apache's Rotor #1
+	
+	o\NPCModelID[17] = LoadAnimMesh_Strict("GFX\npcs\apacherotor2.b3d") ;Apache's Rotor #2
+	
+	o\NPCModelID[18] = LoadAnimMesh_Strict("GFX\npcs\clerk.b3d") ;Clerk
+	
+	o\NPCModelID[19] = LoadAnimMesh_Strict("GFX\npcs\class_d.b3d") ;Class-D
+	
+	o\NPCModelID[20] = LoadAnimMesh_Strict("GFX\npcs\scp860_2.b3d") ;SCP-860-2
+	
+	o\NPCModelID[21] = LoadAnimMesh_Strict("GFX\npcs\guard.b3d") ;Guard
+	
+	o\NPCModelID[22] = LoadAnimMesh_Strict("GFX\npcs\MTF.b3d") ;MTF
+	
+	o\NPCModelID[23] = LoadMesh_Strict("GFX\npcs\scp682_arm.b3d") ;SCP-682's arm
+	
+	o\NPCModelID[24] = LoadAnimMesh_Strict("GFX\npcs\scp1048.b3d") ;SCP-1048
+	
+	o\NPCModelID[25] = LoadAnimMesh_Strict("GFX\npcs\duck.b3d") ;Anomalous Duck
+	
+	o\NPCModelID[26] = LoadAnimMesh_Strict("GFX\npcs\nazi_officer.b3d") ;Nazi Officer
+	
+	o\NPCModelID[27] = LoadAnimMesh_Strict("GFX\npcs\scp1048_p.b3d") ;SCP-1048 With Pen
+	
+	o\NPCModelID[28] = LoadAnimMesh_Strict("GFX\npcs\CI.b3d") ;CI
+	
+	o\NPCModelID[29] = LoadAnimMesh_Strict("GFX\npcs\scp035.b3d") ;SCP-035
+	
+	For i = 0 To MaxNPCModelIDAmount-1
+        HideEntity o\NPCModelID[i]
+    Next
 	
 	
 	
-	ClassDObj = LoadAnimMesh_Strict("GFX\npcs\classd.b3d") ;optimized Class-D's and scientists/researchers
-	ApacheObj = LoadAnimMesh_Strict("GFX\apache.b3d") ;optimized Apaches (helicopters)
-	ApacheRotorObj = LoadAnimMesh_Strict("GFX\apacherotor.b3d") ;optimized the Apaches even more
 	
-	HideEntity MTFObj
-	HideEntity GuardObj
-	HideEntity ClassDObj
-	HideEntity ApacheObj
-	HideEntity ApacheRotorObj
 	
-	;Other NPCs pre-loaded
-	;[Block]
-	NPC049OBJ = LoadAnimMesh_Strict("GFX\npcs\scp-049.b3d")
-	HideEntity NPC049OBJ
-	NPC0492OBJ = LoadAnimMesh_Strict("GFX\npcs\zombie1.b3d")
-	HideEntity NPC0492OBJ
-	ClerkOBJ = LoadAnimMesh_Strict("GFX\npcs\clerk.b3d")
-	HideEntity ClerkOBJ	
-	;[End Block]
 	
-;	For i=0 To 4
-;		Select True
-;			Case i=2
-;				tempStr="2c"
-;			Case i>2
-;				tempStr=Str(i)
-;			Default
-;				tempStr=Str(i+1)
-;		End Select
-;		OBJTunnel(i)=LoadRMesh("GFX\map\mt"+tempStr+".rmesh",Null)
-;		HideEntity OBJTunnel(i)
-;	Next
 	
-;	OBJTunnel(0)=LoadRMesh("GFX\map\mt1.rmesh",Null)	
-;	HideEntity OBJTunnel(0)				
-;	OBJTunnel(1)=LoadRMesh("GFX\map\mt2.rmesh",Null)	
-;	HideEntity OBJTunnel(1)
-;	OBJTunnel(2)=LoadRMesh("GFX\map\mt2c.rmesh",Null)	
-;	HideEntity OBJTunnel(2)				
-;	OBJTunnel(3)=LoadRMesh("GFX\map\mt3.rmesh",Null)	
-;	HideEntity OBJTunnel(3)	
-;	OBJTunnel(4)=LoadRMesh("GFX\map\mt4.rmesh",Null)	
-;	HideEntity OBJTunnel(4)				
-;	OBJTunnel(5)=LoadRMesh("GFX\map\mt_elevator.rmesh",Null)
-;	HideEntity OBJTunnel(5)
-;	OBJTunnel(6)=LoadRMesh("GFX\map\mt_generator.rmesh",Null)
-;	HideEntity OBJTunnel(6)
+	
+	
+	
+	
 	
 	LightSpriteTex(0) = LoadTexture_Strict("GFX\light1.jpg", 1)
 	LightSpriteTex(1) = LoadTexture_Strict("GFX\light2.jpg", 1)
@@ -8066,24 +8219,6 @@ Function LoadEntities()
 	HideEntity LeverBaseOBJ
 	LeverOBJ = LoadMesh_Strict("GFX\map\leverhandle.x")
 	HideEntity LeverOBJ
-	
-	;For i = 0 To 1
-	;	HideEntity BigDoorOBJ(i)
-	;	;If BumpEnabled And 0 Then
-	;	If BumpEnabled
-	;		
-	;		Local bumptex = LoadTexture_Strict("GFX\map\containmentdoorsbump.jpg")
-	;		;TextureBlend bumptex, FE_BUMP
-	;		Local tex = LoadTexture_Strict("GFX\map\containment_doors.jpg")	
-	;		EntityTexture BigDoorOBJ(i), bumptex, 0, 0
-	;		EntityTexture BigDoorOBJ(i), tex, 0, 1
-	;		
-	;		;FreeEntity tex
-	;		;FreeEntity bumptex
-	;		FreeTexture tex
-	;		FreeTexture bumptex
-	;	EndIf
-	;Next
 	
 	DrawLoading(15)
 	
@@ -8214,45 +8349,58 @@ Function LoadEntities()
 	;NPCtypeD - different models with different textures (loaded using "CopyEntity") - ENDSHN
 	;[Block]
 	For i=1 To MaxDTextures
-		DTextures[i] = CopyEntity(ClassDObj)
+		DTextures[i] = CopyEntity(o\NPCModelID[19])
 		HideEntity DTextures[i]
 	Next
 	;Gonzales
-	tex = LoadTexture_Strict("GFX\npcs\gonzales.jpg")
-	EntityTexture DTextures[1],tex
+	tex = LoadTexture_Strict("GFX\npcs\gonzales.png")
+	EntityTexture DTextures[1], tex
 	FreeTexture tex
-	;SCP-970 corpse
-	tex = LoadTexture_Strict("GFX\npcs\corpse.jpg")
-	EntityTexture DTextures[2],tex
+	;SCP-970's Corpse
+	tex = LoadTexture_Strict("GFX\npcs\corpse.png")
+	EntityTexture DTextures[2], tex
 	FreeTexture tex
-	;scientist 1
-	tex = LoadTexture_Strict("GFX\npcs\scientist.jpg")
-	EntityTexture DTextures[3],tex
+	;Scientist #1
+	tex = LoadTexture_Strict("GFX\npcs\scientist.png")
+	EntityTexture DTextures[3], tex
 	FreeTexture tex
-	;scientist 2
-	tex = LoadTexture_Strict("GFX\npcs\scientist2.jpg")
-	EntityTexture DTextures[4],tex
+	;Scientist #2
+	tex = LoadTexture_Strict("GFX\npcs\scientist2.png")
+	EntityTexture DTextures[4], tex
 	FreeTexture tex
-	;janitor
-	tex = LoadTexture_Strict("GFX\npcs\janitor.jpg")
-	EntityTexture DTextures[5],tex
+	;Janitor
+	tex = LoadTexture_Strict("GFX\npcs\janitor.png")
+	EntityTexture DTextures[5], tex
 	FreeTexture tex
-	;106 Victim
-	tex = LoadTexture_Strict("GFX\npcs\106victim.jpg")
-	EntityTexture DTextures[6],tex
+	;SCP-106 Victim #1
+	tex = LoadTexture_Strict("GFX\npcs\scp106_victim1.png")
+	EntityTexture DTextures[6], tex
 	FreeTexture tex
-	;2nd ClassD
-	tex = LoadTexture_Strict("GFX\npcs\classd2.jpg")
-	EntityTexture DTextures[7],tex
+	;Class-D #1 already used in model
+	;Class-D #2
+	tex = LoadTexture_Strict("GFX\npcs\class_d2.png")
+	EntityTexture DTextures[7], tex
 	FreeTexture tex
-	;035 victim
-	tex = LoadTexture_Strict("GFX\npcs\035victim.jpg")
-	EntityTexture DTextures[8],tex
+	;SCP-035's Victim
+	tex = LoadTexture_Strict("GFX\npcs\scp035_victim.png")
+	EntityTexture DTextures[8], tex
+	FreeTexture tex
+	;D-9341
+	tex = LoadTexture_Strict("GFX\npcs\d_9341.png")
+	EntityTexture DTextures[9], tex
+	FreeTexture tex
+	;Body #1
+	tex = LoadTexture_Strict("GFX\npcs\body1.png")
+	EntityTexture DTextures[10], tex
+	FreeTexture tex
+	;Body #2
+	tex = LoadTexture_Strict("GFX\npcs\body2.png")
+	EntityTexture DTextures[11], tex
 	FreeTexture tex
 	
 	;[End Block]
 	
-	LoadMaterials("DATA\materials.ini")
+	LoadMaterials("Data\materials.ini")
 	
 	OBJTunnel(0)=LoadRMesh("GFX\map\mt1.rmesh",Null)	
 	HideEntity OBJTunnel(0)				
@@ -8572,7 +8720,6 @@ Function InitLoadGame()
 				FreeTexture planetex%
 				PositionEntity e\room\Objects[0],0,EntityY(e\room\obj),0
 				EntityType e\room\Objects[0],HIT_MAP
-				;EntityParent e\room\Objects[0],e\room\obj
 				DrawLoading(92)
 				NTF_1499Sky = sky_CreateSky("GFX\map\sky\1499sky")
 				DrawLoading(93)
@@ -8591,8 +8738,6 @@ Function InitLoadGame()
 				Next
 				DrawLoading(98)
 				UpdateChunks(e\room,15,False)
-				;MoveEntity Collider,0,10,0
-				;ResetEntity Collider
 				
 				DebugLog "Loaded dimension1499 successful"
 				
@@ -8618,6 +8763,8 @@ Function NullGame(playbuttonsfx%=True)
 	Local i%, x%, y%, lvl
 	Local itt.ItemTemplates, s.Screens, lt.LightTemplates, d.Doors, m.Materials
 	Local wp.WayPoints, twp.TempWayPoints, r.Rooms, it.Items
+	Local o.Objects = First Objects
+	
 	
 	KillSounds()
 	If playbuttonsfx Then PlaySound_Strict ButtonSFX
@@ -8691,6 +8838,9 @@ Function NullGame(playbuttonsfx%=True)
 	
 	GodMode = 0
 	NoClip = 0
+	;MOD
+	Cheats = 0
+	;END
 	WireframeState = 0
 	WireFrame 0
 	WearingGasMask = 0
@@ -8814,6 +8964,11 @@ Function NullGame(playbuttonsfx%=True)
 	For n.NPCS = Each NPCs
 		Delete n
 	Next
+	;MOD
+	For o.Objects = Each Objects
+		Delete o
+	Next
+	;END
 	Curr173 = Null
 	Curr106 = Null
 	Curr096 = Null
@@ -11904,6 +12059,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#53D#23AC
-;~B#11CA#1442#1BE0
+;~F#592#2447
+;~B#1267#14D0#1C6E
 ;~C#Blitz3D

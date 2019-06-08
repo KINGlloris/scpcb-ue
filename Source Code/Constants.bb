@@ -2,11 +2,12 @@
 
 ;[NPCs]
 
-Const NPCtype173% = 1, NPCtype106% = 2, NPCtypeGuard% = 3, NPCtypeD% = 4
-Const NPCtype372% = 6, NPCtypeApache% = 7, NPCtypeMTF% = 8, NPCtype096 = 9
-Const NPCtype049% = 10, NPCtype0492% = 11, NPCtype5131% = 12, NPCtype035Tentacle% = 13
-Const NPCtypeForestMonster% = 14, NPCtype939% = 15, NPCtype066% = 16, NPCtypePdPlane% = 17
-Const NPCtype966% = 18, NPCtype1048a = 19, NPCtype1499% = 20, NPCtype0081% = 21, NPCtypeClerk% = 22
+Const NPCtype0081% = 1, NPCtype035Tentacle% = 2, NPCtype049% = 3, NPCtype0492% = 4, NPCtype066% = 5
+Const NPCtype096 = 6,  NPCtype106% = 7, NPCtype173% = 8, NPCtype372% = 9, NPCtype5131% = 10,  NPCtype8602% = 11
+Const NPCtype939% = 12, NPCtype966% = 13, NPCtype1048a = 14, NPCtype1499% = 15
+
+Const NPCtypeApache% = 16, NPCtypeClerk% = 17, NPCtypeD% = 18, NPCtypeGuard% = 19
+Const NPCtypeMTF% = 20, NPCtypePdPlane% = 21
 
 ;[COLLISIONS]
 
@@ -28,7 +29,7 @@ Const ClrB = 50
 
 ;[TEXTURES]
 
-Const MaxDTextures = 8
+Const MaxDTextures = 11
 
 ;[ITEMS]
 
@@ -112,6 +113,10 @@ Const ModVersionNumber$ = "5.4"
 ;[PLAYER]
 
 Const SubjectName$ = "Subject D-9341"
+
+;[OBJECTS]
+
+Const MaxNPCModelIDAmount = 30
 
 ;~IDEal Editor Parameters:
 ;~C#Blitz3D

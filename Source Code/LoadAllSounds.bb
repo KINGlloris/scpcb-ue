@@ -22,7 +22,7 @@ ScannerSFX2 = LoadSound_Strict("SFX\Interact\ScannerUse2.ogg")
 OpenDoorFastSFX=LoadSound_Strict("SFX\Door\DoorOpenFast.ogg")
 CautionSFX% = LoadSound_Strict("SFX\Room\LockroomSiren.ogg")
 
- ;NuclearSirenSFX%
+;NuclearSirenSFX%
 
 CameraSFX = LoadSound_Strict("SFX\General\Camera.ogg") 
 
@@ -39,9 +39,9 @@ TeslaPowerUpSFX = LoadSound_Strict("SFX\Room\Tesla\PowerUp.ogg")
 
 MagnetUpSFX% = LoadSound_Strict("SFX\Room\106Chamber\MagnetUp.ogg") 
 MagnetDownSFX = LoadSound_Strict("SFX\Room\106Chamber\MagnetDown.ogg")
- ;FemurBreakerSFX%
- ;EndBreathCHN%
- ;EndBreathSFX%
+;FemurBreakerSFX%
+;EndBreathCHN%
+;EndBreathSFX%
 
 ;Dim DecaySFX%(5)
 For i = 0 To 3
@@ -88,7 +88,7 @@ For i = 0 To 3
 	PickSFX(i) = LoadSound_Strict("SFX\Interact\PickItem" + i + ".ogg")
 Next
 
- ;AmbientSFXCHN% 
+;AmbientSFXCHN% 
 ;CurrAmbientSFX%
 ;Dim AmbientSFXAmount(6)
 ;0 = light containment, 1 = heavy containment, 2 = entrance
@@ -149,10 +149,10 @@ AlarmSFX(4) = LoadSound_Strict("SFX\Alarm\Alarm5.ogg")
 
  HeartBeatSFX = LoadSound_Strict("SFX\Character\D9341\Heartbeat.ogg")
 
- ;VomitSFX%
+;VomitSFX%
 
 ;Dim BreathSFX(2,5)
- ;BreathCHN%
+;BreathCHN%
 For i = 0 To 4
 	BreathSFX(0,i)=LoadSound_Strict("SFX\Character\D9341\breath"+i+".ogg")
 	BreathSFX(1,i)=LoadSound_Strict("SFX\Character\D9341\breath"+i+"gas.ogg")
@@ -182,7 +182,7 @@ Next
 
  ApacheSFX = LoadSound_Strict("SFX\Character\Apache\Propeller.ogg")
 
- ;CurrStepSFX
+;CurrStepSFX
 ;Dim StepSFX%(4, 2, 8) ;(normal/metal, walk/run, id)
 For i = 0 To 7
 	StepSFX(0, 0, i) = LoadSound_Strict("SFX\Step\Step" + (i + 1) + ".ogg")
@@ -203,6 +203,17 @@ For i = 0 To 2
 	Step2SFX(i) = LoadSound_Strict("SFX\Step\StepPD" + (i + 1) + ".ogg")
 	Step2SFX(i+3) = LoadSound_Strict("SFX\Step\StepForest" + (i + 1) + ".ogg")
 Next 
+
+;MOD
+
+;Dim ScientistRadioSFX%(1) 
+
+For i = 0 To 1
+    ScientistRadioSFX(i) = LoadSound_Strict("SFX\Character\Scientist\Radio" + i + ".ogg")
+Next
+
+;END
+
 End Function
 
 
