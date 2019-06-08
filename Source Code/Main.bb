@@ -1549,28 +1549,31 @@ Music(0) = "The Dread"
 Music(1) = "HeavyContainment"
 Music(2) = "EntranceZone"
 Music(3) = "PD"
-Music(4) = "079"
+Music(4) = "Room079"
 Music(5) = "GateB1"
 Music(6) = "GateB2"
-Music(7) = "Room3Storage"
+Music(7) = "Room2Tunnel"
 Music(8) = "Room049"
-Music(9) = "8601"
-Music(10) = "106"
+Music(9) = "Forest"
+Music(10) = "106Chase"
 Music(11) = "Menu"
-Music(12) = "8601Cancer"
+Music(12) = "ForestMonsterChase"
 Music(13) = "Intro"
-Music(14) = "178"
+Music(14) = "Using178"
 Music(15) = "PDTrench"
-Music(16) = "205"
+Music(16) = "Room205"
 Music(17) = "GateA"
-Music(18) = "1499"
-Music(19) = "1499Danger"
+Music(18) = "Dimension1499"
+Music(19) = "1499Chase"
 Music(20) = "049Chase"
 Music(21) = "..\Ending\MenuBreath"
-Music(22) = "914"
+Music(22) = "Room914"
 Music(23) = "Ending"
 Music(24) = "Credits"
 Music(25) = "SaveMeFrom"
+;MOD
+Music(26) = "Room3Storage"
+;END
 
 Global MusicVolume# = GetINIFloat(OptionFile, "audio", "music volume")
 ;Global MusicCHN% = StreamSound_Strict("SFX\Music\"+Music(2)+".ogg", MusicVolume, CurrMusicStream)
@@ -11901,6 +11904,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#53D#23A9
-;~B#11C7#143F#1BDD
+;~F#53D#23AC
+;~B#11CA#1442#1BE0
 ;~C#Blitz3D

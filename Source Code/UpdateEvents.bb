@@ -4722,7 +4722,7 @@ Function UpdateEvents()
 						
 						GiveAchievement(Achv939)
 						
-						ShouldPlay = 7
+						ShouldPlay = 26
 						
 						If e\room\NPC[0]=Null Or e\room\NPC[1]=Null Or e\room\NPC[2]=Null Then
 							If QuickLoadPercent = -1 Then
@@ -4862,10 +4862,10 @@ Function UpdateEvents()
 						EndIf
 					Else
 						
-						If e\Sound=0 Then LoadEventSound(e,"SFX\Music\012Golgotha.ogg")
+						If e\Sound=0 Then LoadEventSound(e,"SFX\Music\Room012Golgotha.ogg")
 						e\SoundCHN = LoopSound2(e\Sound, e\SoundCHN, Camera, e\room\Objects[3], 5.0)
 						
-						If e\Sound2=0 Then LoadEventSound(e,"SFX\Music\012.ogg",1)
+						If e\Sound2=0 Then LoadEventSound(e,"SFX\Music\Room012.ogg",1)
 						
 						If e\EventState<90 Then e\EventState=CurveValue(90,e\EventState,500)
 						PositionEntity e\room\Objects[2], EntityX(e\room\Objects[2],True),(-130-448*Sin(e\EventState))*RoomScale,EntityZ(e\room\Objects[2],True),True
