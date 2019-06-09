@@ -43,7 +43,7 @@ Function UpdateEvents()
 						e\EventState2 = UpdateElevators(e\EventState2, e\room\RoomDoors[0], e\room\RoomDoors[1], e\room\Objects[8], e\room\Objects[9], e)
 					EndIf
 					
-					EntityAlpha Fog, 1.0						
+					EntityAlpha at\OverlayID[0], 1.0						
 				EndIf
 				;[End Block]
 			Case "alarm" ;the alarm in the starting room
@@ -63,7 +63,7 @@ Function UpdateEvents()
 						
 						e\room\RoomDoors[2]\open=True
 						
-						ShowEntity Fog
+						ShowEntity at\OverlayID[0]
 						AmbientLight Brightness, Brightness, Brightness
 						CameraFogRange(Camera, CameraFogNear, CameraFogFar)
 						CameraFogMode(Camera, 1)
@@ -1276,7 +1276,7 @@ Function UpdateEvents()
 													If sc\room = e\room Then Delete sc
 												Next
 												
-												ShowEntity Fog
+												ShowEntity at\OverlayID[0]
 												AmbientLight Brightness, Brightness, Brightness
 												CameraFogRange(Camera, CameraFogNear, CameraFogFar)
 												CameraFogMode(Camera, 1)
@@ -1324,7 +1324,7 @@ Function UpdateEvents()
 					EndIf	
 					CameraFogMode(Camera, 0)
 	 	            AmbientLight (140, 140, 140)
-	   				HideEntity(Fog)
+	   				HideEntity(at\OverlayID[0])
 					
 					LightVolume = 4.0
 					TempLightVolume = 4.0			
@@ -1608,14 +1608,14 @@ Function UpdateEvents()
 								Else
 									DeathMSG = Chr(34)+"Class D viewed SCP-895 through a pair of digital night vision goggles, killing him."+Chr(34)
 								EndIf
-								EntityTexture(NVOverlay, NVTexture)
+								EntityTexture(at\OverlayID[3], NVTexture)
 								If VomitTimer < -10 Then
 									Kill()
 								EndIf
 							ElseIf Sanity < - 800 Then
-								If Rand(3) = 1 Then EntityTexture(NVOverlay, NVTexture)
+								If Rand(3) = 1 Then EntityTexture(at\OverlayID[3], NVTexture)
 								If Rand(6) < 5 Then
-									EntityTexture(NVOverlay, GorePics(Rand(0, 5)))
+									EntityTexture(at\OverlayID[3], GorePics(Rand(0, 5)))
 									For i% = 0 To MaxItemAmount - 1
 										If (Inventory(i) <> Null) Then
 											If (WearingNightVision = 1 And Inventory(i)\itemtemplate\tempname = "nvgoggles") Or (WearingNightVision = 2 And Inventory(i)\itemtemplate\tempname = "supernv") Or (WearingNightVision = 3 And Inventory(i)\itemtemplate\tempname = "finenvgoggles") Then
@@ -1631,9 +1631,9 @@ Function UpdateEvents()
 									VomitTimer = 1
 								EndIf
 							ElseIf Sanity < - 500 Then
-								If Rand(7) = 1 Then EntityTexture(NVOverlay, NVTexture)
+								If Rand(7) = 1 Then EntityTexture(at\OverlayID[3], NVTexture)
 								If Rand(50) = 1 Then
-									EntityTexture(NVOverlay, GorePics(Rand(0, 5)))
+									EntityTexture(at\OverlayID[3], GorePics(Rand(0, 5)))
 									For i% = 0 To MaxItemAmount - 1
 										If (Inventory(i) <> Null) Then
 											If (WearingNightVision = 1 And Inventory(i)\itemtemplate\tempname = "nvgoggles") Or (WearingNightVision = 2 And Inventory(i)\itemtemplate\tempname = "supernv") Or (WearingNightVision = 3 And Inventory(i)\itemtemplate\tempname = "finenvgoggles") Then
@@ -1645,7 +1645,7 @@ Function UpdateEvents()
 									Next
 								EndIf
 							Else
-								EntityTexture(NVOverlay, NVTexture)
+								EntityTexture(at\OverlayID[3], NVTexture)
 								For i% = 0 To MaxItemAmount - 1
 									If (Inventory(i) <> Null) Then
 										If (WearingNightVision = 1 And Inventory(i)\itemtemplate\tempname = "nvgoggles") Or (WearingNightVision = 2 And Inventory(i)\itemtemplate\tempname = "supernv") Or (WearingNightVision = 3 And Inventory(i)\itemtemplate\tempname = "finenvgoggles") Then
@@ -1660,11 +1660,11 @@ Function UpdateEvents()
 					If e\EventState3>0.0 Then e\EventState3=Max(e\EventState3-FPSfactor,0.0)
 					If e\EventState3=0.0 Then
 						e\EventState3=-1.0
-						EntityTexture(NVOverlay, NVTexture)
+						EntityTexture(at\OverlayID[3], NVTexture)
 						If WearingNightVision = 1 Then
-							EntityColor(NVOverlay, 0,255,0)
+							EntityColor(at\OverlayID[3], 0,255,0)
 						ElseIf WearingNightVision = 2 Then
-							EntityColor(NVOverlay, 0,100,255)
+							EntityColor(at\OverlayID[3], 0,100,255)
 						EndIf
 					EndIf
 					
@@ -9216,9 +9216,7 @@ Function UpdateEndings()
 							;32
 						EndIf
 						
-						;dist = Max(Min(EntityDistance(Collider, e\room\objects[3])/10000.0,1.0),0.0)
-						;EntityAlpha Fog, 1.0-dist
-						HideEntity Fog
+						HideEntity at\OverlayID[0]
 						CameraFogRange Camera, 5,45
 						
 						angle = Max(Sin(EntityYaw(Collider)),0.0)
@@ -9374,7 +9372,7 @@ Function UpdateEndings()
 						ShouldPlay = 17
 						
 						e\EventState = e\EventState+FPSfactor
-						HideEntity Fog
+						HideEntity at\OverlayID[0]
 						CameraFogRange Camera, 5,30
 						
 						angle = Max(Sin(EntityYaw(Collider)+90),0.0)

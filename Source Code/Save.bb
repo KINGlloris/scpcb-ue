@@ -1916,7 +1916,7 @@ Function LoadGameQuick(file$)
 	For sc.SecurityCams = Each SecurityCams
 		sc\PlayerState = 0
 	Next
-	EntityTexture NVOverlay,NVTexture
+	EntityTexture at\OverlayID[3],NVTexture
 	RestoreSanity = True
 	
 	CameraFogFar = ReadFloat(f)

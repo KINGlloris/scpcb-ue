@@ -104,7 +104,6 @@ Function UpdateEmitters()
 	InSmoke = False
 	For e.emitters = Each Emitters
 		If FPSfactor > 0 And (PlayerRoom = e\room Or e\room\dist < 8) Then
-			;If ParticleAmount = 2 Or SmokeDelay#=0.0
 			Local p.Particles = CreateParticle(EntityX(e\obj, True), EntityY(e\obj, True), EntityZ(e\obj, True), Rand(e\minimage, e\maximage), e\size, e\gravity, e\lifetime)
 			p\speed = e\speed
 			RotateEntity(p\pvt, EntityPitch(e\Obj, True), EntityYaw(e\Obj, True), EntityRoll(e\Obj, True), True)
@@ -115,7 +114,6 @@ Function UpdateEmitters()
 			p\SizeChange = e\SizeChange
 			
 			p\Achange = e\achange
-			;EndIf
 			e\SoundCHN = LoopSound2(HissSFX, e\SoundCHN, Camera, e\Obj)
 			
 			If InSmoke = False Then
@@ -126,13 +124,6 @@ Function UpdateEmitters()
 					EndIf
 				EndIf					
 			EndIf
-			;If ParticleAmount <> 2
-			;	If SmokeDelay#<(10-(5*ParticleAmount))
-			;		SmokeDelay#=SmokeDelay#+FPSfactor
-			;	Else
-			;		SmokeDelay#=0.0
-			;	EndIf
-			;EndIf
 		EndIf
 	Next
 	
@@ -284,5 +275,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#4#10#2E#4A#54#C5#D0
+;~F#4#10#2E#4A#54#BC#C7
 ;~C#Blitz3D

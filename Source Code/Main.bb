@@ -2840,22 +2840,11 @@ DrawLoading(90, True)
 
 ;----------------------------------- meshes and textures ----------------------------------------------------------------
 
-Global FogTexture%, Fog%
-Global GasMaskTexture%, GasMaskOverlay%
-Global InfectTexture%, InfectOverlay%
-Global DarkTexture%, Dark%
 Global Collider%, Head%
 
-Global FogNVTexture%
-Global NVTexture%, NVOverlay%
 
-Global TeslaTexture%
-
-Global LightTexture%, Light%
 Dim LightSpriteTex%(5)
 Dim DecalTextures%(20)
-
-Global MonitorTexture%
 
 Global UnableToMove% = False
 Global ShouldEntitiesFall% = True
@@ -2868,11 +2857,14 @@ Global Save_MSG_Y# = 0.0
 Global MTF_CameraCheckTimer# = 0.0
 Global MTF_CameraCheckDetected% = False
 
-;MOD
-
-Global BloodTexture%, BloodOverlay%
-
-;END
+Type AllTextures
+    ;Field DecalTextureID[MaxDecalTextureIDAmount-1]
+    Field OtherTextureID[MaxOtherTextureIDAmount-1]
+    ;Field ParticleTextureID[MaxParticleTextureIDAmount-1]
+    ;Field LightSpriteTextureID[MaxLightSpriteTextureIDAmount-1]
+    Field OverlayID[MaxOverlayIDAmount-1]
+    Field OverlayTextureID[MaxOverlayTextureIDAmount-1]
+End Type
 
 ;---------------------------------------------------------------------------------------------------
 
@@ -4166,6 +4158,7 @@ End Function
 Function MovePlayer()
 	CatchErrors("Uncaught (MovePlayer)")
 	Local Sprint# = 1.0, Speed# = 0.018, i%, angle#
+	Local at.AllTextures = First AllTextures
 	
 	If SuperMan Then
 		Speed = Speed * 3
@@ -4177,11 +4170,11 @@ Function MovePlayer()
 		If SuperManTimer > 70 * 50 Then
 			DeathMSG = "A Class D jumpsuit found in [DATA REDACTED]. Upon further examination, the jumpsuit was found to be filled with 12.5 kilograms of blue ash-like substance. "
 			DeathMSG = DeathMSG + "Chemical analysis of the substance remains non-conclusive. Most likely related to SCP-914."
-			Kill()
-			ShowEntity Fog
+			Kill(False)
+			ShowEntity at\OverlayID[0]
 		Else
 			BlurTimer = 500		
-			HideEntity Fog
+			HideEntity at\OverlayID[0]
 		EndIf
 	End If
 	
@@ -4494,6 +4487,7 @@ End Function
 
 Function MouseLook()
 	Local i%
+	Local at.AllTextures = First AllTextures
 	
 	CameraShake = Max(CameraShake - (FPSfactor / 10), 0)
 	
@@ -4634,28 +4628,28 @@ Function MouseLook()
 			Stamina = Min(60, Stamina)
 		EndIf
 		
-		ShowEntity(GasMaskOverlay)
+		ShowEntity(at\OverlayID[1])
 	Else
-		HideEntity(GasMaskOverlay)
+		HideEntity(at\OverlayID[1])
 	End If
 	
 	If (Not WearingNightVision=0) Then
-		ShowEntity(NVOverlay)
+		ShowEntity(at\OverlayID[3])
 		If WearingNightVision=2 Then
-			EntityColor(NVOverlay, 0,100,255)
+			EntityColor(at\OverlayID[3], 0,100,255)
 			AmbientLightRooms(15)
 		ElseIf WearingNightVision=3 Then
-			EntityColor(NVOverlay, 255,0,0)
+			EntityColor(at\OverlayID[3], 255,0,0)
 			AmbientLightRooms(15)
 		Else
-			EntityColor(NVOverlay, 0,255,0)
+			EntityColor(at\OverlayID[3], 0,255,0)
 			AmbientLightRooms(15)
 		EndIf
-		EntityTexture(Fog, FogNVTexture)
+		EntityTexture(at\OverlayID[0], FogNVTexture)
 	Else
 		AmbientLightRooms(0)
-		HideEntity(NVOverlay)
-		EntityTexture(Fog, FogTexture)
+		HideEntity(at\OverlayID[3])
+		EntityTexture(at\OverlayID[0], FogTexture)
 	EndIf
 	
 	For i = 0 To 5
@@ -4744,6 +4738,7 @@ Function DrawGUI()
 	Local n%, xtemp, ytemp, strtemp$
 	Local o.Objects = First Objects
 	Local e.Events, it.Items
+	Local at.AllTextures = First AllTextures
 	
 	If MenuOpen Or ConsoleOpen Or SelectedDoor <> Null Or InvOpen Or OtherOpen<>Null Or EndingTimer < 0 Then
 		ShowPointer()
@@ -5155,13 +5150,13 @@ Function DrawGUI()
 	If OtherOpen<>Null Then
 		;[Block]
 		If (PlayerRoom\RoomTemplate\Name = "gatea") Then
-			HideEntity Fog
+			HideEntity at\OverlayID[0]
 			CameraFogRange Camera, 5,30
 			CameraFogColor (Camera,200,200,200)
 			CameraClsColor (Camera,200,200,200)					
 			CameraRange(Camera, 0.05, 30)
 		Else If (PlayerRoom\RoomTemplate\Name = "exit1") And (EntityY(Collider)>1040.0*RoomScale)
-			HideEntity Fog
+			HideEntity at\OverlayID[0]
 			CameraFogRange Camera, 5,45
 			CameraFogColor (Camera,200,200,200)
 			CameraClsColor (Camera,200,200,200)					
@@ -5355,13 +5350,13 @@ Function DrawGUI()
 	Else If InvOpen Then
 		
 		If (PlayerRoom\RoomTemplate\Name = "gatea") Then
-			HideEntity Fog
+			HideEntity at\OverlayID[0]
 			CameraFogRange Camera, 5,30
 			CameraFogColor (Camera,200,200,200)
 			CameraClsColor (Camera,200,200,200)					
 			CameraRange(Camera, 0.05, 30)
 		ElseIf (PlayerRoom\RoomTemplate\Name = "exit1") And (EntityY(Collider)>1040.0*RoomScale)
-			HideEntity Fog
+			HideEntity at\OverlayID[0]
 			CameraFogRange Camera, 5,45
 			CameraFogColor (Camera,200,200,200)
 			CameraClsColor (Camera,200,200,200)					
@@ -7938,6 +7933,7 @@ Function LoadEntities()
 	
 	Local i%
 	Local o.Objects = New Objects
+	Local at.AllTextures = New AllTextures
 	
 	For i = 0 To 9
 		TempSounds[i] = 0
@@ -8183,106 +8179,132 @@ Function LoadEntities()
 	CreateBlurImage()
 	CameraProjMode ark_blur_cam,0
 	
-	FogTexture = LoadTexture_Strict("GFX\fog.jpg", 1)
+	;[FOG OVERLAY]
 	
-	Fog = CreateSprite(ark_blur_cam)
-	ScaleSprite(Fog, Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
-	EntityTexture(Fog, FogTexture)
-	EntityBlend (Fog, 2)
-	EntityOrder Fog, -1000
-	MoveEntity(Fog, 0, 0, 1.0)
+	at\OverlayTextureID[0] = LoadTexture_Strict("GFX\fog.png", 1) 
+	at\OverlayID[0] = CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[0], Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[0], at\OverlayTextureID[0])
+	EntityBlend (at\OverlayID[0], 2)
+	EntityOrder at\OverlayID[0], -1000
+	MoveEntity(at\OverlayID[0], 0, 0, 1.0)
 	
-	GasMaskTexture = LoadTexture_Strict("GFX\GasmaskOverlay.jpg", 1)
-	GasMaskOverlay = CreateSprite(ark_blur_cam)
-	ScaleSprite(GasMaskOverlay, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
-	EntityTexture(GasMaskOverlay, GasMaskTexture)
-	EntityBlend (GasMaskOverlay, 2)
-	EntityFX(GasMaskOverlay, 1)
-	EntityOrder GasMaskOverlay, -1003
-	MoveEntity(GasMaskOverlay, 0, 0, 1.0)
-	HideEntity(GasMaskOverlay)
+	;[GASMASK OVERLAY]
 	
-	InfectTexture = LoadTexture_Strict("GFX\InfectOverlay.jpg", 1)
-	InfectOverlay = CreateSprite(ark_blur_cam)
-	ScaleSprite(InfectOverlay, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
-	EntityTexture(InfectOverlay, InfectTexture)
-	EntityBlend (InfectOverlay, 3)
-	EntityFX(InfectOverlay, 1)
-	EntityOrder InfectOverlay, -1003
-	MoveEntity(InfectOverlay, 0, 0, 1.0)
-	HideEntity(InfectOverlay)
+	at\OverlayTextureID[1] = LoadTexture_Strict("GFX\GasmaskOverlay.png", 1)
+	at\OverlayID[1] = CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[1], Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[1], at\OverlayTextureID[1])
+	EntityBlend (at\OverlayID[1], 2)
+	EntityFX(at\OverlayID[1], 1)
+	EntityOrder at\OverlayID[1], -1003
+	MoveEntity(at\OverlayID[1], 0, 0, 1.0)
+	HideEntity(at\OverlayID[1])
 	
-	NVTexture = LoadTexture_Strict("GFX\NightVisionOverlay.jpg", 1)
-	NVOverlay = CreateSprite(ark_blur_cam)
-	ScaleSprite(NVOverlay, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
-	EntityTexture(NVOverlay, NVTexture)
-	EntityBlend (NVOverlay, 2)
-	EntityFX(NVOverlay, 1)
-	EntityOrder NVOverlay, -1003
-	MoveEntity(NVOverlay, 0, 0, 1.0)
-	HideEntity(NVOverlay)
-	NVBlink = CreateSprite(ark_blur_cam)
-	ScaleSprite(NVBlink, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
-	EntityColor(NVBlink,0,0,0)
-	EntityFX(NVBlink, 1)
-	EntityOrder NVBlink, -1005
-	MoveEntity(NVBlink, 0, 0, 1.0)
-	HideEntity(NVBlink)
+	;[SCP-008 OVERLAY]
 	
-	;MOD
+	at\OverlayTextureID[2] = LoadTexture_Strict("GFX\InfectOverlay.png", 1)
+	at\OverlayID[2]= CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[2], Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[2], at\OverlayTextureID[2])
+	EntityBlend (at\OverlayID[2], 3)
+	EntityFX(at\OverlayID[2], 1)
+	EntityOrder at\OverlayID[2], -1003
+	MoveEntity(at\OverlayID[2], 0, 0, 1.0)
+	HideEntity(at\OverlayID[2])
 	
-	BloodTexture = LoadTexture_Strict("GFX\BloodOverlay.png", 1)
-	BloodOverlay = CreateSprite(ark_blur_cam)
-	ScaleSprite(BloodOverlay, Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
-	EntityTexture(BloodOverlay, BloodTexture)
-	EntityBlend (BloodOverlay, 2)
-	EntityFX(BloodOverlay, 1)
-	EntityOrder BloodOverlay, -1003
-	MoveEntity(BloodOverlay, 0, 0, 1.0)
-	HideEntity(BloodOverlay)
+	;[NIGHT VISION GOGGLES OVERLAY]
 	
-	;END
+	at\OverlayTextureID[3] = LoadTexture_Strict("GFX\NightVisionOverlay.png", 1)
+	at\OverlayID[3] = CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[3], Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
+	EntityBlend (at\OverlayID[3], 2)
+	EntityFX(at\OverlayID[3], 1)
+	EntityOrder at\OverlayID[3], -1003
+	MoveEntity(at\OverlayID[3], 0, 0, 1.0)
+	HideEntity(at\OverlayID[3])
 	
-	FogNVTexture = LoadTexture_Strict("GFX\fogNV.jpg", 1)
+	;[BLOOD OVERLAY]
 	
-	DrawLoading(5)
+	at\OverlayTextureID[4] = LoadTexture_Strict("GFX\BloodOverlay.png", 1)
+	at\OverlayID[4] = CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[4], Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[4], at\OverlayTextureID[4])
+	EntityBlend (at\OverlayID[4], 2)
+	EntityFX(at\OverlayID[4], 1)
+	EntityOrder at\OverlayID[4], -1003
+	MoveEntity(at\OverlayID[4], 0, 0, 1.0)
+	HideEntity(at\OverlayID[4])
 	
-	DarkTexture = CreateTexture(1024, 1024, 1 + 2)
-	SetBuffer TextureBuffer(DarkTexture)
+	;[DARK OVERLAY]
+	
+	at\OverlayTextureID[5] = CreateTexture(1024, 1024, 1 + 2)
+	SetBuffer TextureBuffer(at\OverlayTextureID[5])
 	Cls
 	SetBuffer BackBuffer()
+	at\OverlayID[5] = CreateSprite(Camera)
+	ScaleSprite(at\OverlayID[5], Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[5], at\OverlayTextureID[5])
+	EntityBlend (at\OverlayID[5], 1)
+	EntityOrder at\OverlayID[5], -1002
+	MoveEntity(at\OverlayID[5], 0, 0, 1.0)
+	EntityAlpha at\OverlayID[5], 0.0
 	
-	Dark = CreateSprite(Camera)
-	ScaleSprite(Dark, Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
-	EntityTexture(Dark, DarkTexture)
-	EntityBlend (Dark, 1)
-	EntityOrder Dark, -1002
-	MoveEntity(Dark, 0, 0, 1.0)
-	EntityAlpha Dark, 0.0
+	;[LIGHT OVERLAY]
 	
-	LightTexture = CreateTexture(1024, 1024, 1 + 2+256)
-	SetBuffer TextureBuffer(LightTexture)
+	at\OverlayTextureID[6] = CreateTexture(1024, 1024, 1 + 2+256)
+	SetBuffer TextureBuffer(at\OverlayTextureID[6])
 	ClsColor 255, 255, 255
 	Cls
 	ClsColor 0, 0, 0
 	SetBuffer BackBuffer()
+	at\OverlayID[6] = CreateSprite(Camera)
+	ScaleSprite(at\OverlayID[6], Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
+	EntityTexture(at\OverlayID[6], at\OverlayTextureID[6])
+	EntityBlend (at\OverlayID[6], 1)
+	EntityOrder at\OverlayID[6], -1002
+	MoveEntity(at\OverlayID[6], 0, 0, 1.0)
+	HideEntity at\OverlayID[6]
 	
-	TeslaTexture = LoadTexture_Strict("GFX\map\tesla.jpg", 1+2)
+	;[NIGHT VISION GOGGLES BLINK OVERLAY]
 	
-	Light = CreateSprite(Camera)
-	ScaleSprite(Light, Max(GraphicWidth / 1240.0, 1.0), Max(GraphicHeight / 960.0 * 0.8, 0.8))
-	EntityTexture(Light, LightTexture)
-	EntityBlend (Light, 1)
-	EntityOrder Light, -1002
-	MoveEntity(Light, 0, 0, 1.0)
-	HideEntity Light
+	at\OverlayID[7] = CreateSprite(ark_blur_cam)
+	ScaleSprite(at\OverlayID[7], Max(GraphicWidth / 1024.0, 1.0), Max(GraphicHeight / 1024.0 * 0.8, 0.8))
+	EntityColor(at\OverlayID[7],0,0,0)
+	EntityFX(at\OverlayID[7], 1)
+	EntityOrder at\OverlayID[7], -1005
+	MoveEntity(at\OverlayID[7], 0, 0, 1.0)
+	HideEntity(at\OverlayID[7])
 	
-	MonitorTexture = LoadTexture_Strict("GFX\monitoroverlay.png")
-	MonitorTexture2 = LoadTexture_Strict("GFX\map\LockdownScreen2.jpg")
-	MonitorTexture3 = LoadTexture_Strict("GFX\map\LockdownScreen.jpg")
-	MonitorTexture4 = LoadTexture_Strict("GFX\map\LockdownScreen3.jpg")
-	MonitorTextureOff = CreateTexture(1,1)
-	SetBuffer TextureBuffer(MonitorTextureOff)
+	;[NIGHT VISION GOGGLES FOG OVERLAY]
+	
+	at\OverlayTextureID[7] = LoadTexture_Strict("GFX\fogNV.png", 1)
+	
+	;[TESLA OVERLAY]
+	
+	at\OtherTextureID[0] = LoadTexture_Strict("GFX\map\tesla.png", 1+2)
+	
+	;[MONITOR OVERLAY]
+	
+	at\OtherTextureID[1] = LoadTexture_Strict("GFX\monitoroverlay.png")
+	
+	;[LOCKDOWN #1]
+	
+	at\OtherTextureID[2] = LoadTexture_Strict("GFX\map\LockdownScreen2.jpg")
+	
+	;[LOCKDOWN #2]
+	
+	at\OtherTextureID[3] = LoadTexture_Strict("GFX\map\LockdownScreen.jpg")
+	
+	;[LOCKDOWN #3]
+	
+	at\OtherTextureID[4] = LoadTexture_Strict("GFX\map\LockdownScreen3.jpg")
+	
+	;[MONITOR OFF]
+	
+	at\OtherTextureID[5] = CreateTexture(1,1)
+	SetBuffer TextureBuffer(at\OtherTextureID[5])
 	ClsColor 0,0,0
 	Cls
 	SetBuffer BackBuffer()
@@ -8295,7 +8317,7 @@ Function LoadEntities()
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
 				If Lower(name) <> "monitoroverlay.png"
-					BrushTexture b, MonitorTextureOff, 0, 0
+					BrushTexture b, at\OtherTextureID[5], 0, 0
 					PaintSurface sf,b
 				EndIf
 				If name<>"" Then FreeTexture t1
@@ -8311,7 +8333,7 @@ Function LoadEntities()
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
 				If Lower(name) <> "monitoroverlay.png"
-					BrushTexture b, MonitorTextureOff, 0, 0
+					BrushTexture b, at\OtherTextureID[5], 0, 0
 					PaintSurface sf,b
 				EndIf
 				If name<>"" Then FreeTexture t1
@@ -10546,7 +10568,7 @@ End Function
 
 Function UpdateInfect()
 	Local temp#, i%, r.Rooms
-	
+	Local at.AllTextures = First AllTextures
 	Local teleportForInfect% = True
 	
 	If PlayerRoom\RoomTemplate\Name = "room860"
@@ -10565,7 +10587,7 @@ Function UpdateInfect()
 	EndIf
 	
 	If Infect>0 Then
-		ShowEntity InfectOverlay
+		ShowEntity at\OverlayID[2]
 		
 		If Infect < 93.0 Then
 			temp=Infect
@@ -10578,7 +10600,7 @@ Function UpdateInfect()
 			HeartBeatRate = Max(HeartBeatRate, 100)
 			HeartBeatVolume = Max(HeartBeatVolume, Infect/120.0)
 			
-			EntityAlpha InfectOverlay, Min(((Infect*0.2)^2)/1000.0,0.5) * (Sin(MilliSecs2()/8.0)+2.0)
+			EntityAlpha at\OverlayID[2], Min(((Infect*0.2)^2)/1000.0,0.5) * (Sin(MilliSecs2()/8.0)+2.0)
 			
 			For i = 0 To 6
 				If Infect>i*15+10 And temp =< i*15+10 Then
@@ -10630,7 +10652,7 @@ Function UpdateInfect()
 			
 			If teleportForInfect
 				If Infect < 94.7 Then
-					EntityAlpha InfectOverlay, 0.5 * (Sin(MilliSecs2()/8.0)+2.0)
+					EntityAlpha at\OverlayID[2], 0.5 * (Sin(MilliSecs2()/8.0)+2.0)
 					BlurTimer = 900
 					
 					If Infect > 94.5 Then BlinkTimer = Max(Min(-50*(Infect-94.5),BlinkTimer),-10)
@@ -10645,7 +10667,7 @@ Function UpdateInfect()
 					Animate2(PlayerRoom\NPC[0]\obj, AnimTime(PlayerRoom\NPC[0]\obj), 357, 381, 0.3)
 				ElseIf Infect < 98.5
 					
-					EntityAlpha InfectOverlay, 0.5 * (Sin(MilliSecs2()/5.0)+2.0)
+					EntityAlpha at\OverlayID[2], 0.5 * (Sin(MilliSecs2()/5.0)+2.0)
 					BlurTimer = 950
 					
 					ForceMove = 0.0
@@ -10715,7 +10737,7 @@ Function UpdateInfect()
 		
 		
 	Else
-		HideEntity InfectOverlay
+		HideEntity at\OverlayID[2]
 	EndIf
 End Function
 
@@ -12069,6 +12091,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#598#2451
-;~B#125F#14C8#1C66
+;~F#598#2467
+;~B#1259#14C3#1C61
 ;~C#Blitz3D

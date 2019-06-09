@@ -31,6 +31,10 @@ Const ClrB = 50
 
 Const MaxDTextures = 11
 
+Const MaxOverlayIDAmount = 8
+Const MaxOverlayTextureIDAmount = 9
+Const MaxOtherTextureIDAmount = 7
+
 ;[ITEMS]
 
 Const MaxItemAmount% = 10
