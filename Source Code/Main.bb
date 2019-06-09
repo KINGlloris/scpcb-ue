@@ -202,6 +202,13 @@ PlayStartupVideos()
 
 Type Objects
 	Field NPCModelID[MaxNPCModelIDAmount-1]
+	Field OBJTunnelID[MaxOBJTunnelIDAmount-1]
+    Field MonitorID[MaxMonitorIDAmount-1]
+    Field DoorID[MaxDoorIDAmount-1]
+    Field ButtonID[MaxButtonIDAmount-1]
+    Field LeverID[MaxLeverIDAmount-1]
+    Field CamID[MaxCamIDAmount-1]
+    Field OtherModelsID[MaxOtherModelsIDAmount-1]
 End Type
 
 ;---------------------------------------------------------------------------------------------------------------------
@@ -1849,7 +1856,7 @@ DrawLoading(30, True)
 
 Global PlayCustomMusic% = False, CustomMusic% = 0
 
-Global Monitor2, Monitor3, MonitorTexture2, MonitorTexture3, MonitorTexture4, MonitorTextureOff
+Global MonitorTexture2, MonitorTexture3, MonitorTexture4, MonitorTextureOff
 Global MonitorTimer# = 0.0, MonitorTimer2# = 0.0, UpdateCheckpoint1%, UpdateCheckpoint2%
 
 ;This variable is for when a camera detected the player
@@ -1911,8 +1918,6 @@ Next
 NavImages(4) = LoadImage_Strict("GFX\navigator\batterymeter.png")
 
 Global NavBG = CreateImage(GraphicWidth,GraphicHeight)
-
-Global LightConeModel
 
 Global ParticleEffect[10]
 
@@ -1987,33 +1992,31 @@ Type Doors
 	Field DoorHitOBJ%
 End Type 
 
-Dim BigDoorOBJ(2), HeavyDoorObj(2)
-Dim OBJTunnel(7)
-
 Function CreateDoor.Doors(lvl, x#, y#, z#, angle#, room.Rooms, dopen% = False,  big% = False, keycard% = False, code$="", useCollisionMesh% = False)
 	Local d.Doors, parent, i%
+	Local o.Objects = First Objects
 	If room <> Null Then parent = room\obj
 	
 	Local d2.Doors
 	
 	d.Doors = New Doors
 	If big=1 Then
-		d\obj = CopyEntity(BigDoorOBJ(0))
+		d\obj = CopyEntity(o\DoorID[5])
 		ScaleEntity(d\obj, 55 * RoomScale, 55 * RoomScale, 55 * RoomScale)
-		d\obj2 = CopyEntity(BigDoorOBJ(1))
+		d\obj2 = CopyEntity(o\DoorID[6])
 		ScaleEntity(d\obj2, 55 * RoomScale, 55 * RoomScale, 55 * RoomScale)
 		
-		d\frameobj = CopyEntity(DoorColl)	;CopyMesh				
+		d\frameobj = CopyEntity(o\DoorID[4]) ;CopyMesh				
 		ScaleEntity(d\frameobj, RoomScale, RoomScale, RoomScale)
 		EntityType d\frameobj, HIT_MAP
 		EntityAlpha d\frameobj, 0.0
 	ElseIf big=2 Then
-		d\obj = CopyEntity(HeavyDoorObj(0))
+		d\obj = CopyEntity(o\DoorID[2])
 		ScaleEntity(d\obj, RoomScale, RoomScale, RoomScale)
-		d\obj2 = CopyEntity(HeavyDoorObj(1))
+		d\obj2 = CopyEntity(o\DoorID[3])
 		ScaleEntity(d\obj2, RoomScale, RoomScale, RoomScale)
 		
-		d\frameobj = CopyEntity(DoorFrameOBJ)
+		d\frameobj = CopyEntity(o\DoorID[1])
 	ElseIf big=3 Then
 		For d2 = Each Doors
 			If d2 <> d And d2\dir = 3 Then
@@ -2025,24 +2028,22 @@ Function CreateDoor.Doors(lvl, x#, y#, z#, angle#, room.Rooms, dopen% = False,  
 			EndIf
 		Next
 		If d\obj=0 Then
-			d\obj = LoadMesh_Strict("GFX\map\elevatordoor.b3d")
+			d\obj = CopyEntity(o\DoorID[7])
 			d\obj2 = CopyEntity(d\obj)
 			ScaleEntity d\obj, RoomScale, RoomScale, RoomScale
 			ScaleEntity d\obj2, RoomScale, RoomScale, RoomScale
 		EndIf
-		d\frameobj = CopyEntity(DoorFrameOBJ)
+		d\frameobj = CopyEntity(o\DoorID[1])
 	Else
-		d\obj = CopyEntity(DoorOBJ)
+		d\obj = CopyEntity(o\DoorID[0])
 		ScaleEntity(d\obj, (204.0 * RoomScale) / MeshWidth(d\obj), 312.0 * RoomScale / MeshHeight(d\obj), 16.0 * RoomScale / MeshDepth(d\obj))
 		
-		d\frameobj = CopyEntity(DoorFrameOBJ)
-		d\obj2 = CopyEntity(DoorOBJ)
+		d\frameobj = CopyEntity(o\DoorID[1])
+		d\obj2 = CopyEntity(o\DoorID[0])
 		
 		ScaleEntity(d\obj2, (204.0 * RoomScale) / MeshWidth(d\obj), 312.0 * RoomScale / MeshHeight(d\obj), 16.0 * RoomScale / MeshDepth(d\obj))
-		;entityType d\obj2, HIT_MAP
 	End If
 	
-	;scaleentity(d\obj, 0.1, 0.1, 0.1)
 	PositionEntity d\frameobj, x, y, z	
 	ScaleEntity(d\frameobj, (8.0 / 2048.0), (8.0 / 2048.0), (8.0 / 2048.0))
 	EntityPickMode d\frameobj,2
@@ -2060,15 +2061,15 @@ Function CreateDoor.Doors(lvl, x#, y#, z#, angle#, room.Rooms, dopen% = False,  
 	
 	For i% = 0 To 1
 		If code <> "" Then 
-			d\buttons[i]= CopyEntity(ButtonCodeOBJ)
+			d\buttons[i]= CopyEntity(o\ButtonID[2])
 			EntityFX(d\buttons[i], 1)
 		Else
 			If keycard>0 Then
-				d\buttons[i]= CopyEntity(ButtonKeyOBJ)
+				d\buttons[i]= CopyEntity(o\ButtonID[1])
 			ElseIf keycard<0
-				d\buttons[i]= CopyEntity(ButtonScannerOBJ)	
+				d\buttons[i]= CopyEntity(o\ButtonID[3])	
 			Else
-				d\buttons[i] = CopyEntity(ButtonOBJ)
+				d\buttons[i] = CopyEntity(o\ButtonID[0])
 			End If
 		EndIf
 		
@@ -2139,7 +2140,8 @@ Function CreateDoor.Doors(lvl, x#, y#, z#, angle#, room.Rooms, dopen% = False,  
 			EndIf
 		Next
 		If d\DoorHitOBJ=0 Then
-			d\DoorHitOBJ = LoadMesh_Strict("GFX\doorhit.b3d",d\frameobj)
+			d\DoorHitOBJ = CopyEntity(o\DoorID[10])
+			EntityParent (d\DoorHitOBJ, d\frameobj)
 			EntityAlpha d\DoorHitOBJ,0.0
 			EntityFX d\DoorHitOBJ,1
 			EntityType d\DoorHitOBJ,HIT_MAP
@@ -2153,7 +2155,8 @@ Function CreateDoor.Doors(lvl, x#, y#, z#, angle#, room.Rooms, dopen% = False,  
 End Function
 
 Function CreateButton(x#,y#,z#, pitch#,yaw#,roll#=0)
-	Local obj = CopyEntity(ButtonOBJ)	
+	Local o.Objects = First Objects 
+	Local obj = CopyEntity(o\ButtonID[0])	
 	
 	ScaleEntity(obj, 0.03, 0.03, 0.03)
 	
@@ -2850,19 +2853,9 @@ Global TeslaTexture%
 
 Global LightTexture%, Light%
 Dim LightSpriteTex%(5)
-Global DoorOBJ%, DoorFrameOBJ%
-
-Global LeverOBJ%, LeverBaseOBJ%
-
-Global DoorColl%
-Global ButtonOBJ%, ButtonKeyOBJ%, ButtonCodeOBJ%, ButtonScannerOBJ%
-
 Dim DecalTextures%(20)
 
-Global Monitor%, MonitorTexture%
-Global CamBaseOBJ%, CamOBJ%
-
-Global LiquidObj%
+Global MonitorTexture%
 
 Global UnableToMove% = False
 Global ShouldEntitiesFall% = True
@@ -4749,7 +4742,7 @@ Function DrawGUI()
 	Local temp%, x%, y%, z%, i%, yawvalue#, pitchvalue#
 	Local x2#,y2#,z2#
 	Local n%, xtemp, ytemp, strtemp$
-	
+	Local o.Objects = First Objects
 	Local e.Events, it.Items
 	
 	If MenuOpen Or ConsoleOpen Or SelectedDoor <> Null Or InvOpen Or OtherOpen<>Null Or EndingTimer < 0 Then
@@ -5026,9 +5019,9 @@ Function DrawGUI()
 			PointEntity Camera, ClosestButton
 			FreeEntity pvt	
 			
-			CameraProject(Camera, EntityX(ClosestButton,True),EntityY(ClosestButton,True)+MeshHeight(ButtonOBJ)*0.015,EntityZ(ClosestButton,True))
+			CameraProject(Camera, EntityX(ClosestButton,True),EntityY(ClosestButton,True)+MeshHeight(o\ButtonID[0])*0.015,EntityZ(ClosestButton,True))
 			projY# = ProjectedY()
-			CameraProject(Camera, EntityX(ClosestButton,True),EntityY(ClosestButton,True)-MeshHeight(ButtonOBJ)*0.015,EntityZ(ClosestButton,True))
+			CameraProject(Camera, EntityX(ClosestButton,True),EntityY(ClosestButton,True)-MeshHeight(o\ButtonID[0])*0.015,EntityZ(ClosestButton,True))
 			scale# = (ProjectedY()-projy)/462.0
 			
 			x = GraphicWidth/2-ImageWidth(KeypadHUD)*scale/2
@@ -7941,7 +7934,7 @@ Include "Source Code\LoadAllSounds.bb"
 
 Function LoadEntities()
 	CatchErrors("Uncaught (LoadEntities)")
-	DrawLoading(0)
+	DrawLoading(0) ;STARTED LOADING
 	
 	Local i%
 	Local o.Objects = New Objects
@@ -7991,6 +7984,198 @@ Function LoadEntities()
 	CameraFogRange (Camera, CameraFogNear, CameraFogFar)
 	CameraFogColor (Camera, GetINIInt("options.ini", "options", "fog r"), GetINIInt("options.ini", "options", "fog g"), GetINIInt("options.ini", "options", "fog b"))
 	AmbientLight Brightness, Brightness, Brightness
+	
+	Collider = CreatePivot()
+	EntityRadius Collider, 0.15, 0.30
+	EntityPickMode(Collider, 1)
+	EntityType Collider, HIT_PLAYER
+	
+	Head = CreatePivot()
+	EntityRadius Head, 0.15
+	EntityType Head, HIT_PLAYER
+	
+	;[NPCs]
+	
+	o\NPCModelID[0] = LoadAnimMesh_Strict("GFX\npcs\scp008_1.b3d") ;SCP-008-1
+	
+	o\NPCModelID[1] = LoadAnimMesh_Strict("GFX\npcs\scp035_tentacle.b3d") ;SCP-035's Tentacle
+	
+	o\NPCModelID[2] = LoadAnimMesh_Strict("GFX\npcs\scp049.b3d") ;SCP-049
+	
+	o\NPCModelID[3] = LoadAnimMesh_Strict("GFX\npcs\scp049_2.b3d") ;SCP-049-2
+	
+	o\NPCModelID[4] = LoadAnimMesh_Strict("GFX\npcs\scp066.b3d") ;SCP-066
+	
+	o\NPCModelID[5] = LoadAnimMesh_Strict("GFX\npcs\scp096.b3d") ;SCP-096
+	
+	o\NPCModelID[6] = LoadAnimMesh_Strict("GFX\npcs\scp106.b3d") ;SCP-106
+	
+	o\NPCModelID[7] = LoadMesh_Strict("GFX\npcs\scp173.b3d") ;SCP-173
+	
+	o\NPCModelID[8] = LoadMesh_Strict("GFX\scp173_box.b3d") ;SCP-173's Box
+	
+	o\NPCModelID[9] = LoadAnimMesh_Strict("GFX\npcs\scp372.b3d") ;SCP-372
+	
+	o\NPCModelID[10] = LoadAnimMesh_Strict("GFX\npcs\scp513_1.b3d") ;SCP-513-1
+	
+	o\NPCModelID[11] = LoadAnimMesh_Strict("GFX\npcs\scp939.b3d") ;SCP-939
+	
+	o\NPCModelID[12] = LoadAnimMesh_Strict("GFX\npcs\scp966.b3d") ;SCP-966
+	
+	o\NPCModelID[13] = LoadAnimMesh_Strict("GFX\npcs\scp1048_a.b3d") ;SCP-1048-A
+	
+	o\NPCModelID[14] = LoadAnimMesh_Strict("GFX\npcs\scp1499_1.b3d") ;SCP-1499
+	
+	o\NPCModelID[15] = LoadAnimMesh_Strict("GFX\npcs\apache.b3d") ;Apache Helicopter
+	
+	o\NPCModelID[16] = LoadAnimMesh_Strict("GFX\npcs\apacherotor.b3d") ;Apache's Rotor #1
+	
+	o\NPCModelID[17] = LoadAnimMesh_Strict("GFX\npcs\apacherotor2.b3d") ;Apache's Rotor #2
+	
+	o\NPCModelID[18] = LoadAnimMesh_Strict("GFX\npcs\clerk.b3d") ;Clerk
+	
+	o\NPCModelID[19] = LoadAnimMesh_Strict("GFX\npcs\class_d.b3d") ;Class-D
+	
+	o\NPCModelID[20] = LoadAnimMesh_Strict("GFX\npcs\scp860_2.b3d") ;SCP-860-2
+	
+	o\NPCModelID[21] = LoadAnimMesh_Strict("GFX\npcs\guard.b3d") ;Guard
+	
+	o\NPCModelID[22] = LoadAnimMesh_Strict("GFX\npcs\MTF.b3d") ;MTF
+	
+	o\NPCModelID[23] = LoadMesh_Strict("GFX\npcs\scp682_arm.b3d") ;SCP-682's arm
+	
+	o\NPCModelID[24] = LoadAnimMesh_Strict("GFX\npcs\scp1048.b3d") ;SCP-1048
+	
+	o\NPCModelID[25] = LoadAnimMesh_Strict("GFX\npcs\duck.b3d") ;Anomalous Duck
+	
+	o\NPCModelID[26] = LoadAnimMesh_Strict("GFX\npcs\nazi_officer.b3d") ;Nazi Officer
+	
+	o\NPCModelID[27] = LoadAnimMesh_Strict("GFX\npcs\scp1048_p.b3d") ;SCP-1048 With Pen
+	
+	o\NPCModelID[28] = LoadAnimMesh_Strict("GFX\npcs\CI.b3d") ;CI
+	
+	o\NPCModelID[29] = LoadAnimMesh_Strict("GFX\npcs\scp035.b3d") ;SCP-035
+	
+	For i = 0 To MaxNPCModelIDAmount-1
+        HideEntity o\NPCModelID[i]
+    Next
+	
+	;[MAINTENANCE TUNNEL PARTS]
+	
+	o\OBJTunnelID[0] = LoadRMesh("GFX\map\mt1.rmesh", Null) ;tunnel #1	
+	
+	o\OBJTunnelID[1] = LoadRMesh("GFX\map\mt2.rmesh", Null) ;tunnel #2	
+	
+	o\OBJTunnelID[2] = LoadRMesh("GFX\map\mt2c.rmesh", Null) ;tunnel #2 (corner)
+	
+	o\OBJTunnelID[3] = LoadRMesh("GFX\map\mt3.rmesh", Null) ;tunnel #3
+	
+	o\OBJTunnelID[4] = LoadRMesh("GFX\map\mt4.rmesh", Null) ;tunnel #4
+	
+	o\OBJTunnelID[5] = LoadRMesh("GFX\map\mt_elevator.rmesh", Null) ;elevator
+	
+	o\OBJTunnelID[6] = LoadRMesh("GFX\map\mt_generator.rmesh", Null) ;generator
+	
+	For i = 0 To MaxOBJTunnelIDAmount-1
+        HideEntity o\OBJTunnelID[i]
+    Next
+	
+	;[MONITORS]
+	
+	o\MonitorID[0] = LoadMesh_Strict("GFX\map\monitor.b3d") ;monitor #1
+	
+	o\MonitorID[1] = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d") ;monitor #2
+	
+	o\MonitorID[2] = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d") ;monitor #3
+	
+    For i=0 To MaxMonitorIDAmount-1
+        HideEntity o\MonitorID[i]
+    Next
+	
+	;[DOORS]
+	
+	o\DoorID[0] = LoadMesh_Strict("GFX\map\door01.x") ;door
+	
+	o\DoorID[1] = LoadMesh_Strict("GFX\map\doorframe.x") ;frame #1
+	
+	o\DoorID[2] = LoadMesh_Strict("GFX\map\heavydoor1.x") ;heavy door #1
+	
+	o\DoorID[3] = LoadMesh_Strict("GFX\map\heavydoor2.x") ;heavy door #2
+	
+	o\DoorID[4] = LoadMesh_Strict("GFX\map\doorcoll.x") ;collider
+	
+	o\DoorID[5] = LoadMesh_Strict("GFX\map\ContDoorLeft.x") ;big door #1
+	
+	o\DoorID[6] = LoadMesh_Strict("GFX\map\ContDoorRight.x") ;big door #2
+	
+	o\DoorID[7] = LoadMesh_Strict("GFX\map\elevatordoor.b3d") ;elevator door
+	
+	o\DoorID[8] = LoadMesh_Strict("GFX\map\forest\door_frame.b3d") ;frame #2
+	
+	o\DoorID[9] = LoadMesh_Strict("GFX\map\forest\door.b3d") ;wooden door
+	
+	o\DoorID[10] = LoadMesh_Strict("GFX\doorhit.b3d") ;hitbox
+	
+	For i = 0 To MaxDoorIDAmount-1
+	    HideEntity o\DoorID[i]
+	Next
+	
+	 ;[BUTTONS]
+	
+	o\ButtonID[0] = LoadMesh_Strict("GFX\map\Button.x") ;button
+	
+	o\ButtonID[1] = LoadMesh_Strict("GFX\map\ButtonKeycard.x") ;keycard button
+	
+	o\ButtonID[2] = LoadMesh_Strict("GFX\map\ButtonCode.x") ;code button
+	
+	o\ButtonID[3] = LoadMesh_Strict("GFX\map\ButtonScanner.x") ;scanner button
+	
+	For i = 0 To MaxButtonIDAmount-1
+        HideEntity o\ButtonID[i]
+    Next
+	
+	;[LEVERS]
+	
+	o\LeverID[0] = LoadMesh_Strict("GFX\map\leverbase.x") ;lever base
+	
+	o\LeverID[1] = LoadMesh_Strict("GFX\map\leverhandle.x") ;lever handle
+	
+	For i = 0 To MaxLeverIDAmount-1
+	    HideEntity o\LeverID[i]
+	Next
+	
+	;[CAMS]
+	
+	o\CamID[0] = LoadMesh_Strict("GFX\map\cambase.x") ;cam base
+	
+	o\CamID[1] = LoadMesh_Strict("GFX\map\CamHead.b3d") ;cam head
+	
+	For i = 0 To MaxCamIDAmount-1
+        HideEntity o\CamID[i]
+    Next
+	
+	;[OTHER MODELS]
+	
+	o\OtherModelsID[0] = LoadMesh_Strict("GFX\items\cupliquid.x") ;cup's liquid
+	
+	o\OtherModelsID[1] = LoadMesh_Strict("GFX\lightcone.b3d") ;light cone
+	
+	For i = 0 To MaxOtherModelsIDAmount-1
+        HideEntity o\OtherModelsID[i]
+    Next
+	
+	DrawLoading(10) ;LOADED ALL OBJECTS
+	
+	LightSpriteTex(0) = LoadTexture_Strict("GFX\light1.jpg", 1)
+	LightSpriteTex(1) = LoadTexture_Strict("GFX\light2.jpg", 1)
+	LightSpriteTex(2) = LoadTexture_Strict("GFX\lightsprite.jpg",1)
+	
+	For i = 0 To 5
+		GorePics(i) = LoadTexture_Strict("GFX\895pics\pic" + (i + 1) + ".jpg")
+	Next
+	
+	OldAiPics(0) = LoadTexture_Strict("GFX\AIface.jpg")
+	OldAiPics(1) = LoadTexture_Strict("GFX\AIface2.jpg")
 	
 	ScreenTexs[0] = CreateTexture(512, 512, 1+256)
 	ScreenTexs[1] = CreateTexture(512, 512, 1+256)
@@ -8092,177 +8277,7 @@ Function LoadEntities()
 	MoveEntity(Light, 0, 0, 1.0)
 	HideEntity Light
 	
-	Collider = CreatePivot()
-	EntityRadius Collider, 0.15, 0.30
-	EntityPickMode(Collider, 1)
-	EntityType Collider, HIT_PLAYER
-	
-	Head = CreatePivot()
-	EntityRadius Head, 0.15
-	EntityType Head, HIT_PLAYER
-	
-	LiquidObj = LoadMesh_Strict("GFX\items\cupliquid.x") ;optimized the cups dispensed by 294
-	HideEntity LiquidObj
-	
-	;[NPCs]
-	
-	o\NPCModelID[0] = LoadAnimMesh_Strict("GFX\npcs\scp008_1.b3d") ;SCP-008-1
-	
-	o\NPCModelID[1] = LoadAnimMesh_Strict("GFX\npcs\scp035_tentacle.b3d") ;SCP-035's Tentacle
-	
-	o\NPCModelID[2] = LoadAnimMesh_Strict("GFX\npcs\scp049.b3d") ;SCP-049
-	
-	o\NPCModelID[3] = LoadAnimMesh_Strict("GFX\npcs\scp049_2.b3d") ;SCP-049-2
-	
-	o\NPCModelID[4] = LoadAnimMesh_Strict("GFX\npcs\scp066.b3d") ;SCP-066
-	
-	o\NPCModelID[5] = LoadAnimMesh_Strict("GFX\npcs\scp096.b3d") ;SCP-096
-	
-	o\NPCModelID[6] = LoadAnimMesh_Strict("GFX\npcs\scp106.b3d") ;SCP-106
-	
-	o\NPCModelID[7] = LoadMesh_Strict("GFX\npcs\scp173.b3d") ;SCP-173
-	
-	o\NPCModelID[8] = LoadMesh_Strict("GFX\scp173_box.b3d") ;SCP-173's Box
-	
-	o\NPCModelID[9] = LoadAnimMesh_Strict("GFX\npcs\scp372.b3d") ;SCP-372
-	
-	o\NPCModelID[10] = LoadAnimMesh_Strict("GFX\npcs\scp513_1.b3d") ;SCP-513-1
-	
-	o\NPCModelID[11] = LoadAnimMesh_Strict("GFX\npcs\scp939.b3d") ;SCP-939
-	
-	o\NPCModelID[12] = LoadAnimMesh_Strict("GFX\npcs\scp966.b3d") ;SCP-966
-	
-	o\NPCModelID[13] = LoadAnimMesh_Strict("GFX\npcs\scp1048_a.b3d") ;SCP-1048-A
-	
-	o\NPCModelID[14] = LoadAnimMesh_Strict("GFX\npcs\scp1499_1.b3d") ;SCP-1499
-	
-	o\NPCModelID[15] = LoadAnimMesh_Strict("GFX\npcs\apache.b3d") ;Apache Helicopter
-	
-	o\NPCModelID[16] = LoadAnimMesh_Strict("GFX\npcs\apacherotor.b3d") ;Apache's Rotor #1
-	
-	o\NPCModelID[17] = LoadAnimMesh_Strict("GFX\npcs\apacherotor2.b3d") ;Apache's Rotor #2
-	
-	o\NPCModelID[18] = LoadAnimMesh_Strict("GFX\npcs\clerk.b3d") ;Clerk
-	
-	o\NPCModelID[19] = LoadAnimMesh_Strict("GFX\npcs\class_d.b3d") ;Class-D
-	
-	o\NPCModelID[20] = LoadAnimMesh_Strict("GFX\npcs\scp860_2.b3d") ;SCP-860-2
-	
-	o\NPCModelID[21] = LoadAnimMesh_Strict("GFX\npcs\guard.b3d") ;Guard
-	
-	o\NPCModelID[22] = LoadAnimMesh_Strict("GFX\npcs\MTF.b3d") ;MTF
-	
-	o\NPCModelID[23] = LoadMesh_Strict("GFX\npcs\scp682_arm.b3d") ;SCP-682's arm
-	
-	o\NPCModelID[24] = LoadAnimMesh_Strict("GFX\npcs\scp1048.b3d") ;SCP-1048
-	
-	o\NPCModelID[25] = LoadAnimMesh_Strict("GFX\npcs\duck.b3d") ;Anomalous Duck
-	
-	o\NPCModelID[26] = LoadAnimMesh_Strict("GFX\npcs\nazi_officer.b3d") ;Nazi Officer
-	
-	o\NPCModelID[27] = LoadAnimMesh_Strict("GFX\npcs\scp1048_p.b3d") ;SCP-1048 With Pen
-	
-	o\NPCModelID[28] = LoadAnimMesh_Strict("GFX\npcs\CI.b3d") ;CI
-	
-	o\NPCModelID[29] = LoadAnimMesh_Strict("GFX\npcs\scp035.b3d") ;SCP-035
-	
-	For i = 0 To MaxNPCModelIDAmount-1
-        HideEntity o\NPCModelID[i]
-    Next
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	LightSpriteTex(0) = LoadTexture_Strict("GFX\light1.jpg", 1)
-	LightSpriteTex(1) = LoadTexture_Strict("GFX\light2.jpg", 1)
-	LightSpriteTex(2) = LoadTexture_Strict("GFX\lightsprite.jpg",1)
-	
-	DrawLoading(10)
-	
-	DoorOBJ = LoadMesh_Strict("GFX\map\door01.x")
-	HideEntity DoorOBJ
-	DoorFrameOBJ = LoadMesh_Strict("GFX\map\doorframe.x")
-	HideEntity DoorFrameOBJ
-	
-	HeavyDoorObj(0) = LoadMesh_Strict("GFX\map\heavydoor1.x")
-	HideEntity HeavyDoorObj(0)
-	HeavyDoorObj(1) = LoadMesh_Strict("GFX\map\heavydoor2.x")
-	HideEntity HeavyDoorObj(1)
-	
-	DoorColl = LoadMesh_Strict("GFX\map\doorcoll.x")
-	HideEntity DoorColl
-	
-	ButtonOBJ = LoadMesh_Strict("GFX\map\Button.x")
-	HideEntity ButtonOBJ
-	ButtonKeyOBJ = LoadMesh_Strict("GFX\map\ButtonKeycard.x")
-	HideEntity ButtonKeyOBJ
-	ButtonCodeOBJ = LoadMesh_Strict("GFX\map\ButtonCode.x")
-	HideEntity ButtonCodeOBJ	
-	ButtonScannerOBJ = LoadMesh_Strict("GFX\map\ButtonScanner.x")
-	HideEntity ButtonScannerOBJ	
-	
-	BigDoorOBJ(0) = LoadMesh_Strict("GFX\map\ContDoorLeft.x")
-	HideEntity BigDoorOBJ(0)
-	BigDoorOBJ(1) = LoadMesh_Strict("GFX\map\ContDoorRight.x")
-	HideEntity BigDoorOBJ(1)
-	
-	LeverBaseOBJ = LoadMesh_Strict("GFX\map\leverbase.x")
-	HideEntity LeverBaseOBJ
-	LeverOBJ = LoadMesh_Strict("GFX\map\leverhandle.x")
-	HideEntity LeverOBJ
-	
-	DrawLoading(15)
-	
-	For i = 0 To 5
-		GorePics(i) = LoadTexture_Strict("GFX\895pics\pic" + (i + 1) + ".jpg")
-	Next
-	
-	OldAiPics(0) = LoadTexture_Strict("GFX\AIface.jpg")
-	OldAiPics(1) = LoadTexture_Strict("GFX\AIface2.jpg")	
-	
-	DrawLoading(20)
-	
-	For i = 0 To 6
-		DecalTextures(i) = LoadTexture_Strict("GFX\decal" + (i + 1) + ".png", 1 + 2)
-	Next
-	DecalTextures(7) = LoadTexture_Strict("GFX\items\INVpaperstrips.jpg", 1 + 2)
-	For i = 8 To 12
-		DecalTextures(i) = LoadTexture_Strict("GFX\decalpd"+(i-7)+".jpg", 1 + 2)	
-	Next
-	For i = 13 To 14
-		DecalTextures(i) = LoadTexture_Strict("GFX\bullethole"+(i-12)+".jpg", 1 + 2)	
-	Next	
-	For i = 15 To 16
-		DecalTextures(i) = LoadTexture_Strict("GFX\blooddrop"+(i-14)+".png", 1 + 2)	
-	Next
-	DecalTextures(17) = LoadTexture_Strict("GFX\decal8.png", 1 + 2)	
-	DecalTextures(18) = LoadTexture_Strict("GFX\decalpd6.dc", 1 + 2)	
-	DecalTextures(19) = LoadTexture_Strict("GFX\decal19.png", 1 + 2)
-	DecalTextures(20) = LoadTexture_Strict("GFX\decal427.png", 1 + 2)
-	
-	DrawLoading(25)
-	
-	Monitor = LoadMesh_Strict("GFX\map\monitor.b3d")
-	HideEntity Monitor
-	MonitorTexture = LoadTexture_Strict("GFX\monitortexture.jpg")
-	
-	CamBaseOBJ = LoadMesh_Strict("GFX\map\cambase.x")
-	HideEntity(CamBaseOBJ)
-	CamOBJ = LoadMesh_Strict("GFX\map\CamHead.b3d")
-	HideEntity(CamOBJ)
-	
-	Monitor2 = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d")
-	HideEntity Monitor2
-	Monitor3 = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d")
-	HideEntity Monitor3
+	MonitorTexture = LoadTexture_Strict("GFX\monitoroverlay.png")
 	MonitorTexture2 = LoadTexture_Strict("GFX\map\LockdownScreen2.jpg")
 	MonitorTexture3 = LoadTexture_Strict("GFX\map\LockdownScreen.jpg")
 	MonitorTexture4 = LoadTexture_Strict("GFX\map\LockdownScreen3.jpg")
@@ -8271,17 +8286,15 @@ Function LoadEntities()
 	ClsColor 0,0,0
 	Cls
 	SetBuffer BackBuffer()
-	LightConeModel = LoadMesh_Strict("GFX\lightcone.b3d")
-	HideEntity LightConeModel
 	
-	For i = 2 To CountSurfaces(Monitor2)
-		sf = GetSurface(Monitor2,i)
+	For i = 2 To CountSurfaces(o\MonitorID[1])
+		sf = GetSurface(o\MonitorID[1],i)
 		b = GetSurfaceBrush(sf)
 		If b<>0 Then
 			t1 = GetBrushTexture(b,0)
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
-				If Lower(name) <> "monitortexture.jpg"
+				If Lower(name) <> "monitoroverlay.png"
 					BrushTexture b, MonitorTextureOff, 0, 0
 					PaintSurface sf,b
 				EndIf
@@ -8290,14 +8303,14 @@ Function LoadEntities()
 			FreeBrush b
 		EndIf
 	Next
-	For i = 2 To CountSurfaces(Monitor3)
-		sf = GetSurface(Monitor3,i)
+	For i = 2 To CountSurfaces(o\MonitorID[2])
+		sf = GetSurface(o\MonitorID[2],i)
 		b = GetSurfaceBrush(sf)
 		If b<>0 Then
 			t1 = GetBrushTexture(b,0)
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
-				If Lower(name) <> "monitortexture.jpg"
+				If Lower(name) <> "monitoroverlay.png"
 					BrushTexture b, MonitorTextureOff, 0, 0
 					PaintSurface sf,b
 				EndIf
@@ -8307,46 +8320,6 @@ Function LoadEntities()
 		EndIf
 	Next
 	
-	UserTrackMusicAmount% = 0
-	If EnableUserTracks Then
-		Local dirPath$ = "SFX\Radio\UserTracks\"
-		If FileType(dirPath)<>2 Then
-			CreateDir(dirPath)
-		EndIf
-		
-		Local Dir% = ReadDir("SFX\Radio\UserTracks\")
-		Repeat
-			file$=NextFile(Dir)
-			If file$="" Then Exit
-			If FileType("SFX\Radio\UserTracks\"+file$) = 1 Then
-				test = LoadSound("SFX\Radio\UserTracks\"+file$)
-				If test<>0
-					UserTrackName$(UserTrackMusicAmount%) = file$
-					UserTrackMusicAmount% = UserTrackMusicAmount% + 1
-				EndIf
-				FreeSound test
-			EndIf
-		Forever
-		CloseDir Dir
-	EndIf
-	If EnableUserTracks Then DebugLog "User Tracks found: "+UserTrackMusicAmount
-	
-	InitItemTemplates()
-	
-	ParticleTextures(0) = LoadTexture_Strict("GFX\smoke.png", 1 + 2)
-	ParticleTextures(1) = LoadTexture_Strict("GFX\flash.jpg", 1 + 2)
-	ParticleTextures(2) = LoadTexture_Strict("GFX\dust.jpg", 1 + 2)
-	ParticleTextures(3) = LoadTexture_Strict("GFX\npcs\hg.pt", 1 + 2)
-	ParticleTextures(4) = LoadTexture_Strict("GFX\map\sun.jpg", 1 + 2)
-	ParticleTextures(5) = LoadTexture_Strict("GFX\bloodsprite.png", 1 + 2)
-	ParticleTextures(6) = LoadTexture_Strict("GFX\smoke2.png", 1 + 2)
-	ParticleTextures(7) = LoadTexture_Strict("GFX\spark.jpg", 1 + 2)
-	ParticleTextures(8) = LoadTexture_Strict("GFX\particle.png", 1 + 2)
-	
-	SetChunkDataValues()
-	
-	;NPCtypeD - different models with different textures (loaded using "CopyEntity") - ENDSHN
-	;[Block]
 	For i=1 To MaxDTextures
 		DTextures[i] = CopyEntity(o\NPCModelID[19])
 		HideEntity DTextures[i]
@@ -8397,31 +8370,65 @@ Function LoadEntities()
 	EntityTexture DTextures[11], tex
 	FreeTexture tex
 	
-	;[End Block]
+	DrawLoading(15) ;LOADED ALL TEXTURES
 	
-	LoadMaterials("Data\materials.ini")
+	For i = 0 To 6
+		DecalTextures(i) = LoadTexture_Strict("GFX\decal" + (i + 1) + ".png", 1 + 2)
+	Next
+	DecalTextures(7) = LoadTexture_Strict("GFX\items\INVpaperstrips.jpg", 1 + 2)
+	For i = 8 To 12
+		DecalTextures(i) = LoadTexture_Strict("GFX\decalpd"+(i-7)+".jpg", 1 + 2)	
+	Next
+	For i = 13 To 14
+		DecalTextures(i) = LoadTexture_Strict("GFX\bullethole"+(i-12)+".jpg", 1 + 2)	
+	Next	
+	For i = 15 To 16
+		DecalTextures(i) = LoadTexture_Strict("GFX\blooddrop"+(i-14)+".png", 1 + 2)	
+	Next
+	DecalTextures(17) = LoadTexture_Strict("GFX\decal8.png", 1 + 2)	
+	DecalTextures(18) = LoadTexture_Strict("GFX\decalpd6.dc", 1 + 2)	
+	DecalTextures(19) = LoadTexture_Strict("GFX\decal19.png", 1 + 2)
+	DecalTextures(20) = LoadTexture_Strict("GFX\decal427.png", 1 + 2)
 	
-	OBJTunnel(0)=LoadRMesh("GFX\map\mt1.rmesh",Null)	
-	HideEntity OBJTunnel(0)				
-	OBJTunnel(1)=LoadRMesh("GFX\map\mt2.rmesh",Null)	
-	HideEntity OBJTunnel(1)
-	OBJTunnel(2)=LoadRMesh("GFX\map\mt2c.rmesh",Null)	
-	HideEntity OBJTunnel(2)				
-	OBJTunnel(3)=LoadRMesh("GFX\map\mt3.rmesh",Null)	
-	HideEntity OBJTunnel(3)	
-	OBJTunnel(4)=LoadRMesh("GFX\map\mt4.rmesh",Null)	
-	HideEntity OBJTunnel(4)				
-	OBJTunnel(5)=LoadRMesh("GFX\map\mt_elevator.rmesh",Null)
-	HideEntity OBJTunnel(5)
-	OBJTunnel(6)=LoadRMesh("GFX\map\mt_generator.rmesh",Null)
-	HideEntity OBJTunnel(6)
+    TextureLodBias TextureFloat#
 	
-	;TextureLodBias TextureBias
-	TextureLodBias TextureFloat#
-	;Devil Particle System
-	;ParticleEffect[] numbers:
-	;	0 - electric spark
-	;	1 - smoke effect
+	DrawLoading(20) ;LOADED ALL DECALS
+	
+	UserTrackMusicAmount% = 0
+	If EnableUserTracks Then
+		Local dirPath$ = "SFX\Radio\UserTracks\"
+		If FileType(dirPath)<>2 Then
+			CreateDir(dirPath)
+		EndIf
+		
+		Local Dir% = ReadDir("SFX\Radio\UserTracks\")
+		Repeat
+			file$=NextFile(Dir)
+			If file$="" Then Exit
+			If FileType("SFX\Radio\UserTracks\"+file$) = 1 Then
+				test = LoadSound("SFX\Radio\UserTracks\"+file$)
+				If test<>0
+					UserTrackName$(UserTrackMusicAmount%) = file$
+					UserTrackMusicAmount% = UserTrackMusicAmount% + 1
+				EndIf
+				FreeSound test
+			EndIf
+		Forever
+		CloseDir Dir
+	EndIf
+	If EnableUserTracks Then DebugLog "User Tracks found: "+UserTrackMusicAmount
+	
+	DrawLoading(25) ;LOADED ALL MUSIC
+	
+	ParticleTextures(0) = LoadTexture_Strict("GFX\smoke.png", 1 + 2)
+	ParticleTextures(1) = LoadTexture_Strict("GFX\flash.jpg", 1 + 2)
+	ParticleTextures(2) = LoadTexture_Strict("GFX\dust.jpg", 1 + 2)
+	ParticleTextures(3) = LoadTexture_Strict("GFX\npcs\hg.pt", 1 + 2)
+	ParticleTextures(4) = LoadTexture_Strict("GFX\map\sun.jpg", 1 + 2)
+	ParticleTextures(5) = LoadTexture_Strict("GFX\bloodsprite.png", 1 + 2)
+	ParticleTextures(6) = LoadTexture_Strict("GFX\smoke2.png", 1 + 2)
+	ParticleTextures(7) = LoadTexture_Strict("GFX\spark.jpg", 1 + 2)
+	ParticleTextures(8) = LoadTexture_Strict("GFX\particle.png", 1 + 2)
 	
 	Local t0
 	
@@ -8440,7 +8447,6 @@ Function LoadEntities()
 	SetTemplateAlignToFall(ParticleEffect[0], True, 45)
 	SetTemplateGravity(ParticleEffect[0], 0.001)
 	SetTemplateAlphaVel(ParticleEffect[0], True)
-	;SetTemplateSize(ParticleEffect[0], 0.0625, 0.125, 0.7, 1)
 	SetTemplateSize(ParticleEffect[0], 0.03125, 0.0625, 0.7, 1)
 	SetTemplateColors(ParticleEffect[0], $0000FF, $6565FF)
 	SetTemplateFloor(ParticleEffect[0], 0.0, 0.5)
@@ -8452,12 +8458,9 @@ Function LoadEntities()
 	SetTemplateEmitterLifeTime(ParticleEffect[1], 3)
 	SetTemplateParticleLifeTime(ParticleEffect[1], 30, 45)
 	SetTemplateTexture(ParticleEffect[1], "GFX\smoke2.png", 2, 1)
-	;SetTemplateOffset(ParticleEffect[1], -.3, .3, -.3, .3, -.3, .3)
 	SetTemplateOffset(ParticleEffect[1], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-	;SetTemplateVelocity(ParticleEffect[1], -.04, .04, .1, .2, -.04, .04)
 	SetTemplateVelocity(ParticleEffect[1], 0.0, 0.0, 0.02, 0.025, 0.0, 0.0)
 	SetTemplateAlphaVel(ParticleEffect[1], True)
-	;SetTemplateSize(ParticleEffect[1], 3, 3, .5, 1.5)
 	SetTemplateSize(ParticleEffect[1], 0.4, 0.4, 0.5, 1.5)
 	SetTemplateSizeVel(ParticleEffect[1], .01, 1.01)
 	
@@ -8488,15 +8491,23 @@ Function LoadEntities()
 	SetTemplateGravity(ParticleEffect[2], 0.005)
 	SetTemplateSubTemplate(ParticleEffect[2], t0)
 	
+	DrawLoading(30) ;LOADED ALL PARTICLES
+	
+	LoadMaterials("Data\materials.ini")
+	
+	DrawLoading(35) ;LOADED ALL MATERIALS
+	
+	SetChunkDataValues()
+	
 	Room2slCam = CreateCamera()
 	CameraViewport(Room2slCam, 0, 0, 128, 128)
 	CameraRange Room2slCam, 0.05, 6.0
 	CameraZoom(Room2slCam, 0.8)
 	HideEntity(Room2slCam)
 	
-	DrawLoading(30)
+	InitItemTemplates()
 	
-	;LoadRoomMeshes()
+	DrawLoading(40) ;LOADED OTHER THINGS
 	
 	CatchErrors("LoadEntities")
 End Function
@@ -12058,6 +12069,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#591#2446
-;~B#1266#14CF#1C6D
+;~F#598#2451
+;~B#125F#14C8#1C66
 ;~C#Blitz3D

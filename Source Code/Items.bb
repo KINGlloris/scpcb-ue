@@ -354,6 +354,7 @@ Function CreateItem.Items(name$, tempname$, x#, y#, z#, r%=0,g%=0,b%=0,a#=1.0,in
 	
 	Local i.Items = New Items
 	Local it.ItemTemplates
+	Local o.Objects = First Objects
 	
 	name = Lower(name)
 	tempname = Lower (tempname)
@@ -389,7 +390,7 @@ Function CreateItem.Items(name$, tempname$, x#, y#, z#, r%=0,g%=0,b%=0,a#=1.0,in
 		i\b=b
 		i\a=a
 		
-		Local liquid = CopyEntity(LiquidObj)
+		Local liquid = CopyEntity(o\OtherModelsID[0])
 		ScaleEntity liquid, i\itemtemplate\scale,i\itemtemplate\scale,i\itemtemplate\scale,True
 		PositionEntity liquid, EntityX(i\collider,True),EntityY(i\collider,True),EntityZ(i\collider,True)
 		EntityParent liquid, i\model

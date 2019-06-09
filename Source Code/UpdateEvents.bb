@@ -70,11 +70,9 @@ Function UpdateEvents()
 						If SelectedDifficulty\saveType = SAVEANYWHERE Then
 							Msg = "Press "+KeyName(KEY_SAVE)+" to save."
 							MsgTimer = 70*4
-							;SetSaveMSG("Press "+KeyName(KEY_SAVE)+" to save.")
 						ElseIf SelectedDifficulty\saveType = SAVEONSCREENS Then
 							Msg = "Saving is only permitted on clickable monitors scattered throughout the facility."
 							MsgTimer = 70 * 8
-							;SetSaveMSG("Saving is only permitted on clickable monitors scattered throughout the facility.")
 						EndIf
 						
 						Curr173\Idle=False
@@ -89,11 +87,6 @@ Function UpdateEvents()
 						
 						If e\room\NPC[1] = Null Then
 							e\room\NPC[1] = CreateNPC(NPCtypeD, 0,0,0)
-							ChangeNPCTextureID(e\room\NPC[1],3)
-							;tex = LoadTexture_Strict("GFX\npcs\scientist2.jpg")
-							e\room\NPC[1]\texture = "GFX\npcs\scientist2.jpg"
-							;EntityTexture e\room\NPC[1]\obj, tex
-							;FreeTexture tex
 							ChangeNPCTextureID(e\room\NPC[1],3)
 						EndIf
 						PositionEntity e\room\NPC[1]\Collider, e\room\x, 0.5, e\room\z-1.0, True
@@ -111,28 +104,19 @@ Function UpdateEvents()
 						
 						If e\room\NPC[0]=Null
 							e\room\NPC[3] = CreateNPC(NPCtypeGuard, EntityX(e\room\Objects[2], True), EntityY(e\room\Objects[2], True), EntityZ(e\room\Objects[2], True))
-							;e\room\NPC[3]\Angle = 180
 							RotateEntity e\room\NPC[3]\Collider,0,90,0
 							SetNPCFrame(e\room\NPC[3], 286) : e\room\NPC[3]\State = 8
 							MoveEntity e\room\NPC[3]\Collider,1,0,0
 							
 							e\room\NPC[4] = CreateNPC(NPCtypeD, EntityX(e\room\Objects[3], True), 0.5, EntityZ(e\room\Objects[3], True))
-							;PointEntity(e\room\NPC[4]\Collider, e\room\Objects[7])
 							SetNPCFrame(e\room\NPC[4], 19) : e\room\NPC[4]\State = 3
 							RotateEntity e\room\NPC[4]\Collider,0,270,0
 							MoveEntity e\room\NPC[4]\Collider,0,0,2.65
 							
 							e\room\NPC[5] = CreateNPC(NPCtypeD, EntityX(e\room\Objects[4], True), 0.5, EntityZ(e\room\Objects[4], True))
 							ChangeNPCTextureID(e\room\NPC[5],6)
-							;PointEntity(e\room\NPC[5]\Collider, e\room\Objects[7])
 							SetNPCFrame(e\room\NPC[5], 19) : e\room\NPC[5]\State = 3
 							RotateEntity e\room\NPC[5]\Collider,0,270,0
-							;tex = LoadTexture_Strict("GFX\npcs\classd2.jpg")
-							
-						;	e\room\NPC[5]\texture = "GFX\npcs\classd2.jpg"
-							;EntityTexture e\room\NPC[5]\obj, tex
-							;FreeTexture tex
-							
 							MoveEntity e\room\NPC[5]\Collider,0.25,0,3.0
 							RotateEntity e\room\NPC[5]\Collider,0,0,0
 							
@@ -169,7 +153,6 @@ Function UpdateEvents()
 						e\EventState = e\EventState+FPSfactor
 						
 						If e\EventState2 = 0 Then
-							;CanSave = False
 							ShowEntity Curr173\obj
 							If e\EventState > 900 And e\room\RoomDoors[5]\open Then
 								If e\EventState - FPSfactor <= 900 Then 
@@ -254,11 +237,6 @@ Function UpdateEvents()
 									If EntityX(Collider)<(e\room\x+1384*RoomScale) Then e\EventState = Max(e\EventState,900)
 									
 									If e\room\RoomDoors[5]\openstate = 0 Then 
-										;HideEntity e\room\NPC[1]\obj
-										;HideEntity e\room\NPC[1]\Collider
-										;
-										;HideEntity e\room\NPC[2]\obj
-										;HideEntity e\room\NPC[2]\Collider
 										
 										If e\room\NPC[1] <> Null Then RemoveNPC(e\room\NPC[1])
 										If e\room\NPC[2] <> Null Then RemoveNPC(e\room\NPC[2])
@@ -268,17 +246,6 @@ Function UpdateEvents()
 								EndIf
 							EndIf
 						EndIf
-						
-						
-					;	If e\EventState > 900+3*70 And e\EventState < 900+4*70 Then 
-					;		CameraShake = 0.2
-					;	ElseIf e\EventState > 900+32.3*70 And e\EventState < 900+34*70
-					;		CameraShake = 0.4
-					;	ElseIf e\EventState > 900+51*70 And e\EventState < 900+53.5*70
-					;		CameraShake = 1.0
-					;	ElseIf e\EventState > 900+57.5*70 And e\EventState < 900+58.5*70
-					;		CameraShake = 0.4
-					;	EndIf
 						
 						PositionEntity e\room\Objects[0], EntityX(e\room\Objects[0],True), -Max(e\EventState-1300,0)/4500, EntityZ(e\room\Objects[0],True), True
 						RotateEntity e\room\Objects[0], -Max(e\EventState-1320,0)/130, 0, -Max(e\EventState-1300,0)/40, True
@@ -329,8 +296,6 @@ Function UpdateEvents()
 						
 						If (i>26) Then
 							If e\room\NPC[0] <> Null Then RemoveNPC(e\room\NPC[0])
-							;If e\room\NPC[1] <> Null Then RemoveNPC(e\room\NPC[1])
-							;If e\room\NPC[2] <> Null Then RemoveNPC(e\room\NPC[2])
 							
 							FreeEntity e\room\Objects[0]
 							FreeEntity e\room\Objects[1]
@@ -963,7 +928,6 @@ Function UpdateEvents()
 							If e\room\NPC[6]\SoundChn<>0 Then 
 								If ChannelPlaying (e\room\NPC[6]\SoundChn) Then
 									e\room\NPC[6]\State = 6
-									;PointEntity e\room\NPC[6]\Collider, e\room\obj
 									If AnimTime(e\room\NPC[6]\obj)=>325 Then
 										Animate2(e\room\NPC[6]\obj, AnimTime(e\room\NPC[6]\obj),326,328, 0.02, False)
 									Else
@@ -995,7 +959,6 @@ Function UpdateEvents()
 										
 										PointEntity(e\room\NPC[i]\obj, e\room\Objects[i + 2])
 										RotateEntity(e\room\NPC[i]\Collider, 0, CurveValue(EntityYaw(e\room\NPC[i]\obj),EntityYaw(e\room\NPC[i]\Collider),15.0),0)
-										;moveentity(e\room\npc(i).Collider, 0, 0, 0.015 * FPSfactor)
 										If e\EventState > (200 + i * 30) Then e\room\NPC[i]\State = 1
 										temp = False
 									Else
@@ -1014,7 +977,6 @@ Function UpdateEvents()
 										e\room\NPC[6]\SoundChn = PlaySound_Strict(IntroSFX(5))
 									ElseIf e\EventState => 850 And e\EventState - (FPSfactor/3) < 850 ;"fire at will"
 										UseDoor(e\room\RoomDoors[1],False)
-										;e\room\RoomDoors[1]\open = False
 										e\room\NPC[6]\SoundChn = PlaySound_Strict(IntroSFX(6))
 									ElseIf e\EventState > 1000
 										e\room\NPC[0]\State = 1
@@ -1148,7 +1110,6 @@ Function UpdateEvents()
 									BlinkTimer = -10
 									If e\room\NPC[1]\State = 0 Then PlaySound2(NeckSnapSFX(Rand(0, 2)),Camera,Curr173\Collider)
 									
-									;e\room\NPC[0]\State=8
 									SetAnimTime e\room\NPC[1]\obj, 0
 									e\room\NPC[1]\State = 6
 									PositionEntity(Curr173\Collider, EntityX(e\room\NPC[1]\obj), EntityY(Curr173\Collider), EntityZ(e\room\NPC[1]\obj))
@@ -1184,7 +1145,6 @@ Function UpdateEvents()
 							ElseIf e\EventState < 14200 ;kills the other class d
 								Animate2(e\room\NPC[1]\obj, AnimTime(e\room\NPC[1]\obj), 0, 19, 0.2, False)
 								
-								;Animate2(e\room\NPC[0]\obj, AnimTime(e\room\NPC[0]\obj), 110, 120, 0.2, False)
 								e\room\NPC[0]\State=8
 								If e\EventState > 14105 Then
 									If e\room\NPC[2]\State<>6 Then PlaySound2 (NeckSnapSFX(1), Camera, e\room\NPC[2]\Collider, 8.0)
@@ -1263,8 +1223,6 @@ Function UpdateEvents()
 										For r.Rooms = Each Rooms
 											If r\RoomTemplate\Name = "start" Then
 												DebugLog "tostart"
-												;Msg = "Press "+KeyName(KEY_SAVE)+" to save."
-												;MsgTimer = 70*8
 												
 												PlayerRoom = r
 												
@@ -1310,7 +1268,6 @@ Function UpdateEvents()
 													RemoveNPC(e\room\NPC[i])
 												Next
 												r\NPC[1]=e\room\NPC[6]
-												;RemoveNPC(e\room\NPC[7])
 												
 												FreeEntity e\room\obj
 												Delete e\room
@@ -1325,10 +1282,6 @@ Function UpdateEvents()
 												CameraFogMode(Camera, 1)
 												
 												e\EventState2 = 1
-												
-												;For i = 8 To 10
-												;	RemoveNPC(e\room\NPC[i])
-												;Next
 												
 												Exit
 											EndIf
@@ -1399,10 +1352,6 @@ Function UpdateEvents()
 			Case "checkpoint"
 				;[Block]
 				If PlayerRoom = e\room Then
-					;If e\room\RoomDoors[0]\open <> e\EventState Then
-					;	If e\Sound = 0 Then LoadEventSound(e,"SFX\Door\DoorCheckpoint.Ogg")
-					;	PlaySound_Strict e\Sound
-					;EndIf
 					
 					;play a sound clip when the player passes through the gate
 					If e\EventState2 = 0 Then
@@ -1930,7 +1879,11 @@ Function UpdateEvents()
 					;otherwise 0
 				
 				If PlayerRoom = e\room Then
-					ShowEntity e\room\obj
+					;optimize
+				    For r.Rooms = Each Rooms
+				        HideEntity r\obj
+				    Next
+				    ShowEntity e\room\obj
 					
 					PlayerFallingPickDistance = 0.0
 					
@@ -3259,25 +3212,10 @@ Function UpdateEvents()
 						;place the tunnels
 						
 						For i=0 To 6
-					;		Select True
-					;			Case i=2
-					;				tempStr="2c"
-					;			Case i>2
-					;				tempStr=Str(i)
-					;			Default
-					;				tempStr=Str(i+1)
-					;		End Select
-							Meshes[i]=CopyEntity(OBJTunnel(i))
-							;Meshes[i]=LoadRMesh("GFX\map\mt"+tempStr+".rmesh",Null)
+							Meshes[i] = CopyEntity(o\OBJTunnelID[i])
 							DebugLog i
 							HideEntity Meshes[i]
 						Next
-					;	Meshes[5]=CopyEntity(OBJTunnel(5))
-					;	Meshes[5]=LoadRMesh("GFX\map\mt_elevator.rmesh",Null)
-					;	HideEntity Meshes[5]
-					;	Meshes[6]=CopyEntity(OBJTunnel(6))
-					;	Meshes[6]=LoadRMesh("GFX\map\mt_generator.rmesh",Null)
-					;	HideEntity Meshes[6]
 						
 						FreeTextureCache
 						
@@ -3546,7 +3484,6 @@ Function UpdateEvents()
 						
 						For i=0 To 6
 							e\room\grid\Meshes[i]=Meshes[i]
-							;FreeEntity Meshes[i]
 						Next
 						
 						PositionEntity e\room\Objects[0],e\room\x+firstX*2.0,8.0,e\room\z+firstY*2.0,True
@@ -3555,42 +3492,11 @@ Function UpdateEvents()
 					Else If e\room\grid\Meshes[0]=0 Then
 						
 						;place the tunnels
-						For i=0 To 6
-					;		Select True
-					;			Case i=2
-					;				tempStr="2c"
-					;			Case i>2
-					;				tempStr=Str(i)
-					;			Default
-					;				tempStr=Str(i+1)
-					;		End Select
-							Meshes[i]=CopyEntity(OBJTunnel(i))
+						For i = 0 To 6
+							Meshes[i] = CopyEntity(o\OBJTunnelID[i])
 							DebugLog i
 							HideEntity Meshes[i]
 						Next
-					;	Meshes[5]=CopyEntity(OBJTunnel(5))
-					;	HideEntity Meshes[5]
-					;	Meshes[6]=CopyEntity(OBJTunnel(6))
-					;	HideEntity Meshes[6]
-						
-					;	For i=0 To 4
-					;		Select True
-					;			Case i=2
-					;				tempStr="2c"
-					;			Case i>2
-					;				tempStr=Str(i)
-					;			Default
-					;				tempStr=Str(i+1)
-					;		End Select
-					;		Meshes[i]=LoadRMesh("GFX\map\mt"+tempStr+".rmesh",Null)
-					;		DebugLog i
-					;		HideEntity Meshes[i]
-					;	Next
-					;	
-					;	Meshes[5]=LoadRMesh("GFX\map\mt_elevator.rmesh",Null)
-					;	HideEntity Meshes[5]
-					;	Meshes[6]=LoadRMesh("GFX\map\mt_generator.rmesh",Null)
-					;	HideEntity Meshes[6]
 						
 						FreeTextureCache
 						
@@ -4669,6 +4575,12 @@ Function UpdateEvents()
 					
 					If EntityY(Collider)<-4600*RoomScale Then
 						
+						;optimize
+						For r.Rooms = Each Rooms
+							HideEntity r\obj
+						Next
+						ShowEntity e\room\obj
+						
 						GiveAchievement(Achv939)
 						
 						ShouldPlay = 7
@@ -5400,6 +5312,12 @@ Function UpdateEvents()
 					Else
 						
 						ShouldPlay = 25
+						
+						;optimize
+						For r.Rooms = Each Rooms
+							HideEntity r\obj
+						Next
+						ShowEntity e\room\obj
 						
 						If e\EventState = 0 Then
 							If e\EventStr = "" And QuickLoadPercent = -1
@@ -9341,10 +9259,11 @@ Function UpdateEndings()
 			Case "gatea"
 				;[Block]
 				If PlayerRoom = e\room Then 
-					For r.Rooms = Each Rooms
-						HideEntity r\obj
-					Next					
-					ShowEntity e\room\obj
+					;optimize
+				    For r.Rooms = Each Rooms
+				        HideEntity r\obj
+				    Next
+				    ShowEntity e\room\obj
 					
 					If e\EventState = 0 Then
 						DrawLoading(0)
@@ -9917,6 +9836,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#9EB
-;~B#104B#1CBA
+;~F#9BC
+;~B#FED#1C68
 ;~C#Blitz3D

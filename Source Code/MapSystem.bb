@@ -1710,9 +1710,10 @@ Function PlaceGrid_MapCreator(r.Rooms)
 	Local x,y,i
 	Local Meshes[6]
 	Local dr.Doors,it.Items
+	Local o.Objects = First Objects
 	
 	For i=0 To 6
-		Meshes[i]=CopyEntity(OBJTunnel(i))
+		Meshes[i] = CopyEntity(o\OBJTunnelID[i])
 		DebugLog i
 		HideEntity Meshes[i]
 	Next
@@ -1879,6 +1880,7 @@ Function CreateRoom.Rooms(zone%, roomshape%, x#, y#, z#, name$ = "")
 	CatchErrors("Uncaught (CreateRoom)")
 	Local r.Rooms = New Rooms
 	Local rt.RoomTemplates
+	Local o.Objects = First Objects
 	
 	r\zone = zone
 	
@@ -1967,12 +1969,12 @@ Function FillRoom(r.Rooms)
 		Case "room860"
 			;[Block]
 			;the wooden door
-			r\Objects[2] = LoadMesh_Strict("GFX\map\forest\door_frame.b3d")
+			r\Objects[2] = CopyEntity(o\DoorID[8])
 			PositionEntity r\Objects[2],r\x + 184.0 * RoomScale,0,r\z,True
 			ScaleEntity r\Objects[2],45.0*RoomScale,45.0*RoomScale,80.0*RoomScale,True
 			EntityParent r\Objects[2],r\obj
 			
-			r\Objects[3] =  LoadMesh_Strict("GFX\map\forest\door.b3d")
+			r\Objects[3] = CopyEntity(o\DoorID[9])
 			PositionEntity r\Objects[3],r\x + 112.0 * RoomScale,0,r\z+0.05,True
 			EntityType r\Objects[3], HIT_MAP
 			
@@ -2416,13 +2418,13 @@ Function FillRoom(r.Rooms)
 			sc\turn = 0
 			TurnEntity(sc\CameraObj, 20, 0, 0)
 			
-			r\Objects[2] = CopyEntity(Monitor2,r\obj)
+			r\Objects[2] = CopyEntity(o\MonitorID[1],r\obj)
 			ScaleEntity(r\Objects[2], 2.0, 2.0, 2.0)
 			PositionEntity (r\Objects[2], r\x - 152.0*RoomScale, 384.0*RoomScale, r\z+124.0*RoomScale, True)
 			RotateEntity (r\Objects[2],0,180,0)
 			EntityFX r\Objects[2],1
 			
-			r\Objects[3] = CopyEntity(Monitor2,r\obj)
+			r\Objects[3] = CopyEntity(o\MonitorID[1],r\obj)
 			ScaleEntity(r\Objects[3], 2.0, 2.0, 2.0)
 			PositionEntity (r\Objects[3], r\x - 152.0*RoomScale, 384.0*RoomScale, r\z-380.0*RoomScale, True)
 			RotateEntity (r\Objects[3],0,0,0)
@@ -2446,13 +2448,13 @@ Function FillRoom(r.Rooms)
 			r\Objects[0] = CreatePivot(r\obj)
 			PositionEntity (r\Objects[0], r\x - 720.0*RoomScale, 120.0*RoomScale, r\z+464.0*RoomScale, True)
 			
-			r\Objects[2] = CopyEntity(Monitor3,r\obj)
+			r\Objects[2] = CopyEntity(o\MonitorID[2],r\obj)
 			ScaleEntity(r\Objects[2], 2.0, 2.0, 2.0)
 			PositionEntity (r\Objects[2], r\x + 152.0*RoomScale, 384.0*RoomScale, r\z+380.0*RoomScale, True)
 			RotateEntity (r\Objects[2],0,180,0)
 			EntityFX r\Objects[2],1
 			
-			r\Objects[3] = CopyEntity(Monitor3,r\obj)
+			r\Objects[3] = CopyEntity(o\MonitorID[2],r\obj)
 			ScaleEntity(r\Objects[3], 2.0, 2.0, 2.0)
 			PositionEntity (r\Objects[3], r\x + 152.0*RoomScale, 384.0*RoomScale, r\z-124.0*RoomScale, True)
 			RotateEntity (r\Objects[3],0,0,0)
@@ -2765,8 +2767,8 @@ Function FillRoom(r.Rooms)
 			EntityParent(r\Objects[5], r\obj)
 			
 			For n% = 0 To 1
-				r\Objects[n * 2] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n * 2 + 1] = CopyEntity(LeverOBJ)
+				r\Objects[n * 2] = CopyEntity(o\LeverID[0])
+				r\Objects[n * 2 + 1] = CopyEntity(o\LeverID[1])
 				r\Levers[n] = r\Objects[n * 2 + 1]
 				
 				For i% = 0 To 1
@@ -2950,8 +2952,8 @@ Function FillRoom(r.Rooms)
 			d\LinkedDoor = d2 : d2\LinkedDoor = d
 			
 			For i = 0 To 1
-				r\Objects[i*2] = CopyEntity(LeverBaseOBJ)
-				r\Objects[i*2+1] = CopyEntity(LeverOBJ)
+				r\Objects[i*2] = CopyEntity(o\LeverID[0])
+				r\Objects[i*2+1] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[i] = r\Objects[i*2+1]
 				
@@ -3181,8 +3183,8 @@ Function FillRoom(r.Rooms)
 			
 			;Objects [20],[21],[22],[23]
 			For n% = 10 To 11
-				r\Objects[n * 2] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n * 2 + 1] = CopyEntity(LeverOBJ)
+				r\Objects[n * 2] = CopyEntity(o\LeverID[0])
+				r\Objects[n * 2 + 1] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[n-10] = r\Objects[n * 2 + 1]
 				
@@ -3251,8 +3253,8 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\Objects[5], r\x  + 64.0 * RoomScale, -3440.0 * RoomScale, r\z - 1000.0 * RoomScale, True)
 			
 			For n% = 0 To 1
-				r\Objects[n * 2 + 6] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n * 2 + 7] = CopyEntity(LeverOBJ)
+				r\Objects[n * 2 + 6] = CopyEntity(o\LeverID[0])
+				r\Objects[n * 2 + 7] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[n] = r\Objects[n * 2 + 7]
 				
@@ -3373,8 +3375,8 @@ Function FillRoom(r.Rooms)
 			PositionEntity(r\RoomDoors[0]\buttons[0], r\x + 176.0 * RoomScale, -512.0*RoomScale, r\z - 364.0 * RoomScale, True)
 			FreeEntity r\RoomDoors[0]\buttons[1] : r\RoomDoors[0]\buttons[1]=0
 			
-			r\Objects[0] = CopyEntity(LeverBaseOBJ)
-			r\Objects[1] = CopyEntity(LeverOBJ)
+			r\Objects[0] = CopyEntity(o\LeverID[0])
+			r\Objects[1] = CopyEntity(o\LeverID[1])
 			
 			r\Levers[0] = r\Objects[1]
 			
@@ -3480,8 +3482,8 @@ Function FillRoom(r.Rooms)
 			FreeEntity(r\RoomDoors[2]\buttons[1]) : r\RoomDoors[2]\buttons[1]=0
 			
 			For n% = 0 To 2
-				r\Objects[n * 2] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n * 2 + 1] = CopyEntity(LeverOBJ)
+				r\Objects[n * 2] = CopyEntity(o\LeverID[0])
+				r\Objects[n * 2 + 1] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[n] = r\Objects[n * 2 + 1]
 				
@@ -3980,11 +3982,6 @@ Function FillRoom(r.Rooms)
 			FreeEntity r\RoomDoors[0]\buttons[0] : r\RoomDoors[0]\buttons[0]=0
 			FreeEntity r\RoomDoors[0]\buttons[1] : r\RoomDoors[0]\buttons[1]=0
 			;[End Block]
-		Case "endroomc"
-			;[Block]
-			d = CreateDoor(r\zone, r\x+1024*RoomScale, 0, r\z, 0, r, False, 2, False, "")
-			d\open = False : d\AutoClose = False : d\locked = True
-			;[End Block]
 		Case "coffin"
 			;[Block]
 			d = CreateDoor(r\zone, r\x, 0, r\z - 448.0 * RoomScale, 0, r, False, True, 2)
@@ -4004,8 +4001,8 @@ Function FillRoom(r.Rooms)
 			EntityParent(sc\ScrObj, r\obj)
 			TurnEntity(sc\ScrObj, 0, 180, 0)
 			
-			r\Objects[2] = CopyEntity(LeverBaseOBJ)
-			r\Objects[3] = CopyEntity(LeverOBJ)
+			r\Objects[2] = CopyEntity(o\LeverID[0])
+			r\Objects[3] = CopyEntity(o\LeverID[1])
 				
 			r\Levers[0] = r\Objects[3]
 				
@@ -4310,8 +4307,8 @@ Function FillRoom(r.Rooms)
 			EntityParent(it\collider, r\obj)
 			
 			For n% = 0 To 2
-				r\Objects[n * 2] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n * 2 + 1] = CopyEntity(LeverOBJ)
+				r\Objects[n * 2] = CopyEntity(o\LeverID[0])
+				r\Objects[n * 2 + 1] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[n] = r\Objects[n * 2 + 1]
 				
@@ -4363,8 +4360,8 @@ Function FillRoom(r.Rooms)
 			EntityParent(r\Objects[6], r\obj)
 			
 			For n = 0 To 2 Step 2
-				r\Objects[n] = CopyEntity(LeverBaseOBJ)
-				r\Objects[n+1] = CopyEntity(LeverOBJ)
+				r\Objects[n] = CopyEntity(o\LeverID[0])
+				r\Objects[n+1] = CopyEntity(o\LeverID[1])
 				
 				r\Levers[n/2] = r\Objects[n+1]
 				
@@ -4531,13 +4528,13 @@ Function FillRoom(r.Rooms)
 			r\Objects[7] = CreatePivot(r\obj)
 			PositionEntity(r\Objects[7], r\x - 640.0 * RoomScale, r\y + 620.0 * RoomScale, r\z - 864.0 * RoomScale, True)	
 			
-			r\Objects[8] = LoadMesh_Strict("GFX\map\forest\door_frame.b3d")
+			r\Objects[8] = CopyEntity(o\DoorID[8])
 			PositionEntity r\Objects[8], r\x - 272.0 * RoomScale, 512.0 * RoomScale, r\z + 288.0 * RoomScale,True
 			RotateEntity r\Objects[8],0,90,0,True
 			ScaleEntity r\Objects[8],45.0*RoomScale,45.0*RoomScale,80.0*RoomScale,True
 			EntityParent r\Objects[8],r\obj
 			
-			r\Objects[9] =  LoadMesh_Strict("GFX\map\forest\door.b3d")
+			r\Objects[9] = CopyEntity(o\DoorID[9])
 			PositionEntity r\Objects[9],r\x - 272.0 * RoomScale, 512.0 * RoomScale, r\z + (288.0-70) * RoomScale,True
 			RotateEntity r\Objects[9],0,10,0,True
 			EntityType r\Objects[9], HIT_MAP
@@ -4787,7 +4784,6 @@ Function FillRoom(r.Rooms)
 			
 			If r\RoomTemplate\Name = "room2gw"
 				r\Objects[0] = CreatePivot()
-				;PositionEntity r\Objects[0],r\x-48.0*RoomScale,128.0*RoomScale,r\z+320.0*RoomScale
 				PositionEntity r\Objects[0],r\x+344.0*RoomScale,128.0*RoomScale,r\z
 				EntityParent r\Objects[0],r\obj
 				
@@ -4801,7 +4797,7 @@ Function FillRoom(r.Rooms)
 				EndIf
 				
 				If (room2gw_brokendoor = 0 And Rand(1,2)=1) Or bd_temp%
-					r\Objects[1] = CopyEntity(DoorOBJ)
+					r\Objects[1] = CopyEntity(o\DoorID[0] )
 					ScaleEntity(r\Objects[1], (204.0 * RoomScale) / MeshWidth(r\Objects[1]), 312.0 * RoomScale / MeshHeight(r\Objects[1]), 16.0 * RoomScale / MeshDepth(r\Objects[1]))
 					EntityType r\Objects[1], HIT_MAP
 					PositionEntity r\Objects[1], r\x + 336.0 * RoomScale, 0.0, r\z + 462.0 * RoomScale
@@ -4926,50 +4922,50 @@ Function FillRoom(r.Rooms)
 			Local scale# = RoomScale * 4.5 * 0.4
 			Local screen%
 			
-			r\Textures[0] = LoadAnimTexture("GFX\SL_monitors_checkpoint.jpg",1,512,512,0,4)
-			r\Textures[1] = LoadAnimTexture("GFX\Sl_monitors.jpg",1,256,256,0,8)
+			r\Textures[0] = LoadAnimTexture("GFX\SL_monitors_checkpoint.png",1,512,512,0,4)
+			r\Textures[1] = LoadAnimTexture("GFX\Sl_monitors.png",1,256,256,0,8)
 			
 			;Monitor Objects
 			For i = 0 To 14
 				If i <> 7 Then
-					r\Objects[i] = CopyEntity(Monitor)
+					r\Objects[i] = CopyEntity(o\MonitorID[0])
 					ScaleEntity(r\Objects[i], scale, scale, scale)
 					If i <> 4 And i <> 13 Then
 						screen = CreateSprite()
 						EntityFX screen,17
 						SpriteViewMode screen,2
-						ScaleSprite(screen, MeshWidth(Monitor) * scale * 0.95 * 0.5, MeshHeight(Monitor) * scale * 0.95 * 0.5)
+						ScaleSprite(screen, MeshWidth(o\MonitorID[0]) * scale * 0.95 * 0.5, MeshHeight(o\MonitorID[0]) * scale * 0.95 * 0.5)
 						Select i
 							Case 0
-								EntityTexture screen,r\Textures[1],0
+								EntityTexture screen, r\Textures[1], 0
 							Case 2
-								EntityTexture screen,r\Textures[1],2
+								EntityTexture screen, r\Textures[1], 2
 							Case 3
-								EntityTexture screen,r\Textures[1],1
+								EntityTexture screen, r\Textures[1], 1
 							Case 8
-								EntityTexture screen,r\Textures[1],4
+								EntityTexture screen, r\Textures[1], 4
 							Case 9
-								EntityTexture screen,r\Textures[1],5
+								EntityTexture screen, r\Textures[1], 5
 							Case 10
-								EntityTexture screen,r\Textures[1],3
+								EntityTexture screen, r\Textures[1], 3
 							Case 11
-								EntityTexture screen,r\Textures[1],7
+								EntityTexture screen, r\Textures[1], 7
 							Default
-								EntityTexture screen,r\Textures[0],3
+								EntityTexture screen, r\Textures[0], 3
 						End Select
 						EntityParent screen,r\Objects[i]
 					ElseIf i = 4 Then
 						r\Objects[20] = CreateSprite()
 						EntityFX r\Objects[20],17
 						SpriteViewMode r\Objects[20],2
-						ScaleSprite(r\Objects[20], MeshWidth(Monitor) * scale * 0.95 * 0.5, MeshHeight(Monitor) * scale * 0.95 * 0.5)
+						ScaleSprite(r\Objects[20], MeshWidth(o\MonitorID[0]) * scale * 0.95 * 0.5, MeshHeight(o\MonitorID[0]) * scale * 0.95 * 0.5)
 						EntityTexture r\Objects[20],r\Textures[0],2
 						EntityParent r\Objects[20],r\Objects[i]
 					Else
 						r\Objects[21] = CreateSprite()
 						EntityFX r\Objects[21],17
 						SpriteViewMode r\Objects[21],2
-						ScaleSprite(r\Objects[21], MeshWidth(Monitor) * scale * 0.95 * 0.5, MeshHeight(Monitor) * scale * 0.95 * 0.5)
+						ScaleSprite(r\Objects[21], MeshWidth(o\MonitorID[0]) * scale * 0.95 * 0.5, MeshHeight(o\MonitorID[0]) * scale * 0.95 * 0.5)
 						EntityTexture r\Objects[21],r\Textures[1],6
 						EntityParent r\Objects[21],r\Objects[i]
 					EndIf
@@ -5033,18 +5029,9 @@ Function FillRoom(r.Rooms)
 			PositionEntity r\Objects[17],r\x-48.0*RoomScale,r\y+540.0*RoomScale,r\z+656.0*RoomScale,True
 			EntityParent r\Objects[17],r\obj
 			
-			;Faked room409
-			;r\Objects[17] = LoadMesh_Strict("GFX\map\room2sl_2.b3d",r\obj)
-			;sc.SecurityCams = CreateSecurityCam(r\x-160.0*RoomScale,r\y-22689.1*RoomScale,r\z-288.0*RoomScale,Null)
-			;sc\angle = 225
-			;TurnEntity sc\CameraObj, 20, 0, 0
-			;EntityParent sc\obj,r\obj
-			;sc\SpecialCam = True
-			
 			;-49.0 689.0 912.0
-			;Objects [18],[19]
-			r\Objects[9 * 2] = CopyEntity(LeverBaseOBJ)
-			r\Objects[9 * 2 + 1] = CopyEntity(LeverOBJ)
+			r\Objects[9 * 2] = CopyEntity(o\LeverID[0])
+			r\Objects[9 * 2 + 1] = CopyEntity(o\LeverID[1])
 			
 			r\Levers[0] = r\Objects[9 * 2 + 1]
 			
@@ -5072,18 +5059,6 @@ Function FillRoom(r.Rooms)
 			TurnEntity(sc\ScrObj, 0, 90, 0)
 			EntityParent(sc\ScrObj, r\obj)
 			
-;			r\Objects[20] = CopyEntity(LeverBaseOBJ)
-;			r\Objects[21] = CopyEntity(LeverOBJ)
-;			
-;			For  i% = 0 To 1
-;				ScaleEntity(r\Objects[20 + i], 0.04, 0.04, 0.04)
-;				PositionEntity r\Objects[20],r\x+82.0*RoomScale, r\y+689.0*RoomScale, r\z+912.0*RoomScale,True
-;				PositionEntity r\Objects[21],r\x+90.9775*RoomScale, r\y+604.347*RoomScale, r\z+890.584*RoomScale,True
-;				
-;				EntityParent(r\Objects[20 + i], r\obj)
-;			Next
-;			
-;			RotateEntity r\Objects[21],8.6,-150.0,-5.0
 			;[End Block]
 		Case "room2_4"
 			;[Block]
@@ -5129,13 +5104,13 @@ Function FillRoom(r.Rooms)
 			
 			scale# = RoomScale * 4.5 * 0.4
 			
-			r\Objects[0] = CopyEntity(Monitor)
+			r\Objects[0] = CopyEntity(o\MonitorID[0])
 			ScaleEntity r\Objects[0],scale#,scale#,scale#
 			PositionEntity r\Objects[0],r\x+668*RoomScale,1.1,r\z-96.0*RoomScale,True
 			RotateEntity r\Objects[0],0,90,0
 			EntityParent r\Objects[0],r\obj
 			
-			r\Objects[1] = CopyEntity(Monitor)
+			r\Objects[1] = CopyEntity(o\MonitorID[0])
 			ScaleEntity r\Objects[1],scale#,scale#,scale#
 			PositionEntity r\Objects[1],r\x+96.0*RoomScale,1.1,r\z-668.0*RoomScale,True
 			EntityParent r\Objects[1],r\obj
@@ -5199,7 +5174,7 @@ Function FillRoom(r.Rooms)
 			it = CreateItem("Radio Transceiver", "fineradio", r\x + 650.0 * RoomScale, r\y + 178.0 * RoomScale, r\z - 760.0 * RoomScale)
 			EntityParent(it\collider, r\obj)			
 			
-			r\Objects[1] = CopyEntity(Monitor2, r\obj)
+			r\Objects[1] = CopyEntity(o\MonitorID[1], r\obj)
 			ScaleEntity(r\Objects[1], 2.0, 2.0, 2.0)
 			PositionEntity (r\Objects[1], r\x - 700.0 * RoomScale, 384.0 * RoomScale, r\z + 290.0 * RoomScale, True)
 			RotateEntity (r\Objects[1], 0, 360, 0)
@@ -6020,10 +5995,11 @@ Global Room2slCam%
 
 Function CreateSecurityCam.SecurityCams(x#, y#, z#, r.Rooms, screen% = False)
 	Local sc.SecurityCams = New SecurityCams
+	Local o.Objects = First Objects
 	
-	sc\obj = CopyEntity(CamBaseOBJ)
+	sc\obj = CopyEntity(o\CamID[0])
 	ScaleEntity(sc\obj, 0.0015, 0.0015, 0.0015)
-	sc\CameraObj = CopyEntity(CamOBJ)
+	sc\CameraObj = CopyEntity(o\CamID[1])
 	ScaleEntity(sc\CameraObj, 0.01, 0.01, 0.01)
 	
 	sc\room = r
@@ -6041,17 +6017,16 @@ Function CreateSecurityCam.SecurityCams(x#, y#, z#, r.Rooms, screen% = False)
 		SpriteViewMode(sc\ScrObj, 2)
 		sc\ScrTexture = 0
 		EntityTexture sc\ScrObj, ScreenTexs[sc\ScrTexture]
-		ScaleSprite(sc\ScrObj, MeshWidth(Monitor) * scale * 0.95 * 0.5, MeshHeight(Monitor) * scale * 0.95 * 0.5)
+		ScaleSprite(sc\ScrObj, MeshWidth(o\MonitorID[0]) * scale * 0.95 * 0.5, MeshHeight(o\MonitorID[0]) * scale * 0.95 * 0.5)
 		
 		sc\ScrOverlay = CreateSprite(sc\ScrObj)
-		;	scaleSprite(sc\scrOverlay , 0.5, 0.4)
-		ScaleSprite(sc\ScrOverlay, MeshWidth(Monitor) * scale * 0.95 * 0.5, MeshHeight(Monitor) * scale * 0.95 * 0.5)
+		ScaleSprite(sc\ScrOverlay, MeshWidth(o\MonitorID[0]) * scale * 0.95 * 0.5, MeshHeight(o\MonitorID[0]) * scale * 0.95 * 0.5)
 		MoveEntity(sc\ScrOverlay, 0, 0, -0.0005)
 		EntityTexture(sc\ScrOverlay, MonitorTexture)
 		SpriteViewMode(sc\ScrOverlay, 2)
 		EntityBlend(sc\ScrOverlay , 3)
 		
-		sc\MonitorObj = CopyEntity(Monitor, sc\ScrObj)
+		sc\MonitorObj = CopyEntity(o\MonitorID[0], sc\ScrObj)
 		
 		ScaleEntity(sc\MonitorObj, scale, scale, scale)
 		
@@ -6072,6 +6047,7 @@ End Function
 Function UpdateSecurityCams()
 	CatchErrors("Uncaught (UpdateSecurityCams)")
 	Local sc.SecurityCams
+	Local o.Objects = First Objects
 	Local RedTexture% = LoadTexture_Strict("GFX\map\CameraTexture2.png")
 	Local JustTexture% = LoadTexture_Strict("GFX\map\CameraTexture1.png")
 	
@@ -6333,6 +6309,7 @@ End Function
 
 Function UpdateMonitorSaving()
 	Local sc.SecurityCams
+	Local o.Objects = First Objects
 	Local close% = False
 	
 	If SelectedDifficulty\saveType <> SAVEONSCREENS Then Return
@@ -7788,12 +7765,13 @@ End Function
 Function UpdateCheckpointMonitors(numb%)
 	Local i,sf,b,t1
 	Local entity%
+	Local o.Objects = First Objects
 	
 	If numb% = 0
-		entity% = Monitor2
+		entity% = o\MonitorID[1]
 		UpdateCheckpoint1 = True
 	Else
-		entity% = Monitor3
+		entity% = o\MonitorID[2]
 		UpdateCheckpoint2 = True
 	EndIf
 	
@@ -7804,7 +7782,7 @@ Function UpdateCheckpointMonitors(numb%)
 			t1 = GetBrushTexture(b,0)
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
-				If Lower(name) <> "monitortexture.jpg"
+				If Lower(name) <> "monitoroverlay.png"
 					If numb% = 0
 						If MonitorTimer# < 50
 							BrushTexture b, MonitorTexture2, 0, 0
@@ -7831,13 +7809,14 @@ End Function
 Function TurnCheckpointMonitorsOff(numb%)
 	Local i,sf,b,t1
 	Local entity%
+	Local o.Objects = First Objects
 	
 	If numb% = 0
-		entity% = Monitor2
+		entity% = o\MonitorID[1]
 		UpdateCheckpoint1 = False
 		MonitorTimer# = 0.0
 	Else
-		entity% = Monitor3
+		entity% = o\MonitorID[2]
 		UpdateCheckpoint2 = False
 		MonitorTimer2# = 0.0
 	EndIf
@@ -7849,7 +7828,7 @@ Function TurnCheckpointMonitorsOff(numb%)
 			t1 = GetBrushTexture(b,0)
 			If t1<>0 Then
 				name$ = StripPath(TextureName(t1))
-				If Lower(name) <> "monitortexture.jpg"
+				If Lower(name) <> "monitoroverlay.png"
 					BrushTexture b, MonitorTextureOff, 0, 0
 					PaintSurface sf,b
 				EndIf
@@ -8227,10 +8206,11 @@ End Function
 
 Function AddLightCones(room.Rooms)
 	Local i
+	Local o.Objects = First Objects
 	
 	For i = 0 To MaxRoomLights-1
 		If room\Lights[i]<>0
-			room\LightCone[i] = CopyEntity(LightConeModel)
+			room\LightCone[i] = CopyEntity(o\OtherModelsID[1])
 			ScaleEntity room\LightCone[i],0.01,0.01,0.01
 			EntityColor room\LightCone[i],room\LightR[i],room\LightG[i],room\LightB[i]
 			EntityAlpha room\LightCone[i],0.15
@@ -8456,6 +8436,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#CF#DE#1305#1326
-;~B#1141
+;~F#CF#DE#1322
+;~B#113E
 ;~C#Blitz3D

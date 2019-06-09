@@ -99,7 +99,7 @@ Const ROOM4% = 5
 
 Const ZONEAMOUNT = 3
 
-Const gridsz%=19 ;Same size as the main map itself (better for the map creator)
+Const gridsz% = 19 ;Same size as the main map itself (better for the map creator)
 
 ;[OPTIONS]
 
@@ -117,6 +117,13 @@ Const SubjectName$ = "Subject D-9341"
 ;[OBJECTS]
 
 Const MaxNPCModelIDAmount = 30
+Const MaxOBJTunnelIDAmount = 7
+Const MaxMonitorIDAmount = 3
+Const MaxDoorIDAmount = 11
+Const MaxButtonIDAmount = 4
+Const MaxLeverIDAmount = 2
+Const MaxCamIDAmount = 2
+Const MaxOtherModelsIDAmount = 2
 
 ;~IDEal Editor Parameters:
 ;~C#Blitz3D
