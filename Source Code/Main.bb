@@ -29,7 +29,6 @@ While FileType(ErrorFile+Str(ErrorFileInd)+".txt")<>0
 Wend
 ErrorFile = ErrorFile+Str(ErrorFileInd)+".txt"
 
-Global UpdaterFont%
 Global Font1%, Font2%, Font3%, Font4%, Font5%
 Global ConsoleFont%
 
@@ -1322,13 +1321,13 @@ Function UpdateConsole()
 						Case 1
 							DeathMSG = "[REDACTED]"
 						Case 2
-							DeathMSG = "Subject D-9341 found dead in Sector [REDACTED]. "
+							DeathMSG = SubjectName$+" found dead in Sector [REDACTED]. "
 							DeathMSG = DeathMSG + "The subject appears to have attained no physical damage, and there is no visible indication as to what killed him. "
 							DeathMSG = DeathMSG + "Body was sent for autopsy."
 						Case 3
 							DeathMSG = "EXCP_ACCESS_VIOLATION"
 						Case 4
-							DeathMSG = "Subject D-9341 found dead in Sector [REDACTED]. "
+							DeathMSG = SubjectName$+" found dead in Sector [REDACTED]. "
 							DeathMSG = DeathMSG + "The subject appears to have scribbled the letters "+Chr(34)+"kys"+Chr(34)+" in his own blood beside him. "
 							DeathMSG = DeathMSG + "No other signs of physical trauma or struggle can be observed. Body was sent for autopsy."
 					End Select
@@ -5814,11 +5813,11 @@ Function DrawGUI()
 							ShowEntity Light
 							LightFlash = 7
 							PlaySound_Strict(LoadTempSound("SFX\SCP\1123\Touch.ogg"))		
-							DeathMSG = "Subject D-9341 was shot dead after attempting to attack a member of Nine-Tailed Fox. Surveillance tapes show that the subject had been "
+							DeathMSG = SubjectName$+" was shot dead After attempting To attack a member of Nine-Tailed Fox. Surveillance tapes show that the subject had been "
 							DeathMSG = DeathMSG + "wandering around the site approximately 9 minutes prior, shouting the phrase " + Chr(34) + "get rid of the four pests" + Chr(34)
 							DeathMSG = DeathMSG + " in chinese. SCP-1123 was found in [REDACTED] nearby, suggesting the subject had come into physical contact with it. How "
 							DeathMSG = DeathMSG + "exactly SCP-1123 was removed from its containment chamber is still unknown."
-							Kill()
+							Kill(False)
 							Return
 						EndIf
 						For e.Events = Each Events
@@ -6596,7 +6595,7 @@ Function DrawGUI()
 						If Wearing714=1 Then
 							Msg = Chr(34) + "DUDE WTF THIS SHIT DOESN'T EVEN WORK" + Chr(34)
 						Else
-							DeathMSG = "Subject D-9341 found in a comatose state in [DATA REDACTED]. The subject was holding what appears to be a cigarette while smiling widely. "
+							DeathMSG = SubjectName$+" found in a comatose state in [Data REDACTED]. The subject was holding what appears to be a cigarette while smiling widely. "
 							DeathMSG = DeathMSG+"Chemical analysis of the cigarette has been inconclusive, although it seems to contain a high concentration of an unidentified chemical "
 							DeathMSG = DeathMSG+"whose molecular structure is remarkably similar to that of tetrahydrocannabinol."
 							Msg = Chr(34) + "UH WHERE... WHAT WAS I DOING AGAIN... MAN I NEED TO TAKE A NAP..." + Chr(34)
@@ -10646,10 +10645,10 @@ Function UpdateInfect()
 						PlayerRoom\NPC[0]\Sound = LoadSound_Strict("SFX\SCP\008\KillScientist2.ogg")
 						PlayerRoom\NPC[0]\SoundChn = PlaySound_Strict(PlayerRoom\NPC[0]\Sound)
 						
-						DeathMSG = "Subject D-9341 found ingesting Dr. [REDACTED] at Sector [REDACTED]. Subject was immediately terminated by Nine-Tailed Fox and sent for autopsy. "
+						DeathMSG = SubjectName$+" found ingesting Dr. [REDACTED] at Sector [REDACTED]. Subject was immediately terminated by Nine-Tailed Fox And sent For autopsy. "
 						DeathMSG = DeathMSG + "SCP-008 infection was confirmed, after which the body was incinerated."
 						
-						Kill()
+						Kill(False)
 						de.Decals = CreateDecal(3, EntityX(PlayerRoom\NPC[0]\Collider), 544*RoomScale + 0.01, EntityZ(PlayerRoom\NPC[0]\Collider),90,Rnd(360),0)
 						de\Size = 0.8
 						ScaleSprite(de\obj, de\Size,de\Size)
@@ -10689,7 +10688,7 @@ Function UpdateInfect()
 				If PlayerRoom\RoomTemplate\Name = "dimension1499" Then
 					DeathMSG = "The whereabouts of SCP-1499 are still unknown, but a recon team has been dispatched to investigate reports of a violent attack to a church in the Russian town of [REDACTED]."
 				ElseIf PlayerRoom\RoomTemplate\Name = "gatea" Or PlayerRoom\RoomTemplate\Name = "exit1" Then
-					DeathMSG = "Subject D-9341 found wandering around Gate "
+					DeathMSG = SubjectName$+" found wandering around Gate "
 					If PlayerRoom\RoomTemplate\Name = "gatea" Then
 						DeathMSG = DeathMSG + "A"
 					Else
@@ -12059,6 +12058,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#592#2447
-;~B#1267#14D0#1C6E
+;~F#591#2446
+;~B#1266#14CF#1C6D
 ;~C#Blitz3D

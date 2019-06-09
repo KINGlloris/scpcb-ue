@@ -139,8 +139,8 @@ Function UpdateEmitters()
 	If InSmoke Then
 		If EyeIrritation > (70 * 6) Then BlurVolume = Max(BlurVolume, (EyeIrritation - (70 * 6)) / (70.0 * 24.0))
 		If EyeIrritation > (70 * 24) Then 
-			DeathMSG = "Subject D-9341 found dead in [DATA REDACTED]. Cause of death: Suffocation due to decontamination gas."
-			Kill()
+			DeathMSG = SubjectName$+" found dead in [Data REDACTED]. Cause of death: Suffocation due To decontamination gas."
+			Kill(False)
 		EndIf
 		
 		If KillTimer => 0 Then 
@@ -254,8 +254,8 @@ Function UpdateDevilEmitters()
 	If InSmoke Then
 		If EyeIrritation > (70 * 6) Then BlurVolume = Max(BlurVolume, (EyeIrritation - (70 * 6)) / (70.0 * 24.0))
 		If EyeIrritation > (70 * 24) Then 
-			DeathMSG = "Subject D-9341 found dead in [DATA REDACTED]. Cause of death: Suffocation due to decontamination gas."
-			Kill()
+			DeathMSG = SubjectName$+" found dead in [Data REDACTED]. Cause of death: Suffocation due To decontamination gas."
+			Kill(False)
 		EndIf
 		
 		If KillTimer => 0 Then 
@@ -283,7 +283,6 @@ End Function
 
 
 
-
 ;~IDEal Editor Parameters:
-;~F#4#10#2E#4A#54#66#A0#C5#D0#E0#112
+;~F#4#10#2E#4A#54#C5#D0
 ;~C#Blitz3D

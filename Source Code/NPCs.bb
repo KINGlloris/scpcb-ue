@@ -784,15 +784,15 @@ Function UpdateNPCs()
 												
 												Select PlayerRoom\RoomTemplate\Name
 													Case "lockroom", "room2closets", "coffin"
-														DeathMSG = "Subject D-9341. Cause of death: Fatal cervical fracture. The surveillance tapes confirm that the subject was killed by SCP-173."	
+														DeathMSG = SubjectName$+". Cause of death: Fatal cervical fracture. The surveillance tapes confirm that the subject was killed by SCP-173."	
 													Case "173"
-														DeathMSG = "Subject D-9341. Cause of death: Fatal cervical fracture. According to Security Chief Franklin who was present at SCP-173's containment "
+														DeathMSG = SubjectName$+". Cause of death: Fatal cervical fracture. According to Security Chief Franklin who was present at SCP-173's containment "
 														DeathMSG = DeathMSG + "chamber during the breach, the subject was killed by SCP-173 as soon as the disruptions in the electrical network started."
 													Case "room2doors"
 														DeathMSG = Chr(34)+"If I'm not mistaken, one of the main purposes of these rooms was to stop SCP-173 from moving further in the event of a containment breach. "
 														DeathMSG = DeathMSG + "So, who's brilliant idea was it to put A GODDAMN MAN-SIZED VENTILATION DUCT in there?"+Chr(34)
 													Default 
-														DeathMSG = "Subject D-9341. Cause of death: Fatal cervical fracture. Assumed to be attacked by SCP-173."
+														DeathMSG = SubjectName$+". Cause of death: Fatal cervical fracture. Assumed to be attacked by SCP-173."
 												End Select
 												
 												If (Not GodMode) Then n\Idle = True
@@ -1082,8 +1082,6 @@ Function UpdateNPCs()
 										n\CurrSpeed = 0
 									EndIf
 									AnimateNPC(n, 105, 110, 0.15, False)
-									;Animate2(n\obj, AnimTime(n\obj), 105, 110, 0.15, False)
-									;If Floor(AnimTime(n\obj)) = 43 Then SetAnimTime(n\obj, 43)
 									
 									If KillTimer >= 0 And FallTimer >= 0 Then
 										PointEntity n\obj, Collider
@@ -1093,7 +1091,7 @@ Function UpdateNPCs()
 											PlaySound_Strict(DamageSFX(1))
 											PlaySound_Strict(HorrorSFX(5))											
 											If PlayerRoom\RoomTemplate\Name = "pocketdimension" Then
-												DeathMSG = "Subject D-9341. Body partially decomposed by what is assumed to be SCP-106's "+Chr(34)+"corrosion"+Chr(34)+" effect. Body disposed of via incineration."
+												DeathMSG = SubjectName$+". Body partially decomposed by what is assumed to be SCP-106's "+Chr(34)+"corrosion"+Chr(34)+" effect. Body disposed of via incineration."
 												Kill()
 											Else
 												PlaySound_Strict(OldManSFX(3))
@@ -1335,7 +1333,7 @@ Function UpdateNPCs()
 												pvt = CreatePivot()
 												CameraShake = 30
 												BlurTimer = 2000
-												DeathMSG = "A large amount of blood found in [DATA REDACTED]. DNA indentified as Subject D-9341. Most likely [DATA REDACTED] by SCP-096."
+												DeathMSG = "A large amount of blood found in [DATA REDACTED]. DNA indentified as "+SubjectName$+". Most likely [DATA REDACTED] by SCP-096."
 												Kill()
 												KillAnim = 1
 												For i = 0 To 6
@@ -2340,7 +2338,7 @@ Function UpdateNPCs()
 										Local instaKillPlayer% = False
 										
 										If PlayerRoom\RoomTemplate\Name = "start" Then 
-											DeathMSG = "Subject D-9341. Cause of death: Gunshot wound to the head. The surveillance tapes confirm that the subject was terminated by Agent Ulgrin shortly after the site lockdown was initiated."
+											DeathMSG = SubjectName$+". Cause of death: Gunshot wound to the head. The surveillance tapes confirm that the subject was terminated by Agent Ulgrin shortly after the site lockdown was initiated."
 											instaKillPlayer = True
 										ElseIf PlayerRoom\RoomTemplate\Name = "exit1" Then
 											DeathMSG = Chr(34)+"Agent G. to control. Eliminated a Class D escapee in Gate B's courtyard."+Chr(34)
@@ -4900,7 +4898,7 @@ Function UpdateNPCs()
 										PlaySound_Strict DamageSFX(Rand(5,8))
 										Injuries = Injuries+Rnd(0.4,1.0)
 										If (Not WearingHazmat) Then Infect = Infect + (1+(1*SelectedDifficulty\aggressiveNPCs))
-										DeathMSG = "Subject D-9341. Cause of death: multiple lacerations and severe blunt force trauma caused by [DATA EXPUNGED], who was infected with SCP-008. Said subject was located by Nine-Tailed Fox and terminated."
+										DeathMSG = SubjectName$+". Cause of death: multiple lacerations and severe blunt force trauma caused by [Data EXPUNGED], who was infected with SCP-008. Said subject was located by Nine-Tailed Fox and terminated."
 									EndIf
 								EndIf
 							ElseIf n\Frame => 164
@@ -5702,11 +5700,11 @@ Function UpdateMTFUnit(n.NPCs)
 									
 									FreeEntity(pvt)
 									
-									DeathMSG="Subject D-9341. Died of blood loss after being shot by Nine-Tailed Fox."
+									DeathMSG = SubjectName$+". Died of blood loss after being shot by Nine-Tailed Fox."
 									
 									;player killed -> "target terminated"
 									If prev => 0 And KillTimer < 0 Then
-										DeathMSG="Subject D-9341. Terminated by Nine-Tailed Fox."
+										DeathMSG = SubjectName$+". Terminated by Nine-Tailed Fox."
 										PlayMTFSound(LoadTempSound("SFX\Character\MTF\Targetterminated"+Rand(1,4)+".ogg"),n)
 									EndIf
 								EndIf	
@@ -6440,10 +6438,6 @@ Function UpdateMTFUnit(n.NPCs)
 							
 							FreeEntity(pvt)
 							
-							;If prev => 0 And KillTimer < 0 Then
-								;DeathMSG="Subject D-9341. Terminated by Nine-Tailed Fox."
-								;If n\MTFLeader = Null Then PlayMTFSound(LoadTempSound("SFX\Character\MTF\049\Player0492_2.ogg"),n)
-							;EndIf
 						EndIf	
 					EndIf
 				EndIf
@@ -7420,5 +7414,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#22D#128E#1328#13B7#156E#1679#183A#1896
+;~B#22D#128C#1326#13B5#156C#1677#1838#1894
 ;~C#Blitz3D

@@ -2920,8 +2920,8 @@ Function UpdateEvents()
 											ShowEntity Light
 											LightFlash = 0.4
 											CameraShake = 1.0
-											Kill()
-											DeathMSG = "Subject D-9341 killed by the Tesla gate at [REDACTED]."
+											Kill(False)
+											DeathMSG = SubjectName$+" killed by the Tesla gate at [REDACTED]."
 										EndIf
 									Next
 								EndIf
@@ -4905,7 +4905,7 @@ Function UpdateEvents()
 										de.Decals = CreateDecal(17,  EntityX(Collider), -768*RoomScale+0.01, EntityZ(Collider),90,Rnd(360),0)
 										de\Size = 0.1 : de\maxsize = 0.45 : de\sizechange = 0.0002 : UpdateDecals()
 									ElseIf e\EventState3>85*70 And e\EventState3-FPSfactor=<85*70	
-										DeathMSG = "Subject D-9341 found in a pool of blood next to SCP-012. Subject seems to have ripped open his wrists and written three extra "
+										DeathMSG = SubjectName$+" found in a pool of blood next To SCP-012. Subject seems to have ripped open his wrists and written three extra "
 										DeathMSG = DeathMSG + "lines to the composition before dying of blood loss."
 										Kill()
 									EndIf
@@ -5338,7 +5338,7 @@ Function UpdateEvents()
 										EndIf
 										
 										If KillTimer < 0 And Bloodloss =>100 Then
-											DeathMSG = "Class D Subject D-9341 found dead inside SCP-035's containment chamber. "
+											DeathMSG = "Class D "+SubjectName$+" found dead inside SCP-035's containment chamber. "
 											DeathMSG = DeathMSG + "The subject exhibits heavy hemorrhaging of blood vessels around the eyes and inside the mouth and nose. "
 											DeathMSG = DeathMSG + "Sent for autopsy."
 										EndIf
@@ -6107,7 +6107,7 @@ Function UpdateEvents()
 							Case 67
 								If (Rand(150)=1) Then
 									DeathMSG = "The SCP-205 cycle seems to have resumed its normal course after the anomalies observed during "
-									DeathMSG = DeathMSG + "[REDACTED]. The body of subject D-9341 was discovered inside the chamber. "
+									DeathMSG = DeathMSG + "[REDACTED]. The body of "+SubjectName$+" was discovered inside the chamber. "
 									DeathMSG = DeathMSG + "The subject exhibits signs of blunt force trauma typical for personnel who have "
 									DeathMSG = DeathMSG + "entered the chamber when the lights are off."
 									
@@ -7209,7 +7209,7 @@ Function UpdateEvents()
 										KillTimer = Min(-1, KillTimer)
 										BlinkTimer = -10
 										If e\SoundCHN <> 0 Then StopChannel e\SoundCHN
-										DeathMSG = Chr(34)+"A heavily mutilated corpse found inside the output booth of SCP-914. DNA testing identified the corpse as Class D Subject D-9341. "
+										DeathMSG = Chr(34)+"A heavily mutilated corpse found inside the output booth of SCP-914. DNA testing identified the corpse as Class D "+SubjectName$+". "
 										DeathMSG = DeathMSG + "The subject had obviously been "+Chr(34)+"refined"+Chr(34)+" by SCP-914 on the "+Chr(34)+"Rough"+Chr(34)+" setting, but we are still confused as to how he "
 										DeathMSG = DeathMSG + "ended up inside the intake booth and who or what wound the key."+Chr(34)
 									Case "coarse"
