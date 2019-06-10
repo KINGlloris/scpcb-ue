@@ -471,6 +471,7 @@ End Function
 
 Function LoadGame(file$)
 	Local version$ = ""
+	Local at.AllTextures = First AllTextures
 	
 	CatchErrors("Uncaught (LoadGame)")
 	DebugLog "---------------------------------------------------------------------------"
@@ -496,7 +497,7 @@ Function LoadGame(file$)
 	ResetEntity(Collider)
 	
 	;MOD
-	HideEntity BloodOverlay
+	HideEntity at\OverlayID[4]
 	;End
 	
 	x = ReadFloat(f)
@@ -1273,6 +1274,7 @@ End Function
 
 Function LoadGameQuick(file$)
 	Local version$ = ""
+	Local at.AllTextures = First AllTextures
 	
 	CatchErrors("Uncaught (LoadGameQuick)")
 	DebugLog "---------------------------------------------------------------------------"
@@ -1325,7 +1327,7 @@ Function LoadGameQuick(file$)
 	;HideEntity Head
 	HideEntity Collider
 	;MOD
-	HideEntity BloodOverlay
+	HideEntity at\OverlayID[4]
 	;END
 	
 	x = ReadFloat(f)
@@ -1916,7 +1918,7 @@ Function LoadGameQuick(file$)
 	For sc.SecurityCams = Each SecurityCams
 		sc\PlayerState = 0
 	Next
-	EntityTexture at\OverlayID[3],NVTexture
+	EntityTexture at\OverlayID[3], at\OverlayTextureID[3]
 	RestoreSanity = True
 	
 	CameraFogFar = ReadFloat(f)

@@ -4,6 +4,7 @@ Function UpdateEvents()
 	
 	Local p.Particles, n.NPCs, r.Rooms, e.Events, e2.Events, it.Items, it2.Items, em.Emitters, sc.SecurityCams, sc2.SecurityCams
 	Local o.Objects = First Objects
+	Local at.AllTextures = First AllTextures
 	
 	Local CurrTrigger$ = ""
 	
@@ -338,8 +339,8 @@ Function UpdateEvents()
 								
 								PlaySound_Strict(IntroSFX(11))
 								BlurTimer = 500
-								ShowEntity Light
-								EntityAlpha(Light, 0.5)
+								ShowEntity at\OverlayID[6]
+								EntityAlpha(at\OverlayID[6], 0.5)
 							EndIf
 							
 							If e\EventState3 < 3 Then
@@ -363,8 +364,8 @@ Function UpdateEvents()
 									
 									If e\EventState3-FPSfactor/30.0 < 12 And e\EventState3 > 12 Then PlaySound2(StepSFX(0,0,0), Camera, Collider, 8, 0.3)
 									
-									ShowEntity Light
-									EntityAlpha(Light, 0.9-(e\EventState3/2.0))
+									ShowEntity at\OverlayID[6]
+									EntityAlpha(at\OverlayID[6], 0.9-(e\EventState3/2.0))
 									
 									x = x + (EntityX(e\room\obj)-(3048.0+1024.0)*RoomScale - x) * Max((e\EventState3-10.0)/4.0,0.0) 
 									
@@ -384,7 +385,7 @@ Function UpdateEvents()
 									PositionEntity Collider, x, 0.302, z	
 									DropSpeed = 0
 								Else
-									HideEntity Light
+									HideEntity at\OverlayID[6]
 									
 									PositionEntity Collider, EntityX(Collider), 0.302, EntityZ(Collider)
 									ResetEntity Collider
@@ -1608,12 +1609,12 @@ Function UpdateEvents()
 								Else
 									DeathMSG = Chr(34)+"Class D viewed SCP-895 through a pair of digital night vision goggles, killing him."+Chr(34)
 								EndIf
-								EntityTexture(at\OverlayID[3], NVTexture)
+								EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
 								If VomitTimer < -10 Then
-									Kill()
+									Kill(False)
 								EndIf
 							ElseIf Sanity < - 800 Then
-								If Rand(3) = 1 Then EntityTexture(at\OverlayID[3], NVTexture)
+								If Rand(3) = 1 Then EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
 								If Rand(6) < 5 Then
 									EntityTexture(at\OverlayID[3], GorePics(Rand(0, 5)))
 									For i% = 0 To MaxItemAmount - 1
@@ -1631,7 +1632,7 @@ Function UpdateEvents()
 									VomitTimer = 1
 								EndIf
 							ElseIf Sanity < - 500 Then
-								If Rand(7) = 1 Then EntityTexture(at\OverlayID[3], NVTexture)
+								If Rand(7) = 1 Then EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
 								If Rand(50) = 1 Then
 									EntityTexture(at\OverlayID[3], GorePics(Rand(0, 5)))
 									For i% = 0 To MaxItemAmount - 1
@@ -1645,7 +1646,7 @@ Function UpdateEvents()
 									Next
 								EndIf
 							Else
-								EntityTexture(at\OverlayID[3], NVTexture)
+								EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
 								For i% = 0 To MaxItemAmount - 1
 									If (Inventory(i) <> Null) Then
 										If (WearingNightVision = 1 And Inventory(i)\itemtemplate\tempname = "nvgoggles") Or (WearingNightVision = 2 And Inventory(i)\itemtemplate\tempname = "supernv") Or (WearingNightVision = 3 And Inventory(i)\itemtemplate\tempname = "finenvgoggles") Then
@@ -1660,7 +1661,7 @@ Function UpdateEvents()
 					If e\EventState3>0.0 Then e\EventState3=Max(e\EventState3-FPSfactor,0.0)
 					If e\EventState3=0.0 Then
 						e\EventState3=-1.0
-						EntityTexture(at\OverlayID[3], NVTexture)
+						EntityTexture(at\OverlayID[3], at\OverlayTextureID[3])
 						If WearingNightVision = 1 Then
 							EntityColor(at\OverlayID[3], 0,255,0)
 						ElseIf WearingNightVision = 2 Then
@@ -2558,8 +2559,8 @@ Function UpdateEvents()
 						RotateEntity(e\room\NPC[1]\Collider,0,CurveAngle(EntityYaw(e\room\NPC[1]\obj),EntityYaw(e\room\NPC[1]\Collider),30.0),0,True)
 					Else
 						If e\EventState-FPSfactor < 70*6.5 Then 
-							PlaySound_Strict (HorrorSFX(0))
-							PlaySound_Strict (LightSFX)
+							PlaySound_Strict(HorrorSFX(0))
+							PlaySound_Strict(LightSFX)
 						EndIf
 						BlinkTimer = Max((70*6.5-e\EventState)/5.0 - Rnd(0.0,2.0),-10)
 						If BlinkTimer =-10 Then
@@ -2870,7 +2871,7 @@ Function UpdateEvents()
 								If KillTimer => 0 Then 
 									For i = 0 To 2
 										If Distance(EntityX(Collider),EntityZ(Collider),EntityX(e\room\Objects[i],True),EntityZ(e\room\Objects[i],True)) < 250.0*RoomScale Then
-											ShowEntity Light
+											ShowEntity at\OverlayID[6]
 											LightFlash = 0.4
 											CameraShake = 1.0
 											Kill(False)
@@ -2886,7 +2887,7 @@ Function UpdateEvents()
 								If Curr106\State < -10 Then
 									For i = 0 To 2
 										If Distance(EntityX(Curr106\Collider),EntityZ(Curr106\Collider),EntityX(e\room\Objects[i],True),EntityZ(e\room\Objects[i],True)) < 250.0*RoomScale Then
-											ShowEntity Light
+											ShowEntity at\OverlayID[6]
 											LightFlash = 0.3
 											If ParticleAmount > 0
 												For i = 0 To 5+(5*(ParticleAmount-1))
@@ -6279,7 +6280,7 @@ Function UpdateEvents()
 							If QuickLoadPercent = -1
 								If (Not WearingNightVision) Then LightBlink = 5.0
 								e\EventState = 1
-								;PlaySound_Strict LightSFX
+								PlaySound_Strict LightSFX
 								QuickLoadPercent = 0
 								QuickLoad_CurrEvent = e
 							EndIf
@@ -6451,7 +6452,7 @@ Function UpdateEvents()
 					ElseIf e\EventState=7
 						PositionEntity Collider, EntityX(e\room\obj,True),0.3,EntityZ(e\room\obj,True),True
 						ResetEntity Collider
-						ShowEntity Light
+						ShowEntity at\OverlayID[6]
 						LightFlash = 6
 						BlurTimer = 500	
 						Injuries = PrevInjuries
@@ -9834,6 +9835,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#9BC
-;~B#FED#1C68
+;~B#FEE#1C69
 ;~C#Blitz3D

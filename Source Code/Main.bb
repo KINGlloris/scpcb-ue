@@ -402,6 +402,7 @@ End Function
 
 Function UpdateConsole()
 	Local e.Events
+	Local at.AllTextures = First AllTextures
 	
 	If CanOpenConsole = False Then
 		ConsoleOpen = False
@@ -1115,7 +1116,7 @@ Function UpdateConsole()
 					KillTimer = 0
 					KillAnim = 0
 					
-					HideEntity BloodOverlay
+					HideEntity at\OverlayID[4]
 					;[End Block]
 					
 				Case "noclip", "fly"
@@ -2923,6 +2924,8 @@ Global I_Zone.MapZones = New MapZones
 
 Repeat
 	
+	Local at.AllTextures = First AllTextures
+	
 	Cls
 	
 	CurTime = MilliSecs2()
@@ -3241,19 +3244,18 @@ Repeat
 			End If
 			If SelectedScreen <> Null Then darkA = Max(darkA, 0.5)
 			
-			EntityAlpha(Dark, darkA)	
+			EntityAlpha(at\OverlayID[5], darkA)	
 		EndIf
 		
 		If LightFlash > 0 Then
-			ShowEntity Light
-			EntityAlpha(Light, Max(Min(LightFlash + Rnd(-0.2, 0.2), 1.0), 0.0))
+			ShowEntity at\OverlayID[6]
+			EntityAlpha(at\OverlayID[6], Max(Min(LightFlash + Rnd(-0.2, 0.2), 1.0), 0.0))
 			LightFlash = Max(LightFlash - (FPSfactor / 70.0), 0)
 		Else
-			HideEntity Light
-			;EntityAlpha(Light, LightFlash)
+			HideEntity at\OverlayID[6]
 		EndIf
 		
-		EntityColor Light,255,255,255
+		EntityColor at\OverlayID[6], 255, 255, 255
 		
 		;[End block]
 		
@@ -3780,6 +3782,7 @@ Function QuickLoadEvents()
 End Function
 
 Function Kill(blood%=True)
+	Local at.AllTextures = First AllTextures
 	If GodMode Then Return
 	
 	If BreathCHN <> 0 Then
@@ -3795,7 +3798,7 @@ Function Kill(blood%=True)
 			LoadSaveGames()
 		End If
 		
-		If blood% = True Then ShowEntity BloodOverlay
+		If blood% = True Then ShowEntity at\OverlayID[4]
 		
 		KillTimer = Min(-1, KillTimer)
 		ShowEntity Head
@@ -5798,7 +5801,7 @@ Function DrawGUI()
 					;[Block]
 					If Not (Wearing714 = 1) Then
 						If PlayerRoom\RoomTemplate\Name <> "room1123" Then
-							ShowEntity Light
+							ShowEntity at\OverlayID[6]
 							LightFlash = 7
 							PlaySound_Strict(LoadTempSound("SFX\SCP\1123\Touch.ogg"))		
 							DeathMSG = SubjectName$+" was shot dead After attempting To attack a member of Nine-Tailed Fox. Surveillance tapes show that the subject had been "
@@ -5811,7 +5814,7 @@ Function DrawGUI()
 						For e.Events = Each Events
 							If e\EventName = "room1123" Then 
 								If e\EventState = 0 Then
-									ShowEntity Light
+									ShowEntity at\OverlayID[6]
 									LightFlash = 3
 									PlaySound_Strict(LoadTempSound("SFX\SCP\1123\Touch.ogg"))		
 								EndIf
@@ -12091,6 +12094,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#598#2467
-;~B#1259#14C3#1C61
+;~F#599#246A
+;~B#125C#14C6#1C64
 ;~C#Blitz3D

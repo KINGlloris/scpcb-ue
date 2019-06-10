@@ -588,6 +588,7 @@ Function PickItem(item.Items)
 	Local n% = 0
 	Local canpickitem = True
 	Local fullINV% = True
+	Local at.AllTextures = First AllTextures
 	
 	For n% = 0 To MaxItemAmount - 1
 		If Inventory(n)=Null
@@ -610,7 +611,7 @@ Function PickItem(item.Items)
 					Case "1123"
 						If Not (Wearing714 = 1) Then
 							If PlayerRoom\RoomTemplate\Name <> "room1123" Then
-								ShowEntity Light
+								ShowEntity at\OverlayID[6]
 								LightFlash = 7
 								PlaySound_Strict(LoadTempSound("SFX\SCP\1123\Touch.ogg"))		
 								DeathMSG = SubjectName$+" was shot dead After attempting To attack a member of Nine-Tailed Fox. Surveillance tapes show that the subject had been "
@@ -622,7 +623,7 @@ Function PickItem(item.Items)
 							For e.Events = Each Events
 								If e\EventName = "room1123" Then 
 									If e\Eventstate = 0 Then
-										ShowEntity Light
+										ShowEntity at\OverlayID[6]
 										LightFlash = 3
 										PlaySound_Strict(LoadTempSound("SFX\SCP\1123\Touch.ogg"))
 									EndIf
@@ -635,7 +636,7 @@ Function PickItem(item.Items)
 						
 						Return
 					Case "killbat"
-						ShowEntity Light
+						ShowEntity at\OverlayID[6]
 						LightFlash = 1.0
 						PlaySound_Strict(IntroSFX(11))
 						DeathMSG = SubjectName$+" found dead inside SCP-914's output booth Next To what appears To be an ordinary nine-volt battery. The subject is covered in severe "
